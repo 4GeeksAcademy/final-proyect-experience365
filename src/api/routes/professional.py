@@ -74,18 +74,11 @@ def register_professional():
         db.session.add(new_professional)
         db.session.commit()
 
-        # Crear token JWT
-        access_token = create_access_token(identity={
-            "id": new_user.id,
-            "email": new_user.email,
-            "role": "professional"
-        })
-
         return jsonify({
             "message": "Professional registered successfully",
             "user": new_user.serialize(),
             "professional": new_professional.serialize(),
-            "token": access_token
+
         }), 201
 
     except Exception as e:

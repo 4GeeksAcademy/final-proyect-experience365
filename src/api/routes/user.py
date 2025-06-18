@@ -34,11 +34,7 @@ def register_user():
     try:
         db.session.add(new_user)
         db.session.commit()
-        # Crear token JWT
-        access_token = create_access_token(identity={
-            "id": new_user.id,
-            "email": new_user.email
-        })
+
         return jsonify({
             "message": "User registered successfully",
             "user": new_user.serialize()
