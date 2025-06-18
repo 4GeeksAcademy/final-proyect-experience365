@@ -4,7 +4,7 @@ from api.models.Activity import Activity
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 
-# from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 api = Blueprint('/api/activity', __name__)
 
@@ -19,10 +19,11 @@ def get_activities():
 
 
 @api.route('/', methods=['POST'])
+@jwt_required()
 def create_activity():
 
     data = request.get_json()
-
+    
     new_activity = Activity(
         profesional_id=data.get('id'),
         description=data.get('description'),

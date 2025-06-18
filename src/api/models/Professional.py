@@ -11,11 +11,11 @@ class Professional(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("User.id"), nullable=False)
     cif: Mapped[str] = mapped_column(nullable=False)
-    direccion: Mapped[str] = mapped_column(nullable=False)
-    telefono: Mapped[str] = mapped_column(nullable=False)
+    adress: Mapped[str] = mapped_column(nullable=False)
+    phone: Mapped[str] = mapped_column(nullable=False)
     web: Mapped[str] = mapped_column(nullable=False)
-    descripcion: Mapped[str] = mapped_column(nullable=False)
-    imagen: Mapped[str] = mapped_column(nullable=False)
+    description: Mapped[str] = mapped_column(nullable=False)
+    image: Mapped[str] = mapped_column(nullable=False)
     facebook: Mapped[str] = mapped_column(nullable=False)
     instagram: Mapped[str] = mapped_column(nullable=False)
     twitter: Mapped[str] = mapped_column(nullable=False)
@@ -30,7 +30,6 @@ class Professional(db.Model):
             "id": self.id,
             "user_id": self.user_id,
             "web": self.web,
-            "description": self.descripcion,
-            "email": self.email,
+            "description": self.description
             # do not serialize the password, its a security breach
         }
