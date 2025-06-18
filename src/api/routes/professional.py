@@ -61,13 +61,13 @@ def register_professional():
             cif=data['cif'],
             adress=data['adress'],
             phone=data['phone'],
-            web=data['web'],
-            description=data['description'],
-            image=data['image'],
-            facebook=data['facebook'],
-            instagram=data['instagram'],
-            twitter=data['twitter'],
-            linkedin=data['linkedin'],
+            web=data.get('web', ''),
+            description=data.get('description', ''),
+            image=data.get('image', ''),
+            facebook=data.get('facebook', ''),
+            instagram=data.get('instagram', ''),
+            twitter=data.get('twitter', ''),
+            linkedin=data.get('linkedin', ''),
             is_active=True
         )
 
