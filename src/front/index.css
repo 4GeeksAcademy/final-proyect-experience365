@@ -1,0 +1,27 @@
+/* Estilos para el formulario de registro */
+.card {
+  border-radius: 12px;
+  border: none;
+}
+
+.btn-primary {
+  background-color: #FF5A5F;
+  border-color: #FF5A5F;
+}
+
+.btn-primary:hover {
+  background-color: #e04e52;
+  border-color: #e04e52;
+}
+
+.form-control:focus {
+  border-color: #FF5A5F;
+  box-shadow: 0 0 0 0.25rem rgba(255, 90, 95, 0.25);
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .card-body {
+    padding: 1.5rem;
+  }
+}
