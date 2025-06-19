@@ -9,6 +9,7 @@ from api.utils import APIException, generate_sitemap
 from api.database.db import db
 import api.routes.user as user_router
 import api.routes.professional as professional_router
+
 from api.admin import setup_admin
 from api.commands import setup_commands
 from flask_jwt_extended import JWTManager
@@ -48,6 +49,7 @@ setup_commands(app)
 # Add all endpoints form the API with a "api" prefix
 app.register_blueprint(user_router.api, url_prefix='/api/user')
 app.register_blueprint(professional_router.api, url_prefix='/api/professional')
+
 
 # Handle/serialize errors like a JSON object
 
