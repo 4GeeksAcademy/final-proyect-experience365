@@ -8,12 +8,14 @@ export const Navbar = () => {
           <span className="navbar-brand mb-0 h1">Experience365</span>
         </Link>
         <div className="ml-auto d-flex gap-2">
+
           {/* Nuevos enlaces añadidos */}
           <Link to="/activities">
             <button className="btn btn-outline-secondary">
               Ver Actividades
             </button>
           </Link>
+
           <Link to="/register">
             <button className="btn btn-outline-primary">Registrarse</button>
           </Link>

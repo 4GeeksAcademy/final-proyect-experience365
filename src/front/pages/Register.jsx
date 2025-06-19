@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 export const Register = () => {
   const [formData, setFormData] = useState({
@@ -34,6 +36,9 @@ export const Register = () => {
       }
 
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/register`, {
+      
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,6 +63,13 @@ export const Register = () => {
       setError(err.message);
     } finally {
       setIsLoading(false);
+        throw new Error(data.error || "Registration failed");
+      }
+
+      // Redirigir al login o dashboard después del registro exitoso
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
     }
   };
 
@@ -68,7 +80,6 @@ export const Register = () => {
           <div className="card shadow-sm">
             <div className="card-body p-4">
               <h2 className="card-title text-center mb-4">Regístrate</h2>
-
               {error && (
                 <div className="alert alert-danger" role="alert">
                   {error}
@@ -161,6 +172,8 @@ export const Register = () => {
                       Registrando...
                     </>
                   ) : "Registrarse"}
+                <button type="submit" className="btn btn-primary w-100 py-2">
+                  Registrarse
                 </button>
               </form>
 
@@ -170,6 +183,9 @@ export const Register = () => {
                   <Link to="/login" className="text-primary">
                     Inicia sesión
                   </Link>
+                  <a href="/login" className="text-primary">
+                    Inicia sesión
+                  </a>
                 </p>
               </div>
             </div>
