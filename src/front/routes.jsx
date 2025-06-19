@@ -9,6 +9,7 @@ import { Register } from "./pages/Register";
 import { ActivitiesList } from "./pages/ActivitiesList";
 import { CreateActivity } from "./pages/CreateActivity";
 import { ActivityDetail } from "./pages/ActivityDetail";
+import { Login } from "./pages/Login";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,6 +24,9 @@ export const router = createBrowserRouter(
       <Route path="/activities" element={<ActivitiesList />} />
       <Route path="/activities/create" element={<CreateActivity />} />
       <Route path="/activities/:id" element={<ActivityDetail />} />
+
+      {/* Actividades (nuevas rutas) */}
+      <Route path="/login" element={<Login />} />
 
       {/* Ruta 404 */}
       <Route path="*" element={<NotFound />} />
