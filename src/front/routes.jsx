@@ -1,53 +1,44 @@
 import {
-    createBrowserRouter,
-    createRoutesFromElements,
-    Route,
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
 } from "react-router-dom";
 import { Layout } from "./pages/Layout";
 import { Home } from "./pages/Home";
-import { Single } from "./pages/Single";
-import { Demo } from "./pages/Demo";
 import { Register } from "./pages/Register";
+import { ActivitiesList } from "./pages/ActivitiesList";
+import { CreateActivity } from "./pages/CreateActivity";
+import { ActivityDetail } from "./pages/ActivityDetail";
 
 export const router = createBrowserRouter(
-    createRoutesFromElements(
-      <Route path="/" element={<Layout />} errorElement={<h1>Página no encontrada</h1>}>
-        {/* Página principal */}
-        <Route index element={<Home />} />
-        
-        {/* Autenticación */}
-        <Route path="/register" element={<Register />} />
-        
-        {/* Experiencias (similar a Airbnb) */}
-        <Route path="/experiences" element={<ExperiencesList />} />
-        <Route path="/experiences/:id" element={<ExperienceDetail />} />
-        
-        {/* Demo (puedes mantenerlo o eliminarlo) */}
-        <Route path="/demo" element={<Demo />} />
-        
-        {/* Ruta para detalles individuales */}
-        <Route path="/single/:theId" element={<Single />} />
-        
-        {/* Ruta de error personalizada */}
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    )
+  createRoutesFromElements(
+    <Route path="/" element={<Layout />} errorElement={<NotFound />}>
+      {/* Página principal */}
+      <Route index element={<Home />} />
+
+      {/* Autenticación */}
+      <Route path="/register" element={<Register />} />
+
+      {/* Actividades (nuevas rutas) */}
+      <Route path="/activities" element={<ActivitiesList />} />
+      <Route path="/activities/create" element={<CreateActivity />} />
+      <Route path="/activities/:id" element={<ActivityDetail />} />
+
+      {/* Ruta 404 */}
+      <Route path="*" element={<NotFound />} />
+    </Route>
+  )
 );
 
-// Componentes temporales (deberás crearlos después)
-function ExperiencesList() {
-    return <div className="container py-5">Listado de experiencias</div>;
-}
-
-function ExperienceDetail() {
-    return <div className="container py-5">Detalle de experiencia</div>;
-}
-
+// Componente 404 reutilizable
 function NotFound() {
-    return (
-        <div className="container text-center py-5">
-            <h1>404 - Página no encontrada</h1>
-            <p>La página que buscas no existe.</p>
-        </div>
-    );
+  return (
+    <div className="container text-center py-5">
+      <h1>404 - Página no encontrada</h1>
+      <p>La página que buscas no existe.</p>
+      <Link to="/" className="btn btn-primary mt-3">
+        Volver al inicio
+      </Link>
+    </div>
+  );
 }

@@ -1,52 +1,34 @@
-import React, { useEffect } from "react"
-import rigoImageUrl from "../assets/img/rigo-baby.jpg";
-import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import { Link } from "react-router-dom";
+import useGlobalReducer from "../hooks/useGlobalReducer";
 
 export const Home = () => {
+  const { store, dispatch } = useGlobalReducer();
 
-	const { store, dispatch } = useGlobalReducer()
+  // (Mantén tu función loadMessage() si la necesitas)
 
-	const loadMessage = async () => {
-		try {
-			const backendUrl = import.meta.env.VITE_BACKEND_URL
+  return (
+    <div className="text-center mt-5">
+      <h1 className="display-4">¡Bienvenido a Experience365!</h1>
+      
+      {/* Mensaje del backend (opcional) */}
+      {store.message && (
+        <div className="alert alert-info mb-4">
+          {store.message}
+        </div>
+      )}
 
-			if (!backendUrl) throw new Error("VITE_BACKEND_URL is not defined in .env file")
+      {/* Botones de acceso rápido */}
+      <div className="mt-4">
+        <Link to="/activities" className="btn btn-primary btn-lg mx-2">
+          Explorar Actividades
+        </Link>
+        <Link to="/activities/create" className="btn btn-success btn-lg mx-2">
+          Crear Actividad
+        </Link>
+      </div>
 
-			const response = await fetch(backendUrl + "/api/hello")
-			const data = await response.json()
-
-			if (response.ok) dispatch({ type: "set_hello", payload: data.message })
-
-			return data
-
-		} catch (error) {
-			if (error.message) throw new Error(
-				`Could not fetch the message from the backend.
-				Please check if the backend is running and the backend port is public.`
-			);
-		}
-
-	}
-
-	useEffect(() => {
-		loadMessage()
-	}, [])
-
-	return (
-		<div className="text-center mt-5">
-			<h1 className="display-4">Hello Rigo!!</h1>
-			<p className="lead">
-				<img src={rigoImageUrl} className="img-fluid rounded-circle mb-3" alt="Rigo Baby" />
-			</p>
-			<div className="alert alert-info">
-				{store.message ? (
-					<span>{store.message}</span>
-				) : (
-					<span className="text-danger">
-						Loading message from the backend (make sure your python 🐍 backend is running)...
-					</span>
-				)}
-			</div>
-		</div>
-	);
-}; 
+      {/* Imagen opcional (puedes quitarla) */}
+      {/* <img src={rigoImageUrl} className="img-fluid rounded-circle mb-3" alt="Experience365" /> */}
+    </div>
+  );
+};
