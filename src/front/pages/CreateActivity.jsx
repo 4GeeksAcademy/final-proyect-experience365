@@ -13,6 +13,8 @@ export const CreateActivity = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [file, setFile] = useState("");
+  const [fileUrl, setFileUrl] = useState("");
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -21,6 +23,26 @@ export const CreateActivity = () => {
       [name]: files ? files[0] : value
     });
   };
+
+  const handleImgChange = async (e) => {
+    if (e.target.files.length) {
+      setFile(e.target.files[0])
+      try {
+        const form = new FormData()
+        form.append("img", file)
+        console.log(form)
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/activity/img`, {
+          method: "POST",
+          body: form
+        })
+        const data = await response.json()
+        setFileUrl(data.img)
+      }
+      catch (error) {
+        console.log(error)
+      }
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -156,8 +178,20 @@ export const CreateActivity = () => {
                     className="form-control"
                     name="image"
                     accept="image/*"
-                    onChange={handleChange}
+                    onChange={handleImgChange}
                   />
+                </div>
+
+                <div>
+                  {
+                    fileUrl !== ""
+                      ?
+                      <div className="col-4">
+                        <img src= {fileUrl} />
+                      </div>
+                      :
+                      null
+                  }
                 </div>
 
                 <button
