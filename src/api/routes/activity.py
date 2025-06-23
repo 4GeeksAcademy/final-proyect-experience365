@@ -39,21 +39,28 @@ def create_activity():
     current_user_id = get_jwt_identity()
 
     professional = Professional.query.filter_by(user_id=current_user_id).first()
+    print("professional", professional)
     if not professional:
         return jsonify({"error": "Only professionals can create activities"}), 403
 
-    data = request.get_json()
+    description = request.form.get('description')
+    price = request.form.get('price')
+    duration = request.form.get('duration')
+    file = request.files('image')
+    img_url = None
+
+
+    if file is not None:
+        img_url = cloudinary.uploader.upload(file)
     
     new_activity = Activity(
         profesional_id=professional.id,
-        description=data.get('description'),
-        price=data.get('price'),
-        rate=data.get('rate'),
-        email=data.get('email'),
-        password=data.get('password'),
-        # status=data.get('status')
-        is_active=data.get('is_active', True),
-        activity_date=datetime.fromisoformat(data['activity_date']) if data.get('activity_date') else None
+        description=description,
+        price=price,
+        rate=None,
+        img=img_url,
+        is_active=True,
+        activity_date=datetime.fromisoformat(duration) if duration else None
 
     )
     db.session.add(new_activity)

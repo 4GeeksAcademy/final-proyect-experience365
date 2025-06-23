@@ -24,25 +24,19 @@ export const CreateActivity = () => {
     });
   };
 
-  const handleImgChange = async (e) => {
-    if (e.target.files.length) {
-      setFile(e.target.files[0])
-      try {
-        const form = new FormData()
-        form.append("img", file)
-        console.log(form)
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/activity/img`, {
-          method: "POST",
-          body: form
-        })
-        const data = await response.json()
-        setFileUrl(data.img)
-      }
-      catch (error) {
-        console.log(error)
-      }
+  const handleImgChange = (event) => {
+    const file = event.target.files[0];
+    setFile(file)
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setFileUrl(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -62,11 +56,11 @@ export const CreateActivity = () => {
       formDataToSend.append("description", formData.description);
       formDataToSend.append("price", formData.price);
       formDataToSend.append("duration", totalMinutes.toString());
-      if (formData.image) {
-        formDataToSend.append("image", formData.image);
+      if (file) {
+        formDataToSend.append("image", file);
       }
 
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/activities`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/activity`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`
@@ -187,7 +181,7 @@ export const CreateActivity = () => {
                     fileUrl !== ""
                       ?
                       <div className="col-4">
-                        <img src= {fileUrl} />
+                        <img src={fileUrl} />
                       </div>
                       :
                       null
