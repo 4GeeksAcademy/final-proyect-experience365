@@ -3,11 +3,13 @@ from sqlalchemy import String, Boolean, Text, ForeignKey, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 from datetime import datetime, timezone
 
+
 class Activity(db.Model):
 
     __tablename__ = 'activity'
     id: Mapped[int] = mapped_column(primary_key=True)
-    profesional_id: Mapped[int] = mapped_column(ForeignKey("Professional.id"), nullable=False)
+    profesional_id: Mapped[int] = mapped_column(
+        ForeignKey("Professional.id"), nullable=False)
     description: Mapped[str] = mapped_column(Text(), nullable=False)
     price: Mapped[int] = mapped_column(nullable=False)
     rate: Mapped[int] = mapped_column(nullable=True)
