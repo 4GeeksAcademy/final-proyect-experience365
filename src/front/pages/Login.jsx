@@ -24,7 +24,7 @@ export const Login = () => {
       console.log("data", data);
       if (response.ok) {
         setMessage("Inicio de sesión exitoso.");
-        localStorage.setItem("token", JSON.stringify(data.access_token));
+        localStorage.setItem("token", data.access_token);
         localStorage.setItem("user", JSON.stringify(data.user));
         console.log("dada", data);
       } else {

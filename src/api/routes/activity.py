@@ -1,3 +1,4 @@
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.database.db import db
 from api.models.Activity import Activity
@@ -7,19 +8,18 @@ from datetime import datetime
 from api.models.Professional import Professional
 import os
 
-#cloudinary
+# cloudinary
 import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
 
 cloudinary.config(
-    cloud_name = os.getenv('CLOUD_NAME'),
-    api_key = os.getenv('CLOUDINARY_API_KEY'),
-    api_secret = os.getenv('CLOUDINARY_API_SECRET'),
-    secure = True
+    cloud_name=os.getenv('CLOUD_NAME'),
+    api_key=os.getenv('CLOUDINARY_API_KEY'),
+    api_secret=os.getenv('CLOUDINARY_API_SECRET'),
+    secure=True
 )
 
-from flask_jwt_extended import jwt_required, get_jwt_identity
 
 api = Blueprint('/api/activity', __name__)
 
@@ -37,8 +37,10 @@ def get_activities():
 @jwt_required()
 def create_activity():
     current_user_id = get_jwt_identity()
-
-    professional = Professional.query.filter_by(user_id=current_user_id).first()
+    print("current_user_id", current_user_id)
+    print(type(current_user_id))
+    professional = Professional.query.filter_by(
+        user_id=int(current_user_id)).first()
     print("professional", professional)
     if not professional:
         return jsonify({"error": "Only professionals can create activities"}), 403
@@ -46,13 +48,18 @@ def create_activity():
     description = request.form.get('description')
     price = request.form.get('price')
     duration = request.form.get('duration')
-    file = request.files('image')
+    
+    print("duration", type(duration))
+
+    
     img_url = None
 
+    if "file" in request.files:
+        file = request.files["file"]
+        cloudinary_url = cloudinary.uploader.upload(file)
+        img_url = cloudinary_url["url"]
+    print("img_url", img_url)
 
-    if file is not None:
-        img_url = cloudinary.uploader.upload(file)
-    
     new_activity = Activity(
         profesional_id=professional.id,
         description=description,
@@ -60,7 +67,7 @@ def create_activity():
         rate=None,
         img=img_url,
         is_active=True,
-        activity_date=datetime.fromisoformat(duration) if duration else None
+        activity_date = duration
 
     )
     db.session.add(new_activity)
@@ -73,8 +80,9 @@ def get_activity(id):
     activity = Activity.query.get_or_404(id)
     return jsonify(activity.serialize()), 200
 
+
 @api.route('/img', methods=['POST'])
 def upload_img():
     img = request.files["img"]
     img_url = cloudinary.uploader.upload(img)
-    return jsonify({"img":img_url["url"]}), 200
+    return jsonify({"img": img_url["url"]}), 200

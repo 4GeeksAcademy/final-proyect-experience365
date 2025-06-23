@@ -11,7 +11,7 @@ export const ActivitiesList = () => {
   useEffect(() => {
     const fetchActivities = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/activities`);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/activity`);
         const data = await response.json();
 
         if (!response.ok) {
