@@ -5,8 +5,8 @@
 }
 
 .btn-primary {
-  background-color: #FF5A5F;
-  border-color: #FF5A5F;
+  background-color: #ff5a5f;
+  border-color: #ff5a5f;
 }
 
 .btn-primary:hover {
@@ -15,8 +15,8 @@
 }
 
 .form-control:focus {
-  border-color: #FF5A5F;
-  box-shadow: 0 0 0 0.25rem rgba(255, 90, 95, 0.25);
+  border-color: #ff5a5f;
+  border-color: #e04e52;
 }
 
 /* Responsive adjustments */

@@ -18,11 +18,15 @@ export const Login = () => {
         },
         body: JSON.stringify({ email, password }),
       });
+      console.log("response", response);
 
       const data = await response.json();
+      console.log("data", data);
       if (response.ok) {
-        setMessage(data.message || "Inicio de sesión exitoso.");
-        localStorage.setItem("token", data.token);
+        setMessage("Inicio de sesión exitoso.");
+        localStorage.setItem("token", JSON.stringify(data.access_token));
+        localStorage.setItem("user", JSON.stringify(data.user));
+        console.log("dada", data);
       } else {
         setMessage(data.error || "Error al iniciar sesión.");
       }
@@ -63,7 +67,8 @@ export const Login = () => {
         </button>
       </form>
 
-      {message && <p className="mt-3 alert alert-info col-md-6 mx-auto">{message}</p>}
+      {message === "Inicio de sesión exitoso." ? (<p className="mt-3 alert alert-success col-md-6 mx-auto">{message}</p>) :
+        message && (<p className="mt-3 alert alert-danger col-md-6 mx-auto">{message}</p>)}
 
       <hr className="my-4" />
       <Link to="/">
