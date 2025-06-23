@@ -6,10 +6,10 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 class Professional(db.Model):
 
-    __tablename__ = "Professional"
+    __tablename__ = "professional"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("User.id"), nullable=False)
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
     cif: Mapped[str] = mapped_column(nullable=False)
     adress: Mapped[str] = mapped_column(nullable=False)
     phone: Mapped[str] = mapped_column(nullable=False)

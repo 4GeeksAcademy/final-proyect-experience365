@@ -57,7 +57,7 @@ export const CreateActivity = () => {
       formDataToSend.append("price", formData.price);
       formDataToSend.append("duration", totalMinutes.toString());
       if (file) {
-        formDataToSend.append("image", file);
+        formDataToSend.append("file", file);
       }
 
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/activity`, {
