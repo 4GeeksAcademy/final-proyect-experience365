@@ -13,6 +13,8 @@ export const CreateActivity = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [file, setFile] = useState("");
+  const [fileUrl, setFileUrl] = useState("");
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -20,6 +22,20 @@ export const CreateActivity = () => {
       ...formData,
       [name]: files ? files[0] : value
     });
+  };
+
+  const handleImgChange = (event) => {
+    const file = event.target.files[0];
+    setFile(file)
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setFileUrl(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -40,11 +56,11 @@ export const CreateActivity = () => {
       formDataToSend.append("description", formData.description);
       formDataToSend.append("price", formData.price);
       formDataToSend.append("duration", totalMinutes.toString());
-      if (formData.image) {
-        formDataToSend.append("image", formData.image);
+      if (file) {
+        formDataToSend.append("image", file);
       }
 
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/activities`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/activity`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`
@@ -156,8 +172,20 @@ export const CreateActivity = () => {
                     className="form-control"
                     name="image"
                     accept="image/*"
-                    onChange={handleChange}
+                    onChange={handleImgChange}
                   />
+                </div>
+
+                <div>
+                  {
+                    fileUrl !== ""
+                      ?
+                      <div className="col-4">
+                        <img src={fileUrl} />
+                      </div>
+                      :
+                      null
+                  }
                 </div>
 
                 <button

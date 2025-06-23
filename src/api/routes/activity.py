@@ -5,6 +5,19 @@ from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from datetime import datetime
 from api.models.Professional import Professional
+import os
+
+#cloudinary
+import cloudinary
+import cloudinary.uploader
+from cloudinary.utils import cloudinary_url
+
+cloudinary.config(
+    cloud_name = os.getenv('CLOUD_NAME'),
+    api_key = os.getenv('CLOUDINARY_API_KEY'),
+    api_secret = os.getenv('CLOUDINARY_API_SECRET'),
+    secure = True
+)
 
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -25,22 +38,29 @@ def get_activities():
 def create_activity():
     current_user_id = get_jwt_identity()
 
-    professional = Professional.query.filter_by(
-        user_id=current_user_id).first()
+    professional = Professional.query.filter_by(user_id=current_user_id).first()
+    print("professional", professional)
     if not professional:
         return jsonify({"error": "Only professionals can create activities"}), 403
 
-    data = request.get_json()
+    description = request.form.get('description')
+    price = request.form.get('price')
+    duration = request.form.get('duration')
+    file = request.files('image')
+    img_url = None
 
+
+    if file is not None:
+        img_url = cloudinary.uploader.upload(file)
+    
     new_activity = Activity(
         profesional_id=professional.id,
-        description=data.get('description'),
-        price=data.get('price'),
-        rate=data.get('rate'),
-        # status=data.get('status')
-        is_active=data.get('is_active', True),
-        activity_date=datetime.fromisoformat(
-            data['activity_date']) if data.get('activity_date') else None
+        description=description,
+        price=price,
+        rate=None,
+        img=img_url,
+        is_active=True,
+        activity_date=datetime.fromisoformat(duration) if duration else None
 
     )
     db.session.add(new_activity)
@@ -52,3 +72,9 @@ def create_activity():
 def get_activity(id):
     activity = Activity.query.get_or_404(id)
     return jsonify(activity.serialize()), 200
+
+@api.route('/img', methods=['POST'])
+def upload_img():
+    img = request.files["img"]
+    img_url = cloudinary.uploader.upload(img)
+    return jsonify({"img":img_url["url"]}), 200

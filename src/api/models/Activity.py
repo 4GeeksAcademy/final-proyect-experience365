@@ -12,9 +12,8 @@ class Activity(db.Model):
         ForeignKey("Professional.id"), nullable=False)
     description: Mapped[str] = mapped_column(Text(), nullable=False)
     price: Mapped[int] = mapped_column(nullable=False)
-    rate: Mapped[int] = mapped_column(nullable=False)
-    # status: Mapped[bool] = mapped_column(Boolean(), nullable=False)
-
+    rate: Mapped[int] = mapped_column(nullable=True)
+    img: Mapped[str] = mapped_column(String(255), nullable=True)
     is_active: Mapped[bool] = mapped_column(
         Boolean(), nullable=False, default=True)
     activity_date: Mapped[datetime] = mapped_column(
@@ -29,6 +28,7 @@ class Activity(db.Model):
             "description": self.description,
             "price": self.price,
             "rate": self.rate,
+            "img": self.img,
             "is_active": self.is_active,
             "activity_date": self.activity_date.isoformat() if self.activity_date else None
         }
