@@ -43,7 +43,7 @@ export const CreateActivity = () => {
     setIsLoading(true);
 
     try {
-      // Validaciones básicas
+
       if (!formData.name || !formData.description || !formData.price) {
         throw new Error("Todos los campos obligatorios deben completarse");
       }
