@@ -37,19 +37,20 @@ def get_activities():
 @jwt_required()
 def create_activity():
     current_user_id = get_jwt_identity()
-    print("current_user_id", current_user_id)
-    print(type(current_user_id))
+    # print("current_user_id", current_user_id)
+    # print(type(current_user_id))
     professional = Professional.query.filter_by(
         user_id=int(current_user_id)).first()
-    print("professional", professional)
+    # print("professional", professional)
     if not professional:
         return jsonify({"error": "Only professionals can create activities"}), 403
-
+    
+    name = request.form.get('name')
     description = request.form.get('description')
     price = request.form.get('price')
     duration = request.form.get('duration')
     
-    print("duration", type(duration))
+    # print("duration", type(duration))
 
     
     img_url = None
@@ -58,15 +59,16 @@ def create_activity():
         file = request.files["file"]
         cloudinary_url = cloudinary.uploader.upload(file)
         img_url = cloudinary_url["url"]
-    print("img_url", img_url)
+    # print("img_url", img_url)
 
     new_activity = Activity(
-        profesional_id=professional.id,
-        description=description,
-        price=price,
-        rate=None,
-        img=img_url,
-        is_active=True,
+        profesional_id = professional.id,
+        name = name,
+        description = description,
+        price = price,
+        rate = None,
+        img = img_url,
+        is_active = True,
         activity_date = duration
 
     )

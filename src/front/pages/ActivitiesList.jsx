@@ -88,9 +88,9 @@ export const ActivitiesList = () => {
           filteredActivities.map((activity) => (
             <div key={activity.id} className="col">
               <div className="card h-100 shadow-sm">
-                {activity.image && (
+                {activity.img && (
                   <img
-                    src={activity.image}
+                    src={activity.img}
                     className="card-img-top"
                     alt={activity.name}
                     style={{ height: "200px", objectFit: "cover" }}
