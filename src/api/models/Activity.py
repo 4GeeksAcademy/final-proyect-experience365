@@ -10,6 +10,7 @@ class Activity(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     profesional_id: Mapped[int] = mapped_column(
         ForeignKey("professional.id"), nullable=False)
+    name: Mapped[str] = mapped_column(String(125), nullable=False)
     description: Mapped[str] = mapped_column(Text(), nullable=False)
     price: Mapped[int] = mapped_column(nullable=False)
     rate: Mapped[int] = mapped_column(nullable=True)
@@ -23,6 +24,7 @@ class Activity(db.Model):
     def serialize(self):
         return {
             "id": self.id,
+            "name": self.name,
             "description": self.description,
             "price": self.price,
             "rate": self.rate,
