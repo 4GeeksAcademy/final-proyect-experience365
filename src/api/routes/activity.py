@@ -40,7 +40,8 @@ def create_activity():
     professional = Professional.query.filter_by(
         user_id=int(current_user_id)).first()
 
-    if not professional:
+    print("professional", professional)
+    if professional is None:
         return jsonify({"error": "Only professionals can create activities"}), 403
     
     name = request.form.get('name')
@@ -48,6 +49,8 @@ def create_activity():
     price = request.form.get('price')
     duration = request.form.get('duration')    
     img_url = None
+    price_number = float(price.replace(",","."))
+    price_int = int(price_number)
 
     if "file" in request.files:
         file = request.files["file"]
@@ -58,7 +61,7 @@ def create_activity():
         profesional_id = professional.id,
         name = name,
         description = description,
-        price = price,
+        price = price_int,
         rate = None,
         img = img_url,
         is_active = True,

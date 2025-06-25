@@ -1,4 +1,4 @@
-/* Estilos principales del formulario */
+/* Main form styles */
 .card {
   border-radius: 12px;
   border: none;
@@ -22,13 +22,13 @@
   box-shadow: 0 0 0 0.25rem rgba(255, 90, 95, 0.25);
 }
 
-/* Sección de carga de imagen */
+/* Image upload section */
 .image-upload-section {
   margin: 0.75rem 0;
 }
 
 .file-input-container {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem; /* Aumentamos este margen */
 }
 
 .img-preview-container {
@@ -37,7 +37,7 @@
   overflow: hidden;
   border-radius: 8px;
   background-color: #f8f9fa;
-  margin: 1rem 0;
+  margin: 0.5rem 0;
   border: 1px solid #dee2e6;
   transition: all 0.3s ease;
 }
@@ -53,16 +53,16 @@
   display: block;
 }
 
-/* Espaciado del formulario */
+/* Form spacing */
 .form-group {
   margin-bottom: 1rem;
 }
 
 .form-submit-btn {
-  margin-top: rem;
+  margin-top: 1rem;
 }
 
-/* Ajustes responsivos */
+/* Responsive adjustments */
 @media (max-width: 576px) {
   .card-body {
     padding: 1.25rem;
