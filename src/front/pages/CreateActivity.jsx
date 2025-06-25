@@ -1,137 +1,132 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 export const CreateActivity = () => {
   const [formData, setFormData] = useState({
-    nombre: "",
-    descripcion: "",
-    precio: "",
-    horas: "",
-    minutos: "",
+    name: "",
+    description: "",
+    price: "",
+    hours: "",
+    minutes: "",
   });
-
   const [error, setError] = useState("");
-  const [cargando, setCargando] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const [archivo, setArchivo] = useState(null);
-  const [urlArchivo, setUrlArchivo] = useState("");
-
+  const [file, setFile] = useState("");
+  const [fileUrl, setFileUrl] = useState("");
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, files } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: files ? files[0] : value
     });
   };
-
-  const handleImgChange = (e) => {
-    const archivoSeleccionado = e.target.files[0];
-    setArchivo(archivoSeleccionado);
-
-    if (archivoSeleccionado) {
-      const lector = new FileReader();
-      lector.onload = () => setUrlArchivo(lector.result);
-      lector.readAsDataURL(archivoSeleccionado);
-    } else {
-      setUrlArchivo("");
+  const handleImgChange = (event) => {
+    const file = event.target.files[0];
+    setFile(file)
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFileUrl(reader.result);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
     }
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setCargando(true);
-
+    setIsLoading(true);
     try {
-      if (!formData.nombre || !formData.descripcion || !formData.precio) {
-        throw new Error("¡Por favor complete todos los campos obligatorios!");
+      // Validaciones básicas
+      if (!formData.name || !formData.description || !formData.price) {
+        throw new Error("Todos los campos obligatorios deben completarse");
       }
-
-      const totalMinutos = (parseInt(formData.horas) || 0) * 60 + (parseInt(formData.minutos) || 0);
-
+      // Convertir a minutos totales
+      const totalMinutes = (parseInt(formData.hours) * 60) + parseInt(formData.minutes);
       const formDataToSend = new FormData();
-      formDataToSend.append("nombre", formData.nombre);
-      formDataToSend.append("descripcion", formData.descripcion);
-      formDataToSend.append("precio", formData.precio);
-      formDataToSend.append("duracion", totalMinutos.toString());
-      if (archivo) formDataToSend.append("archivo", archivo);
-
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/actividad`, {
+      formDataToSend.append("name", formData.name);
+      formDataToSend.append("description", formData.description);
+      formDataToSend.append("price", formData.price);
+      formDataToSend.append("duration", totalMinutes.toString());
+      if (file) {
+        formDataToSend.append("file", file);
+      }
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/activity`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${localStorage.getItem("token")}`
         },
         body: formDataToSend
       });
-
-      if (!response.ok) throw new Error(await response.text());
-      navigate("/actividades", { state: { success: "¡Actividad creada con éxito!" } });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al crear actividad");
+      }
+      navigate("/activities", { state: { success: "Actividad creada exitosamente!" } });
     } catch (err) {
       setError(err.message);
     } finally {
-      setCargando(false);
+      setIsLoading(false);
     }
   };
-
   return (
-    <div className="container py-4">
+    <div className="container py-5">
       <div className="row justify-content-center">
         <div className="col-md-8 col-lg-6">
-          <div className="card">
+          <div className="card shadow-sm">
             <div className="card-body p-4">
               <h2 className="card-title text-center mb-4">Crear Nueva Actividad</h2>
-
-              {error && <div className="alert alert-danger mb-3">{error}</div>}
-
+              {error && (
+                <div className="alert alert-danger">
+                  {error}
+                </div>
+              )}
               <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <label className="form-label">Nombre de la Actividad*</label>
+                {/* Campos del formulario */}
+                <div className="mb-3">
+                  <label className="form-label">Nombre de la actividad*</label>
                   <input
                     type="text"
                     className="form-control"
-                    name="nombre"
-                    value={formData.nombre}
+                    name="name"
+                    value={formData.name}
                     onChange={handleChange}
                     required
                   />
                 </div>
-
-                <div className="form-group">
+                <div className="mb-3">
                   <label className="form-label">Descripción*</label>
                   <textarea
                     className="form-control"
-                    name="descripcion"
+                    name="description"
                     rows="4"
-                    value={formData.descripcion}
+                    value={formData.description}
                     onChange={handleChange}
                     required
                   />
                 </div>
-
                 <div className="row">
-                  <div className="col-md-6 form-group">
+                  <div className="col-md-6 mb-3">
                     <label className="form-label">Precio (€)*</label>
                     <input
                       type="number"
                       className="form-control"
-                      name="precio"
+                      name="price"
                       min="0"
                       step="0.01"
-                      value={formData.precio}
+                      value={formData.price}
                       onChange={handleChange}
                       required
                     />
                   </div>
-
-                  <div className="col-md-6 form-group">
+                  <div className="col-md-6 mb-3">
                     <label className="form-label">Duración*</label>
                     <div className="input-group">
                       <input
                         type="number"
                         className="form-control"
-                        name="horas"
+                        name="hours"
                         min="0"
                         max="24"
-                        value={formData.horas}
+                        value={formData.hours}
                         onChange={handleChange}
                         required
                       />
@@ -139,10 +134,10 @@ export const CreateActivity = () => {
                       <input
                         type="number"
                         className="form-control"
-                        name="minutos"
+                        name="minutes"
                         min="0"
                         max="59"
-                        value={formData.minutos}
+                        value={formData.minutes}
                         onChange={handleChange}
                         required
                       />
@@ -150,37 +145,30 @@ export const CreateActivity = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="image-upload-section form-group">
                   <label className="form-label">Imagen (opcional)</label>
                   <div className="file-input-container">
-                    <input
-                      type="file"
-                      className="form-control"
-                      name="imagen"
-                      accept="image/*"
-                      onChange={handleImgChange}
-                    />
+                  <input
+                    type="file"
+                    className="form-control"
+                    name="image"
+                    accept="image/*"
+                    onChange={handleImgChange}
+                  />
                   </div>
 
-                  {urlArchivo && (
-                    <div className="img-preview-container">
-                      <img src={urlArchivo} className="img-preview" alt="Vista previa" />
+                  {fileUrl && (
+                    <div className="img-preview-container mt-2">
+                      <img src={fileUrl} className="img-preview" alt="Preview" />
                     </div>
                   )}
                 </div>
-
                 <button
                   type="submit"
-                  className="btn btn-primary w-100 py-2 form-submit-btn"
-                  disabled={cargando}
+                  className="btn btn-primary w-100 py-2"
+                  disabled={isLoading}
                 >
-                  {cargando ? (
-                    <>
-                      <span className="spinner-border spinner-border-sm me-2" role="status" />
-                      Creando...
-                    </>
-                  ) : "Crear Actividad"}
+                  {isLoading ? "Creando..." : "Crear Actividad"}
                 </button>
               </form>
             </div>
