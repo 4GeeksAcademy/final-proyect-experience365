@@ -76,7 +76,7 @@ export const RegisterProfessional = () => {
               <h2 className="card-title text-center mb-4">Regístrate como Profesional</h2>
               {error && <div className="alert alert-danger">{error}</div>}
               <form onSubmit={handleSubmit}>
-
+              {/* esto es el name */}
                 <div className="row">
                   <div className="col-md-6 mb-3">
                     <label htmlFor="name" className="form-label">Nombre</label>
