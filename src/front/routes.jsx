@@ -10,6 +10,7 @@ import { ActivitiesList } from "./pages/ActivitiesList";
 import { CreateActivity } from "./pages/CreateActivity";
 import { ActivityDetail } from "./pages/ActivityDetail";
 import { Login } from "./pages/Login";
+import { RegisterProfessional } from "./pages/RegisterProfessional";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,6 +28,9 @@ export const router = createBrowserRouter(
 
       {/* Actividades (nuevas rutas) */}
       <Route path="/login" element={<Login />} />
+
+      {/* Ruta de registo profesional */}
+      <Route path="/registerprofessional" element={<RegisterProfessional />} />
 
       {/* Ruta 404 */}
       <Route path="*" element={<NotFound />} />
