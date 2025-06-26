@@ -45,7 +45,7 @@ def register_user():
             "message": "User registered successfully",
             "user": new_user.serialize()
         }), 201
-      
+
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
@@ -68,7 +68,7 @@ def login_user():
     professional = Professional.query.filter_by(user_id=user.id).first()
     if professional is not None:
         set_rol = "professional"
-        access_token = create_access_token(identity=str(professional.id))
+        access_token = create_access_token(identity=str(user.id))
 
         return jsonify({
             "message": "Login successful",
