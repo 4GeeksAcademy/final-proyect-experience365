@@ -11,6 +11,9 @@ import { CreateActivity } from "./pages/CreateActivity";
 import { ActivityDetail } from "./pages/ActivityDetail";
 import { Login } from "./pages/Login";
 import { RegisterProfessional } from "./pages/RegisterProfessional";
+import { Payment } from "./pages/Payment";
+import { CheckoutResult } from "./pages/CheckoutResult";
+import { CancelResult } from "./pages/CancelResult";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +28,9 @@ export const router = createBrowserRouter(
       <Route path="/activities" element={<ActivitiesList />} />
       <Route path="/activities/create" element={<CreateActivity />} />
       <Route path="/activities/:id" element={<ActivityDetail />} />
+      <Route path="/payment/:id" element={<Payment />} />
+      <Route path="/payment/checkout-result/success" element={<CheckoutResult />} />
+      <Route path="/payment/checkout-result/cancel" element={<CancelResult />} />
 
       {/* Actividades (nuevas rutas) */}
       <Route path="/login" element={<Login />} />

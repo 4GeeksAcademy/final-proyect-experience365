@@ -1,6 +1,6 @@
 from api.database.db import db
 from sqlalchemy import String, Boolean, Text, ForeignKey, DateTime
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime, timezone
 
 
@@ -20,6 +20,9 @@ class Activity(db.Model):
     activity_date: Mapped[str] = mapped_column(
         String(100)
     )
+
+    payments = relationship(
+        "Payments", back_populates="activity", cascade="all, delete-orphan")
 
     def serialize(self):
         return {
