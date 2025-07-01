@@ -16,6 +16,12 @@ class User(db.Model):
     is_active: Mapped[bool] = mapped_column(
         Boolean(), nullable=False, default=True)
 
+    payments = db.relationship(
+        'Payments',
+        back_populates='user',
+        cascade='all, delete-orphan'
+    )
+
     def set_password(self, password):
         """Encripta la contraseña"""
         salt = bcrypt.gensalt()

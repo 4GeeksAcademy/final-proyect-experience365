@@ -18,15 +18,11 @@ export const Login = () => {
         },
         body: JSON.stringify({ email, password }),
       });
-      console.log("response", response);
-
       const data = await response.json();
-      console.log("data", data);
       if (response.ok) {
         setMessage("Inicio de sesión exitoso.");
         localStorage.setItem("token", data.access_token);
         localStorage.setItem("user", JSON.stringify(data.user));
-        console.log("dada", data);
       } else {
         setMessage(data.error || "Error al iniciar sesión.");
       }

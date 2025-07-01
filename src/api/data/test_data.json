@@ -1,0 +1,170 @@
+[
+  {
+    "email": "laura.guide@exp365.com",
+    "password": "Laura2025!",
+    "name": "Laura",
+    "lastname": "Martín Gómez",
+    "activities": [
+      {
+        "title": "Tour Gastronómico por el Barrio Gótico",
+        "description": "Descubre los sabores tradicionales de Barcelona en un recorrido guiado por tabernas históricas y mercados locales. Tapas, vermut y mucha historia.",
+        "price": 39,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751321596/he8fwixax3m4tjkm784t.png"
+      }
+    ]
+  },
+  {
+    "email": "javi.kart@exp365.com",
+    "password": "KartRacer#91",
+    "name": "Javier",
+    "lastname": "Rodríguez Ortega",
+    "activities": [
+      {
+        "title": "Aventura en Karting Nocturno",
+        "description": "Siente la adrenalina en una carrera de karts bajo luces LED en un circuito profesional. Ideal para grupos de amigos o despedidas de soltero.",
+        "price": 55,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751366663/nhdbdmm5ms424ntgsxdx.png"
+      }
+    ]
+  },
+  {
+    "email": "maria.vino@exp365.com",
+    "password": "RiojaLover22",
+    "name": "María",
+    "lastname": "López Sáenz",
+    "activities": [
+      {
+        "title": "Cata de Vinos en Bodega Subterránea",
+        "description": "Visita una bodega familiar en La Rioja y degusta sus mejores vinos acompañados de productos locales, en un ambiente íntimo y auténtico.",
+        "price": 28,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751367101/yqzen5rdmgncai62robl.png"
+      }
+    ]
+  },
+  {
+    "email": "david.surf@exp365.com",
+    "password": "PaddleMornings!",
+    "name": "David",
+    "lastname": "Torres Vázquez",
+    "activities": [
+      {
+        "title": "Paseo en Paddle Surf al Amanecer",
+        "description": "Empieza el día con energía deslizándote por la costa de Málaga mientras el sol asoma por el horizonte. Incluye equipo y guía.",
+        "price": 25,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751367602/oj5x5ylrojxd8htkkgdv.png"
+      }
+    ]
+  },
+  {
+    "email": "elena.escapes@exp365.com",
+    "password": "Escape2025!",
+    "name": "Elena",
+    "lastname": "Navarro Ruiz",
+    "activities": [
+      {
+        "title": "Escape Room Urbano por el Centro de Valencia",
+        "description": "Una aventura interactiva a través de pistas y enigmas escondidos por las calles del casco antiguo. Ideal para parejas o pequeños grupos.",
+        "price": 18,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751367803/ymmzj9refqksy8pmybun.png"
+      }
+    ]
+  },
+  {
+    "email": "sergio.flamenco@exp365.com",
+    "password": "FlamencoPower1",
+    "name": "Sergio",
+    "lastname": "Morales Peña",
+    "activities": [
+      {
+        "title": "Clase de Flamenco con Show Final",
+        "description": "Sumérgete en el arte flamenco en Sevilla con una clase guiada por profesionales, seguida de una actuación en directo.",
+        "price": 35,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751368182/lerymcc0gn9dozxzobc0.png"
+      }
+    ]
+  },
+  {
+    "email": "claudia.fotos@exp365.com",
+    "password": "SnapMadrid24",
+    "name": "Claudia",
+    "lastname": "Sánchez del Río",
+    "activities": [
+      {
+        "title": "Ruta Fotográfica por Madrid Secreta",
+        "description": "Recorre rincones únicos de Madrid acompañado de un fotógrafo profesional que te enseñará a capturar la esencia de la ciudad.",
+        "price": 30,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751368367/zixxbh2tggeftb6idkdb.png"
+      }
+    ]
+  },
+  {
+    "email": "ruben.stars@exp365.com",
+    "password": "TeideSky!2024",
+    "name": "Rubén",
+    "lastname": "Herrera Molina",
+    "activities": [
+      {
+        "title": "Experiencia Astronómica en el Teide",
+        "description": "Observa las estrellas desde uno de los mejores cielos de Europa, acompañado por astrónomos que te guiarán con telescopios profesionales.",
+        "price": 40,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751368582/czu4psro3cfvyrkquam7.png"
+      }
+    ]
+  },
+  {
+    "email": "ainara.bilbike@exp365.com",
+    "password": "BilboBike2024",
+    "name": "Ainara",
+    "lastname": "Urrutia Zabala",
+    "activities": [
+      {
+        "title": "Ruta en Bicicleta Eléctrica por Bilbao",
+        "description": "Una forma cómoda y ecológica de descubrir los principales puntos de interés, desde el Guggenheim hasta los rincones menos conocidos.",
+        "price": 22,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751368951/wvgrndpnp11me10uaapn.png"
+      }
+    ]
+  },
+  {
+    "email": "tomas.ceramica@exp365.com",
+    "password": "Barro2024!",
+    "name": "Tomás",
+    "lastname": "Alcántara Pérez",
+    "activities": [
+      {
+        "title": "Taller de Cerámica en Granada",
+        "description": "Aprende las técnicas básicas de la cerámica andalusí y llévate tu propia creación hecha a mano. Actividad relajante y creativa.",
+        "price": 26,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751369205/hrgawhmpvm7cnayp9ujj.png"
+      }
+    ]
+  },
+  {
+    "email": "nuria.montanismo@exp365.com",
+    "password": "Montseny2025*",
+    "name": "Nuria",
+    "lastname": "Casals",
+    "activities": [
+      {
+        "title": "Senderismo Guiado por el Parque Natural del Montseny",
+        "description": "Explora uno de los entornos naturales más espectaculares de Cataluña de la mano de una guía experta. Durante la ruta descubrirás flora, fauna y rincones mágicos poco conocidos.",
+        "price": 20,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751369717/jkpiziwbijus1dhiqd6q.png"
+      }
+    ]
+  },
+  {
+    "email": "marcos.meditacion@exp365.com",
+    "password": "CalmaMallorca#24",
+    "name": "Marcos",
+    "lastname": "Fernández",
+    "activities": [
+      {
+        "title": "Meditación al Atardecer en Playa de Palma",
+        "description": "Una experiencia única para desconectar y reconectar. Aprende técnicas básicas de respiración y relajación guiada mientras el sol cae sobre el Mediterráneo.",
+        "price": 16,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751370018/mgqi4djaxeewmn8dxf7n.png"
+      }
+    ]
+  }
+]
