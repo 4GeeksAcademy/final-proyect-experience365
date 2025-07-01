@@ -5,8 +5,10 @@ from api.database.db import db
 from api.models.User import User
 from api.models.Professional import Professional
 from api.models.Activity import Activity
+from api.models.Globalrate import GlobalRate
 from api.models.Favorite import Favorite
 from flask_admin.contrib.sqla import ModelView
+
 
 
 def setup_admin(app):
@@ -18,6 +20,7 @@ def setup_admin(app):
     admin.add_view(ModelView(User, db.session))
     admin.add_view(ModelView(Professional, db.session))
     admin.add_view(ModelView(Activity, db.session))
+    admin.add_view(ModelView(GlobalRate, db.session))
     admin.add_view(ModelView(Favorite, db.session))
 
     # You can duplicate that line to add mew models
