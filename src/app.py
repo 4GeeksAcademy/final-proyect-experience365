@@ -12,6 +12,7 @@ from api.database.db import db
 import api.routes.activity as activity_route
 import api.routes.user as user_router
 import api.routes.professional as professional_router
+import api.routes.globalrate as globalrate_router
 
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -55,6 +56,7 @@ setup_commands(app)
 app.register_blueprint(activity_route.api, url_prefix='/api/activity')
 app.register_blueprint(user_router.api, url_prefix='/api/user')
 app.register_blueprint(professional_router.api, url_prefix='/api/professional')
+app.register_blueprint(globalrate_router.api, url_prefix='/api/rating')
 
 
 # Handle/serialize errors like a JSON object
