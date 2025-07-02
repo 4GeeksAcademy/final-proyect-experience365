@@ -82,6 +82,7 @@ export const CreateActivity = () => {
         const errorData = await response.json();
         throw new Error(errorData.message || "Error al crear actividad");
       }
+      console.log("Actividad creada exitosamente", response.json());
 
       // Redirigir después de éxito
       navigate("/activities", { state: { success: "Actividad creada exitosamente!" } });
@@ -99,7 +100,7 @@ export const CreateActivity = () => {
           <div className="card shadow-sm">
             <div className="card-body p-4">
               <h2 className="card-title text-center mb-4">Crear Nueva Actividad</h2>
-              
+
               {/* Mensaje de error */}
               {error && (
                 <div className="alert alert-danger">

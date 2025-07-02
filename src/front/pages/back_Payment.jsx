@@ -14,10 +14,7 @@ export const Payment = () => {
   const [error, setError] = useState("");
   const [isUser, setIsUser] = useState(false);
 
-  const userId = 1; // Reemplaza el Id con el user_id actual
-
   useEffect(() => {
-
     const fetchActivity = async () => {
 
       try {
@@ -50,9 +47,9 @@ export const Payment = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
-          user_id: userId,
           activity_id: id,
           amount: Math.round(Number(activity.price) * 100),
           product_name: activity.name,
@@ -62,6 +59,13 @@ export const Payment = () => {
       const data = await res.json();
 
       if (!res.ok || !data.url) {
+
+        if (res.status === 401) {
+
+          navigate("/error/401");
+
+        }
+
         throw new Error(data.error || "Error al crear la sesión de pago")
       };
 

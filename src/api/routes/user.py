@@ -74,7 +74,6 @@ def login_user():
             "message": "Login successful",
             "access_token": access_token,
             "user": {
-                **user.serialize(),
                 "role": set_rol
             }
         }), 200
@@ -86,7 +85,6 @@ def login_user():
             "message": "Login successful",
             "access_token": access_token,
             "user": {
-                **user.serialize(),
                 "role": set_rol
             }
         }), 200
