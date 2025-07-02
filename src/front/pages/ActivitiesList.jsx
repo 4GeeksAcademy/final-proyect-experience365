@@ -100,11 +100,9 @@ export const ActivitiesList = () => {
                   <h5 className="card-title">{activity.name}</h5>
                   <p className="card-text text-truncate">{activity.description}</p>
                   <div className="d-flex justify-content-between align-items-center">
-                    <Link to={`/payment/${activity.id}`}>
-                      <span className="badge bg-primary rounded-pill">
-                        {activity.price} €
-                      </span>
-                    </Link>
+                    <span className="badge bg-primary rounded-pill">
+                      {activity.price} €
+                    </span>
                     {activity.duration && (
                       <small className="text-muted">
                         {formatDuration(activity.duration)}

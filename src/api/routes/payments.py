@@ -2,6 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, Blueprint, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity
 import stripe
 import os
 from flask_cors import CORS
@@ -19,7 +20,9 @@ CORS(api)
 
 
 @api.route('/create-checkout-session', methods=['POST'])
+@jwt_required()
 def create_checkout_session():
+    current_user_id = get_jwt_identity()
     data = request.get_json()
     frontend_url = os.getenv('VITE_FRONTEND_URL')
     unit_amount = int(data['amount'])
@@ -44,7 +47,7 @@ def create_checkout_session():
         )
 
         payment = Payments(
-            user_id=data['user_id'],
+            user_id=current_user_id,
             activity_id=data['activity_id'],
             stripe_session_id=checkout_session.id,
             status='pending',

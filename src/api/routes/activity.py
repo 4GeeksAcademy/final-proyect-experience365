@@ -40,16 +40,15 @@ def create_activity():
     professional = Professional.query.filter_by(
         user_id=int(current_user_id)).first()
 
-    print("professional", professional)
     if professional is None:
         return jsonify({"error": "Only professionals can create activities"}), 403
-    
+
     name = request.form.get('name')
     description = request.form.get('description')
     price = request.form.get('price')
-    duration = request.form.get('duration')    
+    duration = request.form.get('duration')
     img_url = None
-    price_number = float(price.replace(",","."))
+    price_number = float(price.replace(",", "."))
     price_int = int(price_number)
 
     if "file" in request.files:
@@ -57,21 +56,24 @@ def create_activity():
         cloudinary_url = cloudinary.uploader.upload(file)
         img_url = cloudinary_url["url"]
 
-    new_activity = Activity(
-        profesional_id = professional.id,
-        name = name,
-        description = description,
-        price = price_int,
-        rate = None,
-        img = img_url,
-        is_active = True,
+    elif "img" in request.form:  # linea solo para poder ingestar las actividades con la imagen ya subida
+        img_url = request.form.get('img')
 
-        activity_date = duration
+    new_activity = Activity(
+        profesional_id=professional.id,
+        name=name,
+        description=description,
+        price=price_int,
+        rate=None,
+        img=img_url,
+        is_active=True,
+
+        activity_date=duration
     )
-    
+
     db.session.add(new_activity)
     db.session.commit()
-    
+
     return jsonify(new_activity.serialize()), 201
 
 

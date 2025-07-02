@@ -1,4 +1,4 @@
-import { Navigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export const CheckoutResult = () => {
@@ -7,6 +7,8 @@ export const CheckoutResult = () => {
   const [status, setStatus] = useState(0);
 
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
+  const Navigate = useNavigate();
 
   useEffect(() => {
     const verifyPayment = async () => {
@@ -20,37 +22,37 @@ export const CheckoutResult = () => {
         });
         const data = await res.json();
         if (res.ok && data.payment_status === "completed") {
-          setStatus(2);
-        } else {
           setStatus(1);
+          setTimeout(() => {
+            Navigate("/activities");
+          }, 3000);
+        } else {
+          Navigate("/payment/checkout-result/cancel");
         }
       } catch (error) {
-        setStatus(1);
+        Navigate("/payment/checkout-result/cancel");
       }
     };
 
     if (sessionId) verifyPayment();
-    else setStatus("No se proporcionó ningún session_id.");
+
+    else Navigate("/payment/checkout-result/cancel");
+
   }, [sessionId]);
 
   if (status === 0) {
     return (
       <div className="container py-5 text-center">
-        <h2>Cargando...</h2>
+        <span className="spinner-border spinner-border-sm me-2"></span>
       </div>
     );
   }
 
-  if (status === 1) {
-    return (
-      <Navigate to="/payment/checkout-result/cancel" />
-    );
-  }
-
-  if (status === 2)
+  if (status === 1)
     return (
       <div className="container py-5 text-center">
-        <h2>El pago se ha realizado correctamente</h2>
+        <h2 className="text-success">Pago Completado.</h2>
+        <p>La transacción se ha reailzado con exito.</p>
       </div>
     );
 };
