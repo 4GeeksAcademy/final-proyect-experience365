@@ -1,11 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
-export const ActivityDetail = () => {
+export const ActivityDetail = ({ onFavoriteUpdate }) => {
   const { id } = useParams();
   const [activity, setActivity] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+
+  // Verificar si es favorito al cargar
+  useEffect(() => {
+    const checkFavorite = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const response = await fetch(
+            `${import.meta.env.VITE_BACKEND_URL}/api/favorite/user`,
+            {
+              headers: {
+                "Authorization": `Bearer ${token}`
+              }
+            }
+          );
+          if (response.ok) {
+            const favorites = await response.json();
+            setIsFavorite(favorites.some(fav => fav.activity_id === parseInt(id)));
+          }
+        }
+      } catch (err) {
+        console.error("Error checking favorite:", err);
+      }
+    };
+
+    checkFavorite();
+  }, [id]);
 
   // Fetch de la actividad
   useEffect(() => {
@@ -19,12 +48,72 @@ export const ActivityDetail = () => {
         setActivity(data);
       } catch (err) {
         setError(err.message);
+        toast.error(err.message);
       } finally {
         setIsLoading(false);
       }
     };
     fetchActivity();
   }, [id]);
+
+  // Manejar click en favorito
+  const handleFavorite = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Debes iniciar sesión para marcar favoritos");
+      return;
+    }
+
+    try {
+      let url, method, body;
+      
+      if (isFavorite) {
+        // Obtener el ID del favorito existente
+        const favResponse = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/api/favorite/user`,
+          { headers: { "Authorization": `Bearer ${token}` } }
+        );
+        const favorites = await favResponse.json();
+        const favorite = favorites.find(fav => fav.activity_id == id);
+        
+        if (!favorite) throw new Error("Favorito no encontrado");
+        
+        url = `${import.meta.env.VITE_BACKEND_URL}/api/favorite/${favorite.id}`;
+        method = "DELETE";
+        body = null;
+      } else {
+        url = `${import.meta.env.VITE_BACKEND_URL}/api/favorite`;
+        method = "POST";
+        body = JSON.stringify({ activity_id: parseInt(id) });
+      }
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al actualizar favoritos");
+      }
+
+      setIsFavorite(!isFavorite);
+      toast.success(
+        isFavorite ? "Eliminado de favoritos" : "Añadido a favoritos",
+        { icon: "❤️" }
+      );
+      
+      // Notificar actualización
+      if (onFavoriteUpdate) onFavoriteUpdate();
+    } catch (err) {
+      console.error("Error en favoritos:", err);
+      toast.error(err.message || "Error al actualizar favoritos");
+    }
+  };
 
   if (isLoading) {
     return (
@@ -58,10 +147,8 @@ export const ActivityDetail = () => {
 
   return (
     <div className="container py-5">
-      {/* Imagen y detalles básicos */}
       <div className="row mb-5">
         <div className="col-md-7">
-          {/* Carrusel de imágenes (si hay más de una) */}
           <div className="card shadow-sm overflow-hidden">
             <img
               src={activity.img || "https://via.placeholder.com/800x500?text=Imagen+no+disponible"}
@@ -87,8 +174,12 @@ export const ActivityDetail = () => {
                   </span>
                 </div>
                 <div className="d-flex gap-2">
-                  <button className="btn btn-outline-danger w-50">
-                    <i className="bi bi-heart"></i> Favorito
+                  <button
+                    className={`btn w-50 ${isFavorite ? "btn-danger" : "btn-outline-danger"}`}
+                    onClick={handleFavorite}
+                  >
+                    <i className={`bi bi-heart${isFavorite ? "-fill" : ""}`}></i>
+                    {isFavorite ? " Quitar de favoritos" : " Añadir a favoritos"}
                   </button>
                   <button className="btn btn-primary w-50">
                     Reservar

@@ -9,7 +9,6 @@ from flask_cors import CORS
 api = Blueprint('/api/favorite', __name__)
 CORS(api)
 
-
 @api.route('/', methods=['POST'])
 @jwt_required()
 def add_favorite():
@@ -40,35 +39,60 @@ def add_favorite():
         db.session.add(new_favorite)
         db.session.commit()
 
-        return jsonify(new_favorite.serialize()), 201
+        # Devolver información completa
+        favorite_data = new_favorite.serialize()
+        favorite_data['activity'] = {
+            'id': activity.id,
+            'name': activity.name,
+            'img': activity.img,
+            'price': activity.price
+        }
+        return jsonify(favorite_data), 201
 
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
 
-
 @api.route('/user', methods=['GET'])
 @jwt_required()
 def get_user_favorites():
-    user_id = get_jwt_identity()
-    favorites = Favorite.query.filter_by(user_id=user_id).all()
-    return jsonify([f.serialize() for f in favorites]), 200
-
+    try:
+        user_id = get_jwt_identity()
+        favorites = Favorite.query.filter_by(user_id=user_id).all()
+        
+        result = []
+        for fav in favorites:
+            activity = Activity.query.get(fav.activity_id)
+            if activity:
+                fav_data = fav.serialize()
+                fav_data['activity'] = {
+                    'id': activity.id,
+                    'name': activity.name,
+                    'img': activity.img,
+                    'price': activity.price
+                }
+                result.append(fav_data)
+        
+        return jsonify(result), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @api.route('/<int:id>', methods=['DELETE'])
 @jwt_required()
 def remove_favorite(id):
-    current_user_id = get_jwt_identity()
-    favorite = Favorite.query.get(id)
+    try:
+        current_user_id = get_jwt_identity()
+        favorite = Favorite.query.get(id)
 
-    # Verificar si el favorito existe
-    if not favorite:
-        return jsonify({"error": "Favorite not found"}), 404
+        if not favorite:
+            return jsonify({"error": "Favorite not found"}), 404
 
-    # Verificar si el favorito pertenece al usuario actual
-    if favorite.user_id != int(current_user_id):
-        return jsonify({"error": "Unauthorized"}), 403
+        if favorite.user_id != int(current_user_id):
+            return jsonify({"error": "Unauthorized"}), 403
 
-    db.session.delete(favorite)
-    db.session.commit()
-    return jsonify({"message": "Favorite removed"}), 200
+        db.session.delete(favorite)
+        db.session.commit()
+        return jsonify({"message": "Favorite removed"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
