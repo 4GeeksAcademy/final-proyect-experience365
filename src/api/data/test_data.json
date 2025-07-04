@@ -1,0 +1,230 @@
+[
+  {
+    "email": "laura.guide@exp365.com",
+    "password": "Laura2025!",
+    "name": "Laura",
+    "lastname": "Martín Gómez",
+    "cif": "01234567L",
+    "adress": "C/ del Gòtic 10, 08002 Barcelona",
+    "phone": "611111111",
+    "description": "Guía local especializada en rutas culturales y gastronómicas.",
+    "activities": [
+      {
+        "name": "Tour Gastronómico por el Barrio Gótico",
+        "description": "Descubre los sabores tradicionales de Barcelona en un recorrido guiado por tabernas históricas y mercados locales. Tapas, vermut y mucha historia.",
+        "price": 39,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751321596/he8fwixax3m4tjkm784t.png",
+        "duration": "01:30"
+      }
+    ]
+  },
+  {
+    "email": "javi.kart@exp365.com",
+    "password": "KartRacer#91",
+    "name": "Javier",
+    "lastname": "Rodríguez Ortega",
+    "cif": "12345678M",
+    "adress": "Av. del Motor 22, 08020 Barcelona",
+    "phone": "622222222",
+    "description": "Apasionado del motor con años de experiencia organizando eventos de karting para grupos.",
+    "activities": [
+      {
+        "name": "Aventura en Karting Nocturno",
+        "description": "Siente la adrenalina en una carrera de karts bajo luces LED en un circuito profesional. Ideal para grupos de amigos o despedidas de soltero.",
+        "price": 55,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751366663/nhdbdmm5ms424ntgsxdx.png",
+        "duration": "01:00"
+      }
+    ]
+  },
+  {
+    "email": "maria.vino@exp365.com",
+    "password": "RiojaLover22",
+    "name": "María",
+    "lastname": "López Sáenz",
+    "cif": "23456789A",
+    "adress": "Camino de la Vid 7, 26330 Briones",
+    "phone": "633333333",
+    "description": "Sumiller certificada con pasión por el vino riojano y la tradición vitivinícola.",
+    "activities": [
+      {
+        "name": "Cata de Vinos en Bodega Subterránea",
+        "description": "Visita una bodega familiar en La Rioja y degusta sus mejores vinos acompañados de productos locales, en un ambiente íntimo y auténtico.",
+        "price": 28,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751367101/yqzen5rdmgncai62robl.png",
+        "duration": "01:15"
+      }
+    ]
+  },
+  {
+    "email": "david.surf@exp365.com",
+    "password": "PaddleMornings!",
+    "name": "David",
+    "lastname": "Torres Vázquez",
+    "cif": "34567890B",
+    "adress": "Playa del Palo, 29017 Málaga",
+    "phone": "644444444",
+    "description": "Instructor certificado de paddle surf con experiencia en rutas al amanecer en la Costa del Sol.",
+    "activities": [
+      {
+        "name": "Paseo en Paddle Surf al Amanecer",
+        "description": "Empieza el día con energía deslizándote por la costa de Málaga mientras el sol asoma por el horizonte. Incluye equipo y guía.",
+        "price": 25,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751367602/oj5x5ylrojxd8htkkgdv.png",
+        "duration": "01:00"
+      }
+    ]
+  },
+  {
+    "email": "elena.escapes@exp365.com",
+    "password": "Escape2025!",
+    "name": "Elena",
+    "lastname": "Navarro Ruiz",
+    "cif": "45678901C",
+    "adress": "C/ de la Lonja 3, 46001 Valencia",
+    "phone": "655555555",
+    "description": "Creadora de experiencias urbanas, fusionando juegos de escape con cultura local.",
+    "activities": [
+      {
+        "name": "Escape Room Urbano por el Centro de Valencia",
+        "description": "Una aventura interactiva a través de pistas y enigmas escondidos por las calles del casco antiguo. Ideal para parejas o pequeños grupos.",
+        "price": 18,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751367803/ymmzj9refqksy8pmybun.png",
+        "duration": "01:30"
+      }
+    ]
+  },
+  {
+    "email": "sergio.flamenco@exp365.com",
+    "password": "FlamencoPower1",
+    "name": "Sergio",
+    "lastname": "Morales Peña",
+    "cif": "56789012D",
+    "adress": "C/ Triana 12, 41010 Sevilla",
+    "phone": "666666666",
+    "description": "Bailaor profesional con talleres y espectáculos en el corazón de Andalucía.",
+    "activities": [
+      {
+        "name": "Clase de Flamenco con Show Final",
+        "description": "Sumérgete en el arte flamenco en Sevilla con una clase guiada por profesionales, seguida de una actuación en directo.",
+        "price": 35,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751368182/lerymcc0gn9dozxzobc0.png",
+        "duration": "01:30"
+      }
+    ]
+  },
+  {
+    "email": "claudia.fotos@exp365.com",
+    "password": "SnapMadrid24",
+    "name": "Claudia",
+    "lastname": "Sánchez del Río",
+    "cif": "67890123E",
+    "adress": "C/ Arenal 4, 28013 Madrid",
+    "phone": "677777777",
+    "description": "Fotógrafa profesional apasionada por capturar la esencia urbana de la ciudad.",
+    "activities": [
+      {
+        "name": "Ruta Fotográfica por Madrid Secreta",
+        "description": "Recorre rincones únicos de Madrid acompañado de un fotógrafo profesional que te enseñará a capturar la esencia de la ciudad.",
+        "price": 30,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751368367/zixxbh2tggeftb6idkdb.png",
+        "duration": "01:15"
+      }
+    ]
+  },
+  {
+    "email": "ruben.stars@exp365.com",
+    "password": "TeideSky!2024",
+    "name": "Rubén",
+    "lastname": "Herrera Molina",
+    "cif": "78901234F",
+    "adress": "Ctra. del Teide, 38300 La Orotava",
+    "phone": "688888888",
+    "description": "Astrónomo aficionado con experiencia en guías de observación en parques nacionales.",
+    "activities": [
+      {
+        "name": "Experiencia Astronómica en el Teide",
+        "description": "Observa las estrellas desde uno de los mejores cielos de Europa, acompañado por astrónomos que te guiarán con telescopios profesionales.",
+        "price": 40,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751368582/czu4psro3cfvyrkquam7.png",
+        "duration": "02:00"
+      }
+    ]
+  },
+  {
+    "email": "ainara.bilbike@exp365.com",
+    "password": "BilboBike2024",
+    "name": "Ainara",
+    "lastname": "Urrutia Zabala",
+    "cif": "89012345G",
+    "adress": "C/ Ibaiondo 6, 48004 Bilbao",
+    "phone": "699999999",
+    "description": "Guía cicloturista experta en recorridos urbanos y naturales por el País Vasco.",
+    "activities": [
+      {
+        "name": "Ruta en Bicicleta Eléctrica por Bilbao",
+        "description": "Una forma cómoda y ecológica de descubrir los principales puntos de interés, desde el Guggenheim hasta los rincones menos conocidos.",
+        "price": 22,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751368951/wvgrndpnp11me10uaapn.png",
+        "duration": "01:15"
+      }
+    ]
+  },
+  {
+    "email": "tomas.ceramica@exp365.com",
+    "password": "Barro2024!",
+    "name": "Tomás",
+    "lastname": "Alcántara Pérez",
+    "cif": "90123456H",
+    "adress": "C/ Real de Cartuja 18, 18012 Granada",
+    "phone": "610101010",
+    "description": "Artesano con más de 20 años de experiencia en cerámica tradicional andalusí.",
+    "activities": [
+      {
+        "name": "Taller de Cerámica en Granada",
+        "description": "Aprende las técnicas básicas de la cerámica andalusí y llévate tu propia creación hecha a mano. Actividad relajante y creativa.",
+        "price": 26,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751369205/hrgawhmpvm7cnayp9ujj.png",
+        "duration": "01:30"
+      }
+    ]
+  },
+  {
+    "email": "nuria.montanismo@exp365.com",
+    "password": "Montseny2025*",
+    "name": "Nuria",
+    "lastname": "Casals",
+    "cif": "91234567J",
+    "adress": "Passeig del Montseny 1, 08460 Santa Maria de Palautordera",
+    "phone": "611202783",
+    "description": "Guía de montaña con amplia experiencia en rutas interpretativas por espacios naturales.",
+    "activities": [
+      {
+        "name": "Senderismo Guiado por el Parque Natural del Montseny",
+        "description": "Explora uno de los entornos naturales más espectaculares de Cataluña de la mano de una guía experta. Durante la ruta descubrirás flora, fauna y rincones mágicos poco conocidos.",
+        "price": 20,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751369717/jkpiziwbijus1dhiqd6q.png",
+        "duration": "02:00"
+      }
+    ]
+  },
+  {
+    "email": "marcos.meditacion@exp365.com",
+    "password": "CalmaMallorca#24",
+    "name": "Marcos",
+    "lastname": "Fernández",
+    "cif": "84492019K",
+    "adress": "C/ Santa Clara 5, 07001 Palma de Mallorca",
+    "phone": "611202784",
+    "description": "Instructor de yoga y meditación certificado. Mi objetivo es ofrecer espacios de calma y autoconocimiento, especialmente al aire libre, donde la energía de la naturaleza potencia cada sesión.",
+    "activities": [
+      {
+        "name": "Meditación al Atardecer en Playa de Palma",
+        "description": "Una experiencia única para desconectar y reconectar. Aprende técnicas básicas de respiración y relajación guiada mientras el sol cae sobre el Mediterráneo.",
+        "price": 16,
+        "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751370018/mgqi4djaxeewmn8dxf7n.png",
+        "duration": "01:00"
+      }
+    ]
+  }
+]

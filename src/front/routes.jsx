@@ -12,6 +12,9 @@ import { ActivityDetail } from "./pages/ActivityDetail";
 import { Login } from "./pages/Login";
 import { RegisterProfessional } from "./pages/RegisterProfessional";
 import { Link } from "react-router-dom";
+import { CheckoutResult } from "./pages/CheckoutResult";
+import { CancelResult } from "./pages/CancelResult";
+import { Error } from "./error/Error";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,6 +27,16 @@ export const router = createBrowserRouter(
         path="/activities/:id" 
         element={<ActivityDetail onFavoriteUpdate={() => window.dispatchEvent(new Event('favoritesUpdated'))} />} 
       />
+      <Route path="/activities/:id" element={<ActivityDetail />} />
+        
+      {/* <Route path="/payment/:id" element={<Payment />} /> */}
+      <Route path="/payment/checkout-result/success" element={<CheckoutResult />} />
+      <Route path="/payment/checkout-result/cancel" element={<CancelResult />} />
+
+      {/* Errores */}
+      <Route path="/error/:code" element={<Error />} />
+
+      {/* Actividades (nuevas rutas) */}
       <Route path="/login" element={<Login />} />
       <Route path="/registerprofessional" element={<RegisterProfessional />} />
       <Route path="*" element={<NotFound />} />

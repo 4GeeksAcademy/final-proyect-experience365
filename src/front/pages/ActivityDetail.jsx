@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { loadStripe } from "@stripe/stripe-js";
 
 export const ActivityDetail = ({ onFavoriteUpdate }) => {
+
+  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
   const { id } = useParams();
   const [activity, setActivity] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isUser, setIsUser] = useState(false);
+
+  const navigate = useNavigate();
 
   // Verificar si es favorito al cargar
   useEffect(() => {
@@ -38,6 +44,8 @@ export const ActivityDetail = ({ onFavoriteUpdate }) => {
 
   // Fetch de la actividad
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    token ? setIsUser(true) : setIsUser(false);
     const fetchActivity = async () => {
       try {
         const response = await fetch(
@@ -54,6 +62,7 @@ export const ActivityDetail = ({ onFavoriteUpdate }) => {
       }
     };
     fetchActivity();
+
   }, [id]);
 
   // Manejar click en favorito
@@ -112,6 +121,42 @@ export const ActivityDetail = ({ onFavoriteUpdate }) => {
     } catch (err) {
       console.error("Error en favoritos:", err);
       toast.error(err.message || "Error al actualizar favoritos");
+      
+  const handlePay = async () => {
+    if (!isUser) {
+      navigate("/login");
+      return;
+    }
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/stripe/create-checkout-session`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          activity_id: id,
+          amount: Math.round(Number(activity.price) * 100),
+          product_name: activity.name,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.url) {
+        if (res.status === 401) {
+          navigate("/error/401");
+        }
+        throw new Error(data.error || "Error al crear la sesión de pago")
+      };
+      const stripe = await stripePromise;
+      if (!stripe) {
+        throw new Error("Stripe no se cargó correctamente");
+      }
+      window.location.href = data.url;
+      if (result.error) {
+        setError(result.error.message);
+      }
+    } catch (err) {
+      setError(err.message);
     }
   };
 
@@ -181,7 +226,7 @@ export const ActivityDetail = ({ onFavoriteUpdate }) => {
                     <i className={`bi bi-heart${isFavorite ? "-fill" : ""}`}></i>
                     {isFavorite ? " Quitar de favoritos" : " Añadir a favoritos"}
                   </button>
-                  <button className="btn btn-primary w-50">
+                  <button className="btn btn-primary w-50" onClick={handlePay}>
                     Reservar
                   </button>
                 </div>

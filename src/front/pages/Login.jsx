@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,15 +20,13 @@ export const Login = () => {
         },
         body: JSON.stringify({ email, password }),
       });
-      console.log("response", response);
-
       const data = await response.json();
-      console.log("data", data);
       if (response.ok) {
         setMessage("Inicio de sesión exitoso.");
         localStorage.setItem("token", data.access_token);
         localStorage.setItem("user", JSON.stringify(data.user));
-        console.log("dada", data);
+        window.location.href = "/activities";
+
       } else {
         setMessage(data.error || "Error al iniciar sesión.");
       }

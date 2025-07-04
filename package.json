@@ -54,11 +54,13 @@
 		]
 	},
 	"dependencies": {
+		"@stripe/stripe-js": "^7.4.0",
 		"bootstrap-icons": "^1.13.1",
 		"prop-types": "^15.8.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-router-dom": "^6.18.0",
 		"react-toastify": "^11.0.5"
+		"stripe": "^18.2.1"
 	}
 }

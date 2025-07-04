@@ -118,6 +118,8 @@ export const ActivitiesList = () => {
                     Ver detalles
                   </Link>
                 </div>
+                <div className="card-footer bg-transparent">
+                </div>
               </div>
             </div>
           ))
