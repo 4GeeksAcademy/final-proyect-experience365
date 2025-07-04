@@ -75,7 +75,7 @@ export const ActivityDetail = ({ onFavoriteUpdate }) => {
 
     try {
       let url, method, body;
-      
+
       if (isFavorite) {
         // Obtener el ID del favorito existente
         const favResponse = await fetch(
@@ -84,9 +84,9 @@ export const ActivityDetail = ({ onFavoriteUpdate }) => {
         );
         const favorites = await favResponse.json();
         const favorite = favorites.find(fav => fav.activity_id == id);
-        
+
         if (!favorite) throw new Error("Favorito no encontrado");
-        
+
         url = `${import.meta.env.VITE_BACKEND_URL}/api/favorite/${favorite.id}`;
         method = "DELETE";
         body = null;
@@ -115,13 +115,15 @@ export const ActivityDetail = ({ onFavoriteUpdate }) => {
         isFavorite ? "Eliminado de favoritos" : "Añadido a favoritos",
         { icon: "❤️" }
       );
-      
+
       // Notificar actualización
       if (onFavoriteUpdate) onFavoriteUpdate();
     } catch (err) {
       console.error("Error en favoritos:", err);
       toast.error(err.message || "Error al actualizar favoritos");
-      
+    };
+  };
+
   const handlePay = async () => {
     if (!isUser) {
       navigate("/login");
