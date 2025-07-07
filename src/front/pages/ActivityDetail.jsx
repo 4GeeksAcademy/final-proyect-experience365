@@ -2,56 +2,33 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loadStripe } from "@stripe/stripe-js";
+import useGlobalReducer from "../hooks/useGlobalReducer";
 
-export const ActivityDetail = ({ onFavoriteUpdate }) => {
-
+export const ActivityDetail = () => {
+  const {store, dispatch} = useGlobalReducer();
   const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
   const { id } = useParams();
   const [activity, setActivity] = useState(null);
-  const [isFavorite, setIsFavorite] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [isUser, setIsUser] = useState(false);
-
   const navigate = useNavigate();
 
-  // Verificar si es favorito al cargar
-  useEffect(() => {
-    const checkFavorite = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (token) {
-          const response = await fetch(
-            `${import.meta.env.VITE_BACKEND_URL}/api/favorite/user`,
-            {
-              headers: {
-                "Authorization": `Bearer ${token}`
-              }
-            }
-          );
-          if (response.ok) {
-            const favorites = await response.json();
-            setIsFavorite(favorites.some(fav => fav.activity_id === parseInt(id)));
-          }
-        }
-      } catch (err) {
-        console.error("Error checking favorite:", err);
-      }
-    };
-
-    checkFavorite();
-  }, [id]);
-
+  // Verificar si es favorito usando el store global
+  const isFavorite = store.favorites.some(fav => fav.activity_id === parseInt(id));
+  console.log("Estoy en el Activity Detail")
   // Fetch de la actividad
   useEffect(() => {
     const token = localStorage.getItem("token");
     token ? setIsUser(true) : setIsUser(false);
+
     const fetchActivity = async () => {
       try {
         const response = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/api/activity/${id}`
         );
         const data = await response.json();
+        console.log(data)
         if (!response.ok) throw new Error(data.error || "Error al cargar la actividad");
         setActivity(data);
       } catch (err) {
@@ -62,8 +39,7 @@ export const ActivityDetail = ({ onFavoriteUpdate }) => {
       }
     };
     fetchActivity();
-
-  }, [id]);
+  }, []);
 
   // Manejar click en favorito
   const handleFavorite = async () => {
@@ -77,14 +53,7 @@ export const ActivityDetail = ({ onFavoriteUpdate }) => {
       let url, method, body;
 
       if (isFavorite) {
-        // Obtener el ID del favorito existente
-        const favResponse = await fetch(
-          `${import.meta.env.VITE_BACKEND_URL}/api/favorite/user`,
-          { headers: { "Authorization": `Bearer ${token}` } }
-        );
-        const favorites = await favResponse.json();
-        const favorite = favorites.find(fav => fav.activity_id == id);
-
+        const favorite = store.favorites.find(fav => fav.activity_id == id);
         if (!favorite) throw new Error("Favorito no encontrado");
 
         url = `${import.meta.env.VITE_BACKEND_URL}/api/favorite/${favorite.id}`;
@@ -110,14 +79,20 @@ export const ActivityDetail = ({ onFavoriteUpdate }) => {
         throw new Error(errorData.message || "Error al actualizar favoritos");
       }
 
-      setIsFavorite(!isFavorite);
+      // Obtener favoritos actualizados después de la operación
+      const favResponse = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/favorite/user`,
+        { headers: { "Authorization": `Bearer ${token}` } }
+      );
+      const updatedFavorites = await favResponse.json();
+
+      // Actualizar el store global
+      dispatch({ type: "handleFavorites", payload: updatedFavorites });
+
       toast.success(
         isFavorite ? "Eliminado de favoritos" : "Añadido a favoritos",
         { icon: "❤️" }
       );
-
-      // Notificar actualización
-      if (onFavoriteUpdate) onFavoriteUpdate();
     } catch (err) {
       console.error("Error en favoritos:", err);
       toast.error(err.message || "Error al actualizar favoritos");
@@ -154,11 +129,9 @@ export const ActivityDetail = ({ onFavoriteUpdate }) => {
         throw new Error("Stripe no se cargó correctamente");
       }
       window.location.href = data.url;
-      if (result.error) {
-        setError(result.error.message);
-      }
     } catch (err) {
       setError(err.message);
+      toast.error(err.message);
     }
   };
 
@@ -192,6 +165,7 @@ export const ActivityDetail = ({ onFavoriteUpdate }) => {
     );
   }
 
+  console.log("activity", activity)
   return (
     <div className="container py-5">
       <div className="row mb-5">

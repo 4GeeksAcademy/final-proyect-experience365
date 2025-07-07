@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import useGlobalReducer from "../hooks/useGlobalReducer";
 
-export const FavoritesDropdown = ({ onUpdate }) => {
-  const [favorites, setFavorites] = useState([]);
+export const FavoritesDropdown = () => {
+  const { store, dispatch } = useGlobalReducer()
   const [isOpen, setIsOpen] = useState(false);
 
   const fetchFavorites = async () => {
@@ -19,12 +20,11 @@ export const FavoritesDropdown = ({ onUpdate }) => {
           },
         }
       );
-      
+
       if (!response.ok) throw new Error("Error al cargar favoritos");
-      
+
       const data = await response.json();
-      setFavorites(data);
-      if (onUpdate) onUpdate(data);
+      dispatch({ type: "handleFavorites", payload: data });
     } catch (error) {
       toast.error(error.message);
     }
@@ -43,12 +43,18 @@ export const FavoritesDropdown = ({ onUpdate }) => {
           },
         }
       );
-      
+
       if (!response.ok) throw new Error("Error al eliminar favorito");
-      
-      setFavorites(favorites.filter(fav => fav.id !== favoriteId));
+
+      // Obtener lista actualizada después de eliminar
+      const updatedResponse = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/favorite/user`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      const updatedFavorites = await updatedResponse.json();
+
+      dispatch({ type: "handleFavorites", payload: updatedFavorites });
       toast.success("Favorito eliminado");
-      if (onUpdate) onUpdate(favorites.filter(fav => fav.id !== favoriteId));
     } catch (error) {
       toast.error(error.message);
     }
@@ -69,15 +75,14 @@ export const FavoritesDropdown = ({ onUpdate }) => {
         onClick={() => setIsOpen(!isOpen)}
       >
         <i className="bi bi-heart-fill me-1"></i>
-        {favorites.length > 0 && (
+        {store.favorites.length > 0 && (
           <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            {favorites.length}
+            {store.favorites.length}
           </span>
         )}
       </button>
 
-      <div 
-        className={`dropdown-menu ${isOpen ? "show" : ""}`}
+      <div className={`dropdown-menu ${isOpen ? "show" : ""}`}
         style={{
           width: "300px",
           maxHeight: "400px",
@@ -85,12 +90,12 @@ export const FavoritesDropdown = ({ onUpdate }) => {
           padding: "0.5rem"
         }}
       >
-        {favorites.length === 0 ? (
+        {store.favorites.length === 0 ? (
           <div className="dropdown-item-text text-muted p-2">
             No tienes favoritos
           </div>
         ) : (
-          favorites.map(fav => (
+          store.favorites.map(fav => (
             <div key={fav.id} className="d-flex justify-content-between align-items-center p-2">
               <Link 
                 to={`/activities/${fav.activity_id}`} 
