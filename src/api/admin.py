@@ -8,6 +8,7 @@ from api.models.Activity import Activity
 from api.models.Payments import Payments
 from api.models.Globalrate import GlobalRate
 from api.models.Favorite import Favorite
+from api.models.ActivityImage import ActivityImage
 from flask_admin.contrib.sqla import ModelView
 
 
@@ -24,6 +25,7 @@ def setup_admin(app):
     admin.add_view(ModelView(Payments, db.session))
     admin.add_view(ModelView(GlobalRate, db.session))
     admin.add_view(ModelView(Favorite, db.session))
+    admin.add_view(ModelView(ActivityImage, db.session, name='Activity Images', category='Models'))
 
 
     # You can duplicate that line to add mew models

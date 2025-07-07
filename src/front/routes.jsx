@@ -18,7 +18,7 @@ import { Error } from "./error/Error";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout />} errorElement={<NotFound />}>
+    <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/activities" element={<ActivitiesList />} />
@@ -27,7 +27,6 @@ export const router = createBrowserRouter(
         path="/activities/:id" 
         element={<ActivityDetail onFavoriteUpdate={() => window.dispatchEvent(new Event('favoritesUpdated'))} />} 
       />
-      <Route path="/activities/:id" element={<ActivityDetail />} />
         
       {/* <Route path="/payment/:id" element={<Payment />} /> */}
       <Route path="/payment/checkout-result/success" element={<CheckoutResult />} />
