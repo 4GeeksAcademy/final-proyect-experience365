@@ -5,7 +5,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 
 export const ActivityDetail = () => {
-  const {store, dispatch} = useGlobalReducer();
+  const { store, dispatch } = useGlobalReducer();
   const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
   const { id } = useParams();
   const [activity, setActivity] = useState(null);
@@ -172,13 +172,39 @@ export const ActivityDetail = () => {
         <div className="col-md-7">
           <div className="card shadow-sm overflow-hidden">
             <img
-              src={activity.img || "https://via.placeholder.com/800x500?text=Imagen+no+disponible"}
+              src={activity.images?.[0]?.url || activity.img || "https://via.placeholder.com/800x500?text=Imagen+no+disponible"}
               alt={activity.name}
               className="img-fluid rounded-3"
               style={{ height: "400px", objectFit: "cover", width: "100%" }}
             />
+
+            {activity.images?.length > 1 && (
+              <div className="d-flex flex-wrap gap-2 p-3 bg-light">
+                {activity.images.slice(1).map((image, index) => (
+                  <div key={index} className="position-relative">
+                    <img
+                      src={image.url}
+                      alt={`${activity.name} ${index + 2}`}
+                      className="img-thumbnail"
+                      style={{
+                        width: "80px",
+                        height: "80px",
+                        objectFit: "cover",
+                        cursor: "pointer"
+                      }}
+                      onClick={() => {
+                        const newImages = [...activity.images];
+                        [newImages[0], newImages[index + 1]] = [newImages[index + 1], newImages[0]];
+                        setActivity({ ...activity, images: newImages });
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
+
         <div className="col-md-5">
           <div className="card shadow-sm h-100">
             <div className="card-body d-flex flex-column">
