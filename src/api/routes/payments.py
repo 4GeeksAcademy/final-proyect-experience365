@@ -8,6 +8,8 @@ import os
 from flask_cors import CORS
 from api.database.db import db
 from api.models.Payments import Payments
+from api.models.Purchase import Purchase
+from datetime import datetime
 
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET')
@@ -114,6 +116,16 @@ def stripe_webhook():
             if payment:
                 payment.status = 'completed'
                 db.session.commit()
+
+            #  Insertar compra en la tabla purchases
+                new_purchase = Purchase(
+                    user_id=payment.user_id,
+                    activity_id=payment.activity_id,
+                    purchase_date=datetime.utcnow()
+                )
+                db.session.add(new_purchase)
+                db.session.commit()
+                
                 print(
                     f" Pago confirmado: usuario {payment.user_id}, actividad {payment.activity_id}")
             else:

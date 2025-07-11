@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
+import { Reviews } from "../components/Reviews";
 
 export const ActivityDetail = () => {
 
@@ -162,12 +163,7 @@ export const ActivityDetail = () => {
       {/* Sección de valoraciones */}
       <div className="row">
         <div className="col-12">
-          <div className="card shadow-sm">
-            <div className="card-body">
-              <h3 className="card-title">Valoraciones</h3>
-              <p className="text-muted">(falta terminar)</p>
-            </div>
-          </div>
+          <Reviews activityId={activity.id} />
         </div>
       </div>
     </div>

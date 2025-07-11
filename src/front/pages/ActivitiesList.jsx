@@ -96,7 +96,7 @@ export const ActivitiesList = () => {
                     style={{ height: "200px", objectFit: "cover" }}
                   />
                 )}
-                <div className="card-body">
+                <div className="card-body position-relative" style={{ paddingBottom: "3.5rem" }}>
                   <h5 className="card-title">{activity.name}</h5>
                   <p className="card-text text-truncate">{activity.description}</p>
                   <div className="d-flex justify-content-between align-items-center">
@@ -108,6 +108,16 @@ export const ActivitiesList = () => {
                         {formatDuration(activity.duration)}
                       </small>
                     )}
+                  </div>
+                  <div className="activity-rating position-absolute bottom-0 start-0 m-2">
+                    <div className="text-warning ">
+                      {"★".repeat(Math.round(activity.rate || 0)) + "☆".repeat(5 - Math.round(activity.rate || 0))}
+                    </div>
+                    <small className="text-muted">
+                      {activity.rate !== null && activity.rate !== undefined
+                        ? `${activity.rate.toFixed(1)} / 5`
+                        : "0.0 / 5"}
+                    </small>
                   </div>
                 </div>
                 <div className="card-footer bg-transparent">
