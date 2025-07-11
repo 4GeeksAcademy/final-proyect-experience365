@@ -11,24 +11,23 @@ import { CreateActivity } from "./pages/CreateActivity";
 import { ActivityDetail } from "./pages/ActivityDetail";
 import { Login } from "./pages/Login";
 import { RegisterProfessional } from "./pages/RegisterProfessional";
-// import { Payment } from "./pages/back_Payment";
+import { Link } from "react-router-dom";
 import { CheckoutResult } from "./pages/CheckoutResult";
 import { CancelResult } from "./pages/CancelResult";
 import { Error } from "./error/Error";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout />} errorElement={<NotFound />}>
-      {/* Página principal */}
+    <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />
-
-      {/* Autenticación */}
       <Route path="/register" element={<Register />} />
-
-      {/* Actividades (nuevas rutas) */}
       <Route path="/activities" element={<ActivitiesList />} />
       <Route path="/activities/create" element={<CreateActivity />} />
-      <Route path="/activities/:id" element={<ActivityDetail />} />
+      <Route 
+        path="/activities/:id" 
+        element={<ActivityDetail onFavoriteUpdate={() => window.dispatchEvent(new Event('favoritesUpdated'))} />} 
+      />
+        
       {/* <Route path="/payment/:id" element={<Payment />} /> */}
       <Route path="/payment/checkout-result/success" element={<CheckoutResult />} />
       <Route path="/payment/checkout-result/cancel" element={<CancelResult />} />
@@ -38,17 +37,12 @@ export const router = createBrowserRouter(
 
       {/* Actividades (nuevas rutas) */}
       <Route path="/login" element={<Login />} />
-
-      {/* Ruta de registo profesional */}
       <Route path="/registerprofessional" element={<RegisterProfessional />} />
-
-      {/* Ruta 404 */}
       <Route path="*" element={<NotFound />} />
     </Route>
   )
 );
 
-// Componente 404 reutilizable
 function NotFound() {
   return (
     <div className="container text-center py-5">

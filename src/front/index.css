@@ -67,8 +67,33 @@
   .card-body {
     padding: 1.25rem;
   }
-  
+
   .form-group {
     margin-bottom: 0.75rem;
   }
+}
+
+/* Dropdown de favoritos */
+.dropdown-toggle::after {
+  display: none;
+}
+
+.dropdown-menu {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dropdown-item {
+  transition: all 0.2s;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+  transform: translateX(2px);
+}
+
+/* Badge de contador */
+.badge {
+  font-size: 0.6rem;
+  padding: 0.25em 0.4em;
 }

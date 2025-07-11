@@ -1,40 +1,105 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { loadStripe } from "@stripe/stripe-js";
 import { Reviews } from "../components/Reviews";
+import useGlobalReducer from "../hooks/useGlobalReducer";
+
 
 export const ActivityDetail = () => {
-
+  const { store, dispatch } = useGlobalReducer();
   const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
   const { id } = useParams();
   const [activity, setActivity] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [isUser, setIsUser] = useState(false);
-
   const navigate = useNavigate();
 
+  // Verificar si es favorito usando el store global
+  const isFavorite = store.favorites.some(fav => fav.activity_id === parseInt(id));
+  console.log("Estoy en el Activity Detail")
   // Fetch de la actividad
   useEffect(() => {
     const token = localStorage.getItem("token");
     token ? setIsUser(true) : setIsUser(false);
+
     const fetchActivity = async () => {
       try {
         const response = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/api/activity/${id}`
         );
         const data = await response.json();
+        console.log(data)
         if (!response.ok) throw new Error(data.error || "Error al cargar la actividad");
         setActivity(data);
       } catch (err) {
         setError(err.message);
+        toast.error(err.message);
       } finally {
         setIsLoading(false);
       }
     };
     fetchActivity();
+  }, []);
 
-  }, [id]);
+  // Manejar click en favorito
+  const handleFavorite = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Debes iniciar sesión para marcar favoritos");
+      return;
+    }
+
+    try {
+      let url, method, body;
+
+      if (isFavorite) {
+        const favorite = store.favorites.find(fav => fav.activity_id == id);
+        if (!favorite) throw new Error("Favorito no encontrado");
+
+        url = `${import.meta.env.VITE_BACKEND_URL}/api/favorite/${favorite.id}`;
+        method = "DELETE";
+        body = null;
+      } else {
+        url = `${import.meta.env.VITE_BACKEND_URL}/api/favorite`;
+        method = "POST";
+        body = JSON.stringify({ activity_id: parseInt(id) });
+      }
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Error al actualizar favoritos");
+      }
+
+      // Obtener favoritos actualizados después de la operación
+      const favResponse = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/favorite/user`,
+        { headers: { "Authorization": `Bearer ${token}` } }
+      );
+      const updatedFavorites = await favResponse.json();
+
+      // Actualizar el store global
+      dispatch({ type: "handleFavorites", payload: updatedFavorites });
+
+      toast.success(
+        isFavorite ? "Eliminado de favoritos" : "Añadido a favoritos",
+        { icon: "❤️" }
+      );
+    } catch (err) {
+      console.error("Error en favoritos:", err);
+      toast.error(err.message || "Error al actualizar favoritos");
+    };
+  };
 
   const handlePay = async () => {
     if (!isUser) {
@@ -66,11 +131,9 @@ export const ActivityDetail = () => {
         throw new Error("Stripe no se cargó correctamente");
       }
       window.location.href = data.url;
-      if (result.error) {
-        setError(result.error.message);
-      }
     } catch (err) {
       setError(err.message);
+      toast.error(err.message);
     }
   };
 
@@ -104,21 +167,46 @@ export const ActivityDetail = () => {
     );
   }
 
+  console.log("activity", activity)
   return (
     <div className="container py-5">
-      {/* Imagen y detalles básicos */}
       <div className="row mb-5">
         <div className="col-md-7">
-          {/* Carrusel de imágenes (si hay más de una) */}
           <div className="card shadow-sm overflow-hidden">
             <img
-              src={activity.img || "https://via.placeholder.com/800x500?text=Imagen+no+disponible"}
+              src={activity.images?.[0]?.url || activity.img || "https://via.placeholder.com/800x500?text=Imagen+no+disponible"}
               alt={activity.name}
               className="img-fluid rounded-3"
               style={{ height: "400px", objectFit: "cover", width: "100%" }}
             />
+
+            {activity.images?.length > 1 && (
+              <div className="d-flex flex-wrap gap-2 p-3 bg-light">
+                {activity.images.slice(1).map((image, index) => (
+                  <div key={index} className="position-relative">
+                    <img
+                      src={image.url}
+                      alt={`${activity.name} ${index + 2}`}
+                      className="img-thumbnail"
+                      style={{
+                        width: "80px",
+                        height: "80px",
+                        objectFit: "cover",
+                        cursor: "pointer"
+                      }}
+                      onClick={() => {
+                        const newImages = [...activity.images];
+                        [newImages[0], newImages[index + 1]] = [newImages[index + 1], newImages[0]];
+                        setActivity({ ...activity, images: newImages });
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
+
         <div className="col-md-5">
           <div className="card shadow-sm h-100">
             <div className="card-body d-flex flex-column">
@@ -135,8 +223,12 @@ export const ActivityDetail = () => {
                   </span>
                 </div>
                 <div className="d-flex gap-2">
-                  <button className="btn btn-outline-danger w-50">
-                    <i className="bi bi-heart"></i> Favorito
+                  <button
+                    className={`btn w-50 ${isFavorite ? "btn-danger" : "btn-outline-danger"}`}
+                    onClick={handleFavorite}
+                  >
+                    <i className={`bi bi-heart${isFavorite ? "-fill" : ""}`}></i>
+                    {isFavorite ? " Quitar de favoritos" : " Añadir a favoritos"}
                   </button>
                   <button className="btn btn-primary w-50" onClick={handlePay}>
                     Reservar
