@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const CreateActivity = () => {
@@ -13,28 +13,95 @@ export const CreateActivity = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const [file, setFile] = useState("");
-  const [fileUrl, setFileUrl] = useState("");
+  const [coverImage, setCoverImage] = useState(null);
+  const [coverPreview, setCoverPreview] = useState("");
+  const [galleryImages, setGalleryImages] = useState([]);
+  const [galleryPreviews, setGalleryPreviews] = useState([]);
+  const coverInputRef = useRef(null);
+  const galleryInputRef = useRef(null);
+
+  // Eliminar portada
+  const removeCover = () => {
+    setCoverImage(null);
+    setCoverPreview("");
+    URL.revokeObjectURL(coverPreview);
+    if (coverInputRef.current) coverInputRef.current.value = "";
+  };
+
+  // Eliminar imagen de la galería
+  const removeGalleryImage = (index) => {
+    const newGalleryImages = [...galleryImages];
+    const newGalleryPreviews = [...galleryPreviews];
+
+    URL.revokeObjectURL(newGalleryPreviews[index]);
+
+    newGalleryImages.splice(index, 1);
+    newGalleryPreviews.splice(index, 1);
+
+    setGalleryImages(newGalleryImages);
+    setGalleryPreviews(newGalleryPreviews);
+    if (galleryInputRef.current) galleryInputRef.current.value = "";
+  };
 
   // Maneja cambios en los inputs del formulario
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: files ? files[0] : value,
+      [name]: value,
     });
   };
 
-  // Maneja la selección de imágenes
-  const handleImgChange = (event) => {
-    const file = event.target.files[0];
-    setFile(file);
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setFileUrl(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
+  // Maneja la imagen de portada
+  const handleCoverImage = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setCoverImage(file);
+    setCoverPreview(URL.createObjectURL(file));
+  };
+
+  // Maneja imágenes adicionales
+  const handleGalleryImages = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    if (selectedFiles.length === 0) return;
+
+    setGalleryImages([...galleryImages, ...selectedFiles]);
+
+    const newPreviews = selectedFiles.map(file => URL.createObjectURL(file));
+    setGalleryPreviews([...galleryPreviews, ...newPreviews]);
+  };
+
+  // Sube imágenes al backend
+  const uploadImages = async (activityId) => {
+    const formData = new FormData();
+
+    // Subir portada primero (si existe)
+    if (coverImage) {
+      formData.append("files", coverImage);
+    }
+
+    // Subir imágenes de galería
+    galleryImages.forEach(file => formData.append("files", file));
+
+    if (formData.getAll("files").length === 0) return;
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/activity_images/${activityId}/images`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: formData,
+        }
+      );
+
+      if (!response.ok) throw new Error("Error al subir imágenes");
+    } catch (error) {
+      console.error("Error en uploadImages:", error);
+      throw error;
     }
   };
 
@@ -58,34 +125,44 @@ export const CreateActivity = () => {
         throw new Error("Formato de duración inválido");
       }
 
+      // 1. Crear actividad
       const formDataToSend = new FormData();
       formDataToSend.append("name", formData.name);
       formDataToSend.append("description", formData.description);
       formDataToSend.append("price", formData.price);
       formDataToSend.append("duration", duration);
 
-      // Agregar imagen si existe
-      if (file) {
-        formDataToSend.append("file", file);
-      }
-
-      // Enviar a la API
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/activity`, {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${localStorage.getItem("token")}`
-        },
-        body: formDataToSend
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/activity`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: formDataToSend,
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Error al crear actividad");
       }
-      console.log("Actividad creada exitosamente", response.json());
 
-      // Redirigir después de éxito
-      navigate("/activities", { state: { success: "Actividad creada exitosamente!" } });
+      const activityData = await response.json();
+
+      // Debug: Mostrar información antes de subir imágenes
+      console.log('Subiendo imágenes:', {
+        activityId: activityData.id,
+        coverImage: !!coverImage,
+        galleryImages: galleryImages.length
+      });
+
+      // 2. Subir imágenes
+      if (coverImage || galleryImages.length > 0) {
+        await uploadImages(activityData.id);
+      }
+
+      navigate("/activities", { state: { success: "¡Actividad creada!" } });
     } catch (err) {
       setError(err.message);
     } finally {
@@ -101,17 +178,11 @@ export const CreateActivity = () => {
             <div className="card-body p-4">
               <h2 className="card-title text-center mb-4">Crear Nueva Actividad</h2>
 
-              {/* Mensaje de error */}
-              {error && (
-                <div className="alert alert-danger">
-                  {error}
-                </div>
-              )}
+              {error && <div className="alert alert-danger">{error}</div>}
 
               <form onSubmit={handleSubmit}>
-                {/* Campos del formulario */}
                 <div className="mb-3">
-                  <label className="form-label">Nombre de la actividad*</label>
+                  <label className="form-label">Nombre*</label>
                   <input
                     type="text"
                     className="form-control"
@@ -149,7 +220,6 @@ export const CreateActivity = () => {
                     />
                   </div>
 
-                  {/* Sección de Duración */}
                   <div className="col-md-6 mb-3">
                     <label className="form-label">Duración*</label>
                     <div className="input-group">
@@ -179,28 +249,69 @@ export const CreateActivity = () => {
                   </div>
                 </div>
 
-                {/* Sección de carga de imagen */}
-                <div className="image-upload-section form-group">
-                  <label className="form-label">Imagen (opcional)</label>
-                  <div className="file-input-container">
-                    <input
-                      type="file"
-                      className="form-control"
-                      name="image"
-                      accept="image/*"
-                      onChange={handleImgChange}
-                    />
-                  </div>
+                <div className="mb-3">
+                  <label className="form-label">Imagen de portada*</label>
+                  <input
+                    type="file"
+                    className="form-control"
+                    accept="image/*"
+                    onChange={handleCoverImage}
+                    required
+                    ref={coverInputRef}
+                  />
 
-                  {/* Vista previa de imagen */}
-                  {fileUrl && (
-                    <div className="img-preview-container mt-2">
-                      <img src={fileUrl} className="img-preview" alt="Preview" />
+                  {coverPreview && (
+                    <div className="mt-2 position-relative" style={{ width: "200px" }}>
+                      <img
+                        src={coverPreview}
+                        alt="Portada preview"
+                        className="img-thumbnail"
+                        style={{ width: "200px", height: "200px", objectFit: "cover" }}
+                      />
+                      <button
+                        type="button"
+                        className="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
+                        onClick={removeCover}
+                        style={{ borderRadius: "50%" }}
+                      >
+                        &times;
+                      </button>
                     </div>
                   )}
                 </div>
 
-                {/* Botón de submit */}
+                <div className="mb-3">
+                  <label className="form-label">Añadir más imágenes (opcional)</label>
+                  <input
+                    type="file"
+                    className="form-control"
+                    multiple
+                    accept="image/*"
+                    onChange={handleGalleryImages}
+                    ref={galleryInputRef}
+                  />
+                  <div className="d-flex flex-wrap gap-2 mt-2">
+                    {galleryPreviews.map((url, index) => (
+                      <div key={index} className="position-relative">
+                        <img
+                          src={url}
+                          alt={`Preview ${index}`}
+                          className="img-thumbnail"
+                          style={{ width: "100px", height: "100px", objectFit: "cover" }}
+                        />
+                        <button
+                          type="button"
+                          className="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
+                          onClick={() => removeGalleryImage(index)}
+                          style={{ borderRadius: "50%" }}
+                        >
+                          &times;
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
                 <button
                   type="submit"
                   className="btn btn-primary w-100 py-2"

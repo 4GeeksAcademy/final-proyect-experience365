@@ -3,8 +3,6 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, send_from_directory
-
-
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from api.utils import APIException, generate_sitemap
@@ -17,11 +15,12 @@ import api.routes.globalrate as globalrate_router
 import api.routes.favorite as favorite_router
 import api.routes.credentials as credentials_router
 
+from api.routes.activity_image import api as activity_images_api  # Modificación clave
 
 from api.admin import setup_admin
 from api.commands import setup_commands
 from flask_jwt_extended import JWTManager
-
+from flask_cors import CORS  # Asegurar que CORS está importado
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
@@ -29,7 +28,16 @@ static_file_dir = os.path.join(os.path.dirname(
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
-# database condiguration
+# Configuración CORS
+CORS(app, resources={
+    r"/api/*": {
+        "origins": "*",
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+})
+
+# database configuration
 db_url = os.getenv("DATABASE_URL")
 if db_url is not None:
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace(
@@ -39,13 +47,11 @@ else:
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
 
 # Configuración de JWT
-app.config["JWT_SECRET_KEY"] = os.getenv(
-    "JWT_SECRET_KEY", "my-secret-key")  # Clave cambiada
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY", "my-secret-key")
 jwt = JWTManager(app)
 
 # add the admin
@@ -62,6 +68,12 @@ app.register_blueprint(professional_router.api, url_prefix='/api/professional')
 app.register_blueprint(globalrate_router.api, url_prefix='/api/rating')
 app.register_blueprint(favorite_router.api, url_prefix='/api/favorite')
 app.register_blueprint(credentials_router.api, url_prefix='/api/credentials')
+
+# Handle/serialize errors like a JSON object
+
+
+# Registro modificado
+app.register_blueprint(activity_images_api, url_prefix='/api/activity_images')
 
 # Handle/serialize errors like a JSON object
 
