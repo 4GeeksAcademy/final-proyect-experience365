@@ -23,13 +23,13 @@ export const router = createBrowserRouter(
       <Route path="/register" element={<Register />} />
       <Route path="/activities" element={<ActivitiesList />} />
       <Route path="/activities/create" element={<CreateActivity />} />
-      <Route 
-        path="/activities/:id" 
-        element={<ActivityDetail onFavoriteUpdate={() => window.dispatchEvent(new Event('favoritesUpdated'))} />} 
+      <Route
+        path="/activities/:id"
+        element={<ActivityDetail onFavoriteUpdate={() => window.dispatchEvent(new Event('favoritesUpdated'))} />}
       />
       <Route path="/activities/:id" element={<ActivityDetail />} />
-        
-      {/* <Route path="/payment/:id" element={<Payment />} /> */}
+
+
       <Route path="/payment/checkout-result/success" element={<CheckoutResult />} />
       <Route path="/payment/checkout-result/cancel" element={<CancelResult />} />
 

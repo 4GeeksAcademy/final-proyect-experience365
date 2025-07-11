@@ -1,6 +1,4 @@
-"""
-This module takes care of starting the API Server, Loading the DB and Adding the endpoints
-"""
+
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.database.db import db
 from api.models.User import User
@@ -8,6 +6,9 @@ from api.models.Professional import Professional
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+
 api = Blueprint('/api/user', __name__)
 # Allow CORS requests to this API
 CORS(api)
@@ -64,7 +65,7 @@ def login_user():
     if not user or not user.check_password(data['password']):
         return jsonify({"error": "Invalid email or password"}), 401
 
-    # Verificar si el usuario es profesional
+    # Verificar si el usuario es profesional o no
     professional = Professional.query.filter_by(user_id=user.id).first()
     if professional is not None:
         set_rol = "professional"
@@ -74,7 +75,9 @@ def login_user():
             "message": "Login successful",
             "access_token": access_token,
             "user": {
-                "role": set_rol
+                "role": set_rol,
+                "id": user.id,
+                "email": user.email
             }
         }), 200
     else:
@@ -85,8 +88,30 @@ def login_user():
             "message": "Login successful",
             "access_token": access_token,
             "user": {
-                "role": set_rol
+                "role": set_rol,
+                "id": user.id,
+                "email": user.email
             }
         }), 200
 
-    # Crear token con información de usuario
+
+@api.route('/me', methods=['GET'])
+@jwt_required()
+def get_user():
+    current_user_id = int(get_jwt_identity())
+    user = User.query.get(current_user_id)
+
+    if user is None:
+        return jsonify({"error": "User not found"}), 404
+
+    professional = Professional.query.filter_by(
+        user_id=current_user_id).first()
+    set_role = "professional" if professional else "user"
+
+    return jsonify({
+        "user": {
+            "role": set_role,
+            "id": user.id,
+            "email": user.email
+        }
+    }), 200

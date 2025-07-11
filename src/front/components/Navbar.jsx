@@ -1,61 +1,98 @@
 import { Link } from "react-router-dom";
-import { FavoritesDropdown } from "./FavoritesDropdown";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { meUser } from "../services/loginUser.js";
+
+import useGlobalReducer from "../hooks/useGlobalReducer";
+import { s } from "framer-motion/client";
 
 export const Navbar = () => {
-  const [favoritesCount, setFavoritesCount] = useState(0);
+
+  const { store, dispatch } = useGlobalReducer();
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    const updateFavorites = () => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        fetch(`${import.meta.env.VITE_BACKEND_URL}/api/favorite/user`, {
-          headers: { "Authorization": `Bearer ${token}` }
-        })
-        .then(res => res.json())
-        .then(data => setFavoritesCount(data.length))
-        .catch(console.error);
-      }
-    };
+    if (scrollY > 0) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
 
-    // Escuchar eventos de actualización
-    window.addEventListener('favoritesUpdated', updateFavorites);
-    updateFavorites(); // Carga inicial
-    
-    return () => window.removeEventListener('favoritesUpdated', updateFavorites);
+    window.addEventListener("scroll", () => {
+      if (scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    });
+
+    console.log(store);
+
   }, []);
 
-  return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <div className="container">
-        <Link to="/">
-          <span className="navbar-brand mb-0 h1">Experience365</span>
-        </Link>
-        
-        <div className="d-flex align-items-center gap-3">
-          <Link to="/activities">
-            <button className="btn btn-outline-secondary">
-              Ver Actividades
-            </button>
-          </Link>
 
-          <FavoritesDropdown onUpdate={(favorites) => setFavoritesCount(favorites.length)} />
-          
-          <div className="d-flex gap-2">
-            <Link to="/register">
-              <button className="btn btn-outline-primary">Registrarse</button>
-            </Link>
-            <Link to="/login">
-              <button className="btn btn-primary">Iniciar sesión</button>
-            </Link>
-            <Link to="/registerprofessional">
-              <button className="btn btn-primary">
-                Registro Profesional
-              </button>
-            </Link>
+  const logout = () => {
+    localStorage.removeItem("token");
+    dispatch({
+      type: "SET_SESSION",
+      payload: false
+    })
+    dispatch({
+      type: "SET_USER",
+      payload: {}
+    })
+  };
+
+  return (
+    <motion.nav
+      className="navbar fixed-top"
+      animate={{ y: isScrolled ? "-100%" : "0%", transition: { duration: 0.4 } }}
+    >
+      <div className="container-fluid">
+        <Link to="/">
+          <span className="navbar-brand align-content-baseline">
+
+            {/* Imagen Logo svg experience365 */}
+            <img src="src/front/assets/img/logo-experience365.svg"
+              alt="Logo"
+              width="100px"
+              className="d-inline-block align-text-top m-sm-3 m-1"
+            />
+          </span>
+        </Link>
+        <div>
+
+          {/* Botón de inicio de usuario modal */}
+          {!store.sesion && (
+            <button
+              className="btn text-white"
+              data-bs-toggle="modal"
+              data-bs-target="#loginModal"
+            >Inicia Sesión
+            </button>)}
+
+          {/* Modal de inicio de usuario esta en oculto en el main.jsx*/}
+
+          {/* Menu desplegable*/}
+          <div className="btn-group">
+            <button
+              type="button"
+              className="btn m-2"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <span className="navbar-toggler-icon navbar-dark"></span>
+            </button>
+            <ul className="dropdown-menu dropdown-menu-end">{
+              store.sesion &&
+              <li><button className="dropdown-item text-dark h1 fs-5" type="button">{store.user.email}</button></li>}
+              <li><button className="dropdown-item" type="button">Action</button></li>
+              <li><button className="dropdown-item" type="button">Another action</button></li>
+              <li><button className="dropdown-item" type="button" onClick={logout}>Cerrar Sesión</button></li>
+            </ul>
           </div>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 };

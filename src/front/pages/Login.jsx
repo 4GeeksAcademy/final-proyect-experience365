@@ -25,7 +25,7 @@ export const Login = () => {
         setMessage("Inicio de sesión exitoso.");
         localStorage.setItem("token", data.access_token);
         localStorage.setItem("user", JSON.stringify(data.user));
-        window.location.href = "/activities";
+        window.location.href = "/";
 
       } else {
         setMessage(data.error || "Error al iniciar sesión.");
@@ -39,23 +39,23 @@ export const Login = () => {
   };
 
   return (
-    <div className="container text-center">
-      <h1 className="display-4">Iniciar Sesión</h1>
+    <div className="container-fluid d-flex flex-column align-items-center justify-content-center min-vh-100 content-center">
+      <h1 className="landing-t1">Iniciar Sesión</h1>
 
-      <form onSubmit={handleSubmit} className="mt-4 col-md-6 mx-auto">
+      <form onSubmit={handleSubmit} className="mt-4 col-md-2 mx-auto">
         <div className="mb-3">
-          <label className="form-label" htmlFor="email">Email</label>
-          <input className="form-control" type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <label className="form-label login-t2 p-2" htmlFor="email">Email</label>
+          <input className="form-control rounded-pill" type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         </div>
 
         <div className="mb-3">
-          <label className="form-label" htmlFor="password">Password</label>
-          <input className="form-control" type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <label className="form-label login-t2 p-2" htmlFor="password">Password</label>
+          <input className="form-control rounded-pill" type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </div>
 
         <button
           type="submit"
-          className="btn btn-primary w-100 py-2"
+          className="btn w-100 my-5 btn-primary rounded-pill "
           disabled={isLoading}
         >
           {isLoading ? (
@@ -70,12 +70,6 @@ export const Login = () => {
       {message === "Inicio de sesión exitoso." ? (<p className="mt-3 alert alert-success col-md-6 mx-auto">{message}</p>) :
         message && (<p className="mt-3 alert alert-danger col-md-6 mx-auto">{message}</p>)}
 
-      <hr className="my-4" />
-      <Link to="/">
-        <span className="btn btn-secondary btn-lg" role="button">
-          Volver
-        </span>
-      </Link>
     </div>
   );
 };

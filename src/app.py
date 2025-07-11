@@ -15,6 +15,8 @@ import api.routes.user as user_router
 import api.routes.professional as professional_router
 import api.routes.globalrate as globalrate_router
 import api.routes.favorite as favorite_router
+import api.routes.credentials as credentials_router
+
 
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -59,8 +61,10 @@ app.register_blueprint(user_router.api, url_prefix='/api/user')
 app.register_blueprint(professional_router.api, url_prefix='/api/professional')
 app.register_blueprint(globalrate_router.api, url_prefix='/api/rating')
 app.register_blueprint(favorite_router.api, url_prefix='/api/favorite')
+app.register_blueprint(credentials_router.api, url_prefix='/api/credentials')
 
 # Handle/serialize errors like a JSON object
+
 
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):

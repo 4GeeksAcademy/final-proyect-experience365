@@ -18,8 +18,10 @@
 }
 
 .form-control:focus {
-  border-color: #ff5a5f;
-  box-shadow: 0 0 0 0.25rem rgba(255, 90, 95, 0.25);
+  /* border-color: #ff5a5f; */
+  /* box-shadow: 0 0 0 0.25rem rgba(255, 90, 95, 0.25); */
+  border-color: rgb(51, 228, 184);
+  box-shadow: 0 0 0 0.25rem rgba(51, 228, 184, 0.25);
 }
 
 /* Image upload section */
@@ -96,4 +98,191 @@
 .badge {
   font-size: 0.6rem;
   padding: 0.25em 0.4em;
+}
+
+/* Landing css */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.landing-t1 {
+  font-family: "space grotesk";
+  font-weight: 700;
+  font-size: 3rem;
+  margin: 0;
+  padding: 0;
+  color: #ffffff;
+}
+
+.landing-t2 {
+  font-family: "space grotesk";
+  font-weight: 400;
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 0;
+  color: #ffffff;
+}
+
+.landing-t3 {
+  font-family: "inter";
+  font-weight: 300;
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 0;
+  color: #ffffff;
+}
+
+.in-text {
+  font-family: "inter";
+  font-weight: 300;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  color: #96a09c;
+}
+
+.landing-t4 {
+  font-family: "playfair display";
+  font-weight: 600;
+  font-size: 3rem;
+  margin: 0;
+  padding: 0;
+}
+
+.landing-t5 {
+  font-family: "inter";
+  font-weight: 300;
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.expLogin-t1 {
+  font-family: "space grotesk";
+  font-weight: 700;
+  font-size: 3rem;
+  margin: 0;
+  padding: 0;
+  color: #1b1b1b;
+}
+
+.expLogin-t2 {
+  font-family: "inter";
+  font-weight: 300;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  color: #1b1b1b;
+}
+
+.expLogin-t3 {
+  font-family: "inter";
+  font-weight: 300;
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 0;
+  color: #1b1b1b;
+}
+
+.expLogin-t4 {
+  font-family: "inter";
+  font-weight: 300;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  color: #1b1b1b;
+}
+
+.expCard-btn-txt {
+  font-family: "inter";
+  font-weight: 300;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  color: #ffffff;
+}
+
+.expCard-btn {
+  background: linear-gradient(
+    330deg,
+    rgba(12, 87, 117, 1) 0%,
+    rgba(42, 123, 155, 1) 33%,
+    rgba(87, 199, 133, 12) 63%,
+    rgba(237, 221, 83, 1) 98%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
+
+.expCard-header {
+  font-family: "space grotesk";
+  font-weight: 700;
+  font-size: 3rem;
+  margin: 0;
+  padding: 0;
+  color: #333333;
+}
+
+.footer-text {
+  font-family: "inter";
+  font-weight: 200;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+  color: #333333;
+}
+
+.bg-image {
+  z-index: -1;
+}
+
+.content-center {
+  background: linear-gradient(
+    180deg,
+    rgba(12, 87, 117, 1) 0%,
+    rgba(42, 123, 155, 1) 33%,
+    rgba(87, 199, 133, 0.92) 63%,
+    rgba(237, 221, 83, 0.74) 89%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+.expModalBackground {
+  background: linear-gradient(
+    180deg,
+    rgba(12, 87, 117, 1) 0%,
+    rgba(42, 123, 155, 1) 33%,
+    rgba(87, 199, 133, 1) 80%,
+    rgba(237, 221, 83, 1) 96%,
+    rgb(255, 255, 132) 100%
+  );
+}
+
+.search-box {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  max-width: 600px;
+  color: black;
+}
+
+.search-box span {
+  margin: 0 0.5rem;
+}
+
+.dropdown-scroll {
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.dropdown-scroll::-webkit-scrollbar-button {
+  display: none;
 }

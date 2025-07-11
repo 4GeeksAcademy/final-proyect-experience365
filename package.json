@@ -54,8 +54,15 @@
 		]
 	},
 	"dependencies": {
+		"@fontsource/inter": "^5.2.6",
+		"@fontsource/playfair-display": "^5.2.6",
+		"@fontsource/space-grotesk": "^5.2.8",
+		"@fortawesome/fontawesome-svg-core": "^6.7.2",
+		"@fortawesome/free-solid-svg-icons": "^6.7.2",
+		"@fortawesome/react-fontawesome": "^0.2.2",
 		"@stripe/stripe-js": "^7.4.0",
 		"bootstrap-icons": "^1.13.1",
+		"framer-motion": "^12.23.0",
 		"prop-types": "^15.8.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
