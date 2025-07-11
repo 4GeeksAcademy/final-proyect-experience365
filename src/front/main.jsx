@@ -10,21 +10,21 @@ import { ToastContainer } from 'react-toastify';  // Import ToastContainer
 import 'react-toastify/dist/ReactToastify.css';  // Import Toast styles
 
 const Main = () => {
-    
-    if(! import.meta.env.VITE_BACKEND_URL ||  import.meta.env.VITE_BACKEND_URL == "") return (
+
+    if (! import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_BACKEND_URL == "") return (
         <React.StrictMode>
-              <BackendURL/ >
+            <BackendURL />
         </React.StrictMode>
-        );
+    );
     return (
-        <React.StrictMode>  
+        <React.StrictMode>
             {/* Provide global state to all components */}
-            <StoreProvider> 
-                {/* Set up routing for the application */} 
+            <StoreProvider>
+                {/* Set up routing for the application */}
                 <RouterProvider router={router} />
-                
+
                 {/* Toast Container for notifications */}
-                <ToastContainer 
+                <ToastContainer
                     position="bottom-right"
                     autoClose={3000}
                     hideProgressBar={false}
