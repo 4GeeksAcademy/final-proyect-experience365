@@ -25,11 +25,23 @@ class Professional(db.Model):
 
     user = db.relationship('User', backref='professional', uselist=False)
 
+
     def serialize(self):
         return {
             "id": self.id,
             "user_id": self.user_id,
+            "name": self.user.name if self.user else "",
+            "lastname": self.user.lastname if self.user else "",
+            "email": self.user.email if self.user else "",
+            "cif": self.cif,
+            "adress": self.adress,
+            "phone": self.phone,
             "web": self.web,
-            "description": self.description
-            # do not serialize the password, its a security breach
+            "description": self.description,
+            "image": self.image,
+            "facebook": self.facebook,
+            "instagram": self.instagram,
+            "twitter": self.twitter,
+            "linkedin": self.linkedin,
+            "is_active": self.is_active
         }

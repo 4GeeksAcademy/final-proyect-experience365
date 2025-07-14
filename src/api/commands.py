@@ -62,7 +62,13 @@ def setup_commands(app):
                     "cif": prof["cif"],
                     "adress": prof["adress"],
                     "phone": prof["phone"],
-                    "description": prof["description"]
+                    "description": prof["description"],
+                    "image": prof["image"],
+                    "facebook": prof["facebook"],
+                    "instagram": prof["instagram"],
+                    "twitter": prof["twitter"],
+                    "linkedin": prof["linkedin"],
+
                 },
                 headers=headers
             )
