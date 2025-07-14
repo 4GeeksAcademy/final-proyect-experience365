@@ -20,10 +20,7 @@ cloudinary.config(
     secure=True
 )
 
-
 api = Blueprint('/api/activity', __name__)
-
-
 CORS(api)
 
 
@@ -67,7 +64,6 @@ def create_activity():
         rate=None,
         img=img_url,
         is_active=True,
-
         activity_date=duration
     )
 
@@ -79,8 +75,21 @@ def create_activity():
 
 @api.route('/<int:id>', methods=['GET'])
 def get_activity(id):
-    activity = Activity.query.get_or_404(id)
-    return jsonify(activity.serialize()), 200
+    try:
+        activity = Activity.query.get_or_404(id)
+        professional = Professional.query.get(activity.profesional_id)
+
+        if not professional:
+            raise APIException("Professional not found", status_code=404)
+
+        activity_data = activity.serialize()
+        activity_data["professional"] = professional.serialize()
+
+        return jsonify(activity_data), 200
+
+    except Exception as e:
+        print(f"Error in get_activity: {str(e)}")  # Para debug
+        raise APIException(str(e), status_code=500)
 
 
 # @api.route('/img', methods=['POST'])
