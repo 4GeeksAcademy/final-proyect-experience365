@@ -92,8 +92,8 @@ def get_activity(id):
         raise APIException(str(e), status_code=500)
 
 
-@api.route('/img', methods=['POST'])
-def upload_img():
-    img = request.files["img"]
-    img_url = cloudinary.uploader.upload(img)
-    return jsonify({"img": img_url["url"]}), 200
+# @api.route('/img', methods=['POST'])
+# def upload_img():
+#     img = request.files["img"]
+#     img_url = cloudinary.uploader.upload(img)
+#     return jsonify({"img": img_url["url"]}), 200

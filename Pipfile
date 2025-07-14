@@ -23,6 +23,7 @@ bcrypt = "*"
 cryptography = "*"
 cloudinary = "*"
 stripe = "*"
+itsdangerous = "*"
 
 [requires]
 python_version = "3.13"

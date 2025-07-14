@@ -1,30 +1,29 @@
 export const initialStore = () => {
   return {
-    favorites: [] // Nuevo estado para favoritos
+    user: {},
+    sesion: false,
+    favorites: [], // Nuevo estado para favoritos
   };
 };
 
 export default function storeReducer(store, action = {}) {
   switch (action.type) {
-    case "set_hello":
+    case "SET_USER":
       return {
         ...store,
-        message: action.payload,
+        user: action.payload,
       };
 
-    case "add_task":
-      const { id, color } = action.payload;
+    case "SET_SESSION":
       return {
         ...store,
-        todos: store.todos.map((todo) =>
-          todo.id === id ? { ...todo, background: color } : todo
-        ),
+        sesion: action.payload,
       };
 
     case "handleFavorites":
       return {
         ...store,
-        favorites: action.payload // Actualiza la lista completa de favoritos
+        favorites: action.payload, // Actualiza la lista completa de favoritos
       };
 
     default:

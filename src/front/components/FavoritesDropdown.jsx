@@ -69,14 +69,14 @@ export const FavoritesDropdown = () => {
   }, [isOpen]);
 
   return (
-    <div className="dropdown">
+    <div className="dropdown position-relative">
       <button
         className="btn btn-outline-danger position-relative"
         onClick={() => setIsOpen(!isOpen)}
       >
         <i className="bi bi-heart-fill me-1"></i>
         {store.favorites.length > 0 && (
-          <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          <span className="top-0 start-100 translate-middle badge rounded-pill bg-danger">
             {store.favorites.length}
           </span>
         )}
@@ -97,14 +97,14 @@ export const FavoritesDropdown = () => {
         ) : (
           store.favorites.map(fav => (
             <div key={fav.id} className="d-flex justify-content-between align-items-center p-2">
-              <Link 
-                to={`/activities/${fav.activity_id}`} 
+              <Link
+                to={`/activities/${fav.activity_id}`}
                 className="text-decoration-none flex-grow-1"
                 onClick={() => setIsOpen(false)}
               >
                 {fav.activity?.name || `Actividad #${fav.activity_id}`}
               </Link>
-              <button 
+              <button
                 className="btn btn-sm btn-outline-danger ms-2"
                 onClick={(e) => removeFavorite(fav.id, e)}
               >
