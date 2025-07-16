@@ -14,32 +14,6 @@ export const Layout = () => {
     const token = localStorage.getItem("token");
     const [loading, setLoading] = useState(true);
 
-<<<<<<< HEAD
-    useEffect(() => {
-        if (token) {
-            getSession();
-        } else {
-            setLoading(false);
-        }
-        // if (store.user) {
-        //     fetchFavorites();
-        // }
-    }, [token, dispatch]);
-
-
-    const getSession = async () => {
-        try {
-            const session = await meUser(token);
-            dispatch({
-                type: "SET_USER",
-                payload: session.user
-            })
-            dispatch({
-                type: "SET_SESSION",
-                payload: true
-            })
-
-=======
     const fetchFavorites = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -55,35 +29,10 @@ export const Layout = () => {
             if (!response.ok) throw new Error("Error al cargar favoritos");
             const data = await response.json();
             dispatch({ type: "handleFavorites", payload: data });
->>>>>>> 32c681d6e02bd62acb162a0067501231f8a467f1
         } catch (error) {
             toast.error(error.message);
         }
     };
-<<<<<<< HEAD
-    // const fetchFavorites = async () => {
-    //     try {
-    //         const token = localStorage.getItem("token");
-    //         if (!token) return;
-
-    //         const response = await fetch(
-    //             `${import.meta.env.VITE_BACKEND_URL}/api/favorite/user`,
-    //             {
-    //                 headers: {
-    //                     Authorization: `Bearer ${token}`,
-    //                 },
-    //             }
-    //         );
-
-    //         if (!response.ok) throw new Error("Error al cargar favoritos");
-
-    //         const data = await response.json();
-    //         dispatch({ type: "handleFavorites", payload: data });
-    //     } catch (error) {
-    //         toast.error(error.message);
-    //     }
-    // };
-=======
 
     useEffect(() => {
         const getSession = async () => {
@@ -110,7 +59,6 @@ export const Layout = () => {
 
         getSession();
     }, [token, dispatch]);
->>>>>>> 32c681d6e02bd62acb162a0067501231f8a467f1
 
     if (loading) {
         return (

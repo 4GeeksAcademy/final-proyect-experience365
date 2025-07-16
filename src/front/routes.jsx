@@ -55,14 +55,14 @@ export const router = createBrowserRouter(
       <Route path="/login/success" element={<LoginSuccess />} />
       <Route path="/registerprofessional" element={<RegisterProfessional />} />
       <Route path="*" element={<NotFound />} />
-<<<<<<< HEAD
+
 
       {/* Recuperar Contraseña */}
       <Route path="/recovery-password" element={<RecoveryPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
-=======
+ 
       <Route path="/favorites" element={<FavoritesPage />} />
->>>>>>> 32c681d6e02bd62acb162a0067501231f8a467f1
+
     </Route>
   )
 );

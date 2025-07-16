@@ -1,14 +1,8 @@
 """empty message
 
-<<<<<<<< HEAD:migrations/versions/2c711b95f22c_.py
-Revision ID: 2c711b95f22c
+Revision ID: 951856b9dce5
 Revises: 
-Create Date: 2025-07-16 13:19:47.097638
-========
-Revision ID: 786ce95654ba
-Revises: 
-Create Date: 2025-07-16 20:02:05.959136
->>>>>>>> 32c681d6e02bd62acb162a0067501231f8a467f1:migrations/versions/786ce95654ba_.py
+Create Date: 2025-07-16 20:39:33.050602
 
 """
 from alembic import op
@@ -16,11 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-<<<<<<<< HEAD:migrations/versions/2c711b95f22c_.py
-revision = '2c711b95f22c'
-========
-revision = '786ce95654ba'
->>>>>>>> 32c681d6e02bd62acb162a0067501231f8a467f1:migrations/versions/786ce95654ba_.py
+revision = '951856b9dce5'
 down_revision = None
 branch_labels = None
 depends_on = None
