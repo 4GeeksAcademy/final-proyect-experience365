@@ -3,6 +3,12 @@
   border-radius: 12px;
   border: none;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btn-primary {
@@ -17,9 +23,17 @@
   transform: translateY(-1px);
 }
 
+.btn-outline-danger {
+  border-color: #ff5a5f;
+  color: #ff5a5f;
+}
+
+.btn-outline-danger:hover {
+  background-color: #ff5a5f;
+  color: white;
+}
+
 .form-control:focus {
-  /* border-color: #ff5a5f; */
-  /* box-shadow: 0 0 0 0.25rem rgba(255, 90, 95, 0.25); */
   border-color: rgb(51, 228, 184);
   box-shadow: 0 0 0 0.25rem rgba(51, 228, 184, 0.25);
 }
@@ -30,7 +44,7 @@
 }
 
 .file-input-container {
-  margin-bottom: 1.5rem; /* Aumentamos este margen */
+  margin-bottom: 1.5rem;
 }
 
 .img-preview-container {
@@ -64,18 +78,7 @@
   margin-top: 1rem;
 }
 
-/* Responsive adjustments */
-@media (max-width: 576px) {
-  .card-body {
-    padding: 1.25rem;
-  }
-
-  .form-group {
-    margin-bottom: 0.75rem;
-  }
-}
-
-/* Dropdown de favoritos */
+/* Dropdown styles */
 .dropdown-toggle::after {
   display: none;
 }
@@ -83,10 +86,14 @@
 .dropdown-menu {
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
 }
 
 .dropdown-item {
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .dropdown-item:hover {
@@ -94,13 +101,59 @@
   transform: translateX(2px);
 }
 
-/* Badge de contador */
+.dropdown-scroll {
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.dropdown-scroll::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* Badge styles */
 .badge {
   font-size: 0.6rem;
   padding: 0.25em 0.4em;
+  font-weight: 500;
 }
 
-/* Landing css */
+/* Navbar favorites link */
+.navbar .dropdown-item .bi-heart-fill {
+  transition: all 0.2s ease;
+}
+
+.navbar .dropdown-item:hover .bi-heart-fill {
+  transform: scale(1.1);
+}
+
+.navbar .dropdown-item .badge {
+  font-size: 0.65rem;
+  vertical-align: middle;
+  transform: translateY(-1px);
+}
+
+/* Favorites page */
+.favorites-page {
+  padding-top: 3rem;
+}
+
+/* Animation for removing favorites */
+.favorite-removing {
+  animation: fadeOut 0.3s forwards;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    transform: scale(0.8);
+  }
+}
+
+/* Landing styles */
 body,
 html {
   margin: 0;
@@ -277,12 +330,18 @@ html {
   margin: 0 0.5rem;
 }
 
-.dropdown-scroll {
-  max-height: 200px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .card-body {
+    padding: 1.25rem;
+  }
 
-.dropdown-scroll::-webkit-scrollbar-button {
-  display: none;
+  .form-group {
+    margin-bottom: 0.75rem;
+  }
+
+  .navbar .dropdown-item .badge {
+    font-size: 0.55rem;
+    padding: 0.2em 0.35em;
+  }
 }
