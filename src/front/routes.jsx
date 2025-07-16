@@ -10,10 +10,19 @@ import { ActivitiesList } from "./pages/ActivitiesList";
 import { CreateActivity } from "./pages/CreateActivity";
 import { ActivityDetail } from "./pages/ActivityDetail";
 import { Login } from "./pages/Login";
+import { LoginSuccess } from "./pages/LoginSuccess";
 import { RegisterProfessional } from "./pages/RegisterProfessional";
 import { Link } from "react-router-dom";
+
+// Stripe
 import { CheckoutResult } from "./pages/CheckoutResult";
 import { CancelResult } from "./pages/CancelResult";
+
+// Recovery Password
+import { RecoveryPassword } from "./pages/RecoveryPassword";
+import { ResetPassword } from "./pages/ResetPassword";
+
+
 import { Error } from "./error/Error";
 
 export const router = createBrowserRouter(
@@ -23,10 +32,10 @@ export const router = createBrowserRouter(
       <Route path="/register" element={<Register />} />
       <Route path="/activities" element={<ActivitiesList />} />
       <Route path="/activities/create" element={<CreateActivity />} />
-      <Route
+      {/* <Route
         path="/activities/:id"
         element={<ActivityDetail onFavoriteUpdate={() => window.dispatchEvent(new Event('favoritesUpdated'))} />}
-      />
+      /> */}
       <Route path="/activities/:id" element={<ActivityDetail />} />
 
 
@@ -38,8 +47,13 @@ export const router = createBrowserRouter(
 
       {/* Actividades (nuevas rutas) */}
       <Route path="/login" element={<Login />} />
+      <Route path="/login/success" element={<LoginSuccess />} />
       <Route path="/registerprofessional" element={<RegisterProfessional />} />
       <Route path="*" element={<NotFound />} />
+
+      {/* Recuperar Contraseña */}
+      <Route path="/recovery-password" element={<RecoveryPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
     </Route>
   )
 );

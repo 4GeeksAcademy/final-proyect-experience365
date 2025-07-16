@@ -100,6 +100,7 @@ def setup_commands(app):
                 form_data = {
                     "name": act["name"],
                     "description": act["description"],
+                    "city": act["city"],
                     "price": str(act["price"]),  # asegúrate de que sea string
                     # valor por defecto si no hay
                     "duration": str(act.get("duration", "1:00")),

@@ -17,26 +17,24 @@ serializer = URLSafeTimedSerializer(os.getenv('FLASK_APP_KEY', 'default-key'))
 def send_email(to_email, subject, html_content):
     msg = MIMEText(html_content, "html")
     msg["Subject"] = subject
-    # msg["From"] = os.getenv("GMAIL_USER")
-    msg["From"] = "experience365team@gmail.com"
+    msg["From"] = os.getenv("GMAIL_USER")
     msg["To"] = to_email
 
     with smtplib.SMTP("smtp.gmail.com", 587) as server:
         server.starttls()
-        # server.login(os.getenv("GMAIL_USER"), os.getenv("GMAIL_PASSWORD"))
-        server.login("morellans@gmail.com", "wehf aaul zhgr zqqs")
+        server.login(os.getenv("GMAIL_USER"), os.getenv("GMAIL_PASSWORD"))
         server.send_message(msg)
 
 
 @api.route('/forgot-password', methods=['POST'])
 def forgot_password():
     data = request.get_json()
-    email = data.get("email")
+    current_email = data.get("email")
 
-    if not email:
+    if not current_email:
         return jsonify({"error": "Email is required"}), 400
 
-    user = User.query.filter_by(email=email).first()
+    user = User.query.filter_by(email=current_email).first()
 
     if not user:
         # No revelar si existe o no por seguridad

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch, faEuroSign, faClock, faLocationDot, faCaretDown } from "@fortawesome/free-solid-svg-icons";
+
 export const ActivitiesList = () => {
   const [activities, setActivities] = useState([]);
   const [filteredActivities, setFilteredActivities] = useState([]);
@@ -68,7 +71,7 @@ export const ActivitiesList = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.3 }}
             key={activity.id}
-            className="col">
+            className="col my-5">
             <div className="card h-100 shadow-sm">
               {activity.img && (
                 <img
@@ -82,25 +85,29 @@ export const ActivitiesList = () => {
                 <h5 className="card-title">{activity.name}</h5>
                 <p className="card-text text-truncate">{activity.description}</p>
                 <div className="d-flex justify-content-between align-items-center">
-                  <span className="badge bg-primary rounded-pill">
-                    {activity.price} €
-                  </span>
-                  {activity.duration && (
+                  <span className="text-muted"><FontAwesomeIcon icon={faLocationDot} className="me-2" />{activity.city}</span>
+                  <div className="activity-rating m-2">
+                    <div className="text-warning ">
+                      {"★".repeat(Math.round(activity.rate || 0)) + "☆".repeat(5 - Math.round(activity.rate || 0))}
+                    </div>
                     <small className="text-muted">
-                      {formatDuration(activity.duration)}
+                      {activity.rate !== null && activity.rate !== undefined
+                        ? `${activity.rate.toFixed(1)} / 5`
+                        : "0.0 / 5"}
                     </small>
-                  )}
+                  </div>
+                  <span className="landing-t3 p-2" style={{ fontSize: "1.5rem", color: "#333333ff" }}>
+                    {activity.price}€
+                  </span>
                 </div>
               </div>
-              <div className="card-footer bg-transparent">
+              <div className="card-footer bg-transparent border-0 d-flex justify-content-end">
                 <Link
                   to={`/activities/${activity.id}`}
-                  className="btn btn-sm btn-outline-primary w-100"
+                  className="btn expCard-btn rounded-pill mt-3 mb-3 border-0 text-white"
                 >
                   Ver detalles
                 </Link>
-              </div>
-              <div className="card-footer bg-transparent">
               </div>
             </div>
           </motion.div>

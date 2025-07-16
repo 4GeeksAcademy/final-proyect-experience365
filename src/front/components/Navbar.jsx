@@ -6,6 +6,9 @@ import { meUser } from "../services/loginUser.js";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 import { s } from "framer-motion/client";
 
+import logo_experience365 from "../assets/img/logo-experience365.svg";
+
+
 import { FavoritesDropdown } from "./FavoritesDropdown";
 
 export const Navbar = () => {
@@ -50,7 +53,7 @@ export const Navbar = () => {
           <span className="navbar-brand align-content-baseline">
 
             {/* Imagen Logo svg experience365 */}
-            <img src="src/front/assets/img/logo-experience365.svg"
+            <img src={logo_experience365}
               alt="Logo"
               width="100px"
               className="d-inline-block align-text-top m-sm-3 m-1"

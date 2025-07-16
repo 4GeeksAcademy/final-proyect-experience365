@@ -43,6 +43,7 @@ def create_activity():
     name = request.form.get('name')
     description = request.form.get('description')
     price = request.form.get('price')
+    city = request.form.get('city')
     duration = request.form.get('duration')
     img_url = None
     price_number = float(price.replace(",", "."))
@@ -60,6 +61,7 @@ def create_activity():
         profesional_id=professional.id,
         name=name,
         description=description,
+        city=city,
         price=price_int,
         rate=None,
         img=img_url,

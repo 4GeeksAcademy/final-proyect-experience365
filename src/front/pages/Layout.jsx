@@ -22,7 +22,11 @@ export const Layout = () => {
         } else {
             setLoading(false);
         }
-    }, []);
+        // if (store.user) {
+        //     fetchFavorites();
+        // }
+    }, [token, dispatch]);
+
 
     const getSession = async () => {
         try {
@@ -35,12 +39,36 @@ export const Layout = () => {
                 type: "SET_SESSION",
                 payload: true
             })
+
         } catch (error) {
             console.error(error);
         } finally {
             setLoading(false);
         }
     };
+    // const fetchFavorites = async () => {
+    //     try {
+    //         const token = localStorage.getItem("token");
+    //         if (!token) return;
+
+    //         const response = await fetch(
+    //             `${import.meta.env.VITE_BACKEND_URL}/api/favorite/user`,
+    //             {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`,
+    //                 },
+    //             }
+    //         );
+
+    //         if (!response.ok) throw new Error("Error al cargar favoritos");
+
+    //         const data = await response.json();
+    //         dispatch({ type: "handleFavorites", payload: data });
+    //     } catch (error) {
+    //         toast.error(error.message);
+    //     }
+    // };
+
     if (loading) {
         return (
             <div className="container py-5 text-center">
