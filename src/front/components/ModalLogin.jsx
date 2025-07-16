@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from "../services/loginUser.js";
 import useGlobalReducer from "../hooks/useGlobalReducer";
+import { s } from "framer-motion/client";
 
 export const ModalLogin = () => {
 
@@ -12,12 +13,17 @@ export const ModalLogin = () => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
-  const { store, dispatch } = useGlobalReducer()
+  const { store, dispatch } = useGlobalReducer();
+
+  useEffect(() => {
+    setIsError(false);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    setIsLoading(1);
     setMessage("");
 
     try {
@@ -34,11 +40,13 @@ export const ModalLogin = () => {
       console.log("store.user", store.user);
       console.log("data.user", data.user);
       setTimeout(() => {
-        window.location.reload();
+        window.location.href = "/login/success";
       })
     } catch (error) {
       console.error(error);
       setMessage(error.message || "Error al iniciar sesión.");
+      setIsError(true);
+      setIsLoading(false);
     }
     finally {
       setTimeout(() => {
@@ -64,6 +72,7 @@ export const ModalLogin = () => {
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
+              onClick={() => setIsError(false)}
             ></button>
           </div>
           <div className="modal-body p-5">
@@ -105,8 +114,9 @@ export const ModalLogin = () => {
                   ¿Has olvidado tu contraseña?{" "}
                   <span
                     className="text-decoration-underline text-primary"
+                    style={{ cursor: "pointer" }}
                     data-bs-dismiss="modal"
-                    onClick={() => Navigate("/reset-password")}
+                    onClick={() => Navigate("/recovery-password")}
                   >
                     Restablece aquí
                   </ span>
@@ -116,10 +126,10 @@ export const ModalLogin = () => {
                 <button
                   type="submit"
                   className="btn expCard-btn rounded-pill mt-3 mb-3 border-0"
-                  // style={{ background: "linear-gradient(300deg,rgba(12, 87, 117, 1) 0%, rgba(42, 123, 155, 1) 33%, rgba(87, 199, 133, 0.92) 63%, rgba(237, 221, 83, 0.74) 89%, rgba(255, 255, 255, 0) 100%)", }}
+
                   disabled={isLoading}
                 >
-                  {isLoading === 1 ? (
+                  {isLoading ? (
                     <span
                       className="spinner-border spinner-border-sm"
                       role="status"
@@ -133,6 +143,11 @@ export const ModalLogin = () => {
                 </button>
               </div>
             </form>
+            {isError ? (
+              <div className="alert alert-danger" role="alert">
+                {message}
+              </div>
+            ) : ""}
             <hr />
             <p className="text-center expLogin-t2">
               ¿No tienes cuenta?{" "}

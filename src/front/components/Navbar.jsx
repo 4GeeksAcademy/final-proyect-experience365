@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { meUser } from "../services/loginUser.js";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 
+import logo_experience365 from "../assets/img/logo-experience365.svg";
+
 export const Navbar = () => {
   const { store, dispatch } = useGlobalReducer();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -43,8 +45,9 @@ export const Navbar = () => {
       <div className="container-fluid">
         <Link to="/">
           <span className="navbar-brand align-content-baseline">
-            <img
-              src="src/front/assets/img/logo-experience365.svg"
+
+            {/* Imagen Logo svg experience365 */}
+            <img src={logo_experience365}
               alt="Logo"
               width="100px"
               className="d-inline-block align-text-top m-sm-3 m-1"

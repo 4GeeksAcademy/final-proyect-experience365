@@ -139,7 +139,7 @@ export const ActivityDetail = () => {
 
   if (isLoading) {
     return (
-      <div className="container py-5 text-center">
+      <div className="container py-5 text-center content-center">
         <div className="spinner-border text-primary" role="status">
           <span className="visually-hidden">Cargando...</span>
         </div>
@@ -149,7 +149,7 @@ export const ActivityDetail = () => {
 
   if (error) {
     return (
-      <div className="container py-5">
+      <div className="container py-5 content-center">
         <div className="alert alert-danger" role="alert">
           {error}
         </div>
@@ -159,7 +159,7 @@ export const ActivityDetail = () => {
 
   if (!activity) {
     return (
-      <div className="container py-5">
+      <div className="container py-5 content-center">
         <div className="alert alert-warning" role="alert">
           Actividad no encontrada.
         </div>
@@ -167,7 +167,6 @@ export const ActivityDetail = () => {
     );
   }
 
-  console.log("activity", activity)
   return (
     <div className="container py-5">
       <div className="row mb-5">
@@ -211,13 +210,20 @@ export const ActivityDetail = () => {
           <div className="card shadow-sm h-100">
             <div className="card-body d-flex flex-column">
               <h1 className="card-title mb-3">{activity.name}</h1>
-              <p className="card-text flex-grow-1">{activity.description}</p>
+              <p className="card-text flex-grow-1">{activity.description}
+                <hr />
+                <p className="card-text text-muted h6">
+                  <i className="bi bi-geo-alt me-2"></i>
+                  {activity.city || "Horarios no especificados"}
+                </p>
+              </p>
+
               <div className="mt-auto">
                 <div className="d-flex justify-content-between align-items-center mb-3">
                   <span className="badge bg-primary fs-5 p-2">
                     {activity.price} €
                   </span>
-                  <span className="text-muted">
+                  <span className="text-muted d-flex">
                     <i className="bi bi-calendar me-2"></i>
                     {activity.activity_date || "Fechas no especificadas"}
                   </span>
