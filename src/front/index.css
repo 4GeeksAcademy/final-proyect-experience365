@@ -251,10 +251,8 @@ html {
 
 .expCard-btn-txt {
   font-family: "inter";
-  font-weight: 300;
+  font-weight: 500;
   font-size: 1rem;
-  margin: 0;
-  padding: 0;
   color: #ffffff;
 }
 
@@ -269,12 +267,44 @@ html {
   );
 }
 
+.expCard-btn-b {
+  background: linear-gradient(
+    340deg,
+    rgba(12, 87, 117, 1) 0%,
+    rgba(42, 123, 155, 1) 45%,
+    rgba(87, 199, 133, 1) 78%,
+    rgba(237, 221, 83, 1) 98%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
+
 .expCard-header {
   font-family: "space grotesk";
   font-weight: 700;
   font-size: 3rem;
   margin: 0;
   padding: 0;
+  color: #333333;
+}
+
+.expCard-menu-user {
+  font-family: "space grotesk";
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #333333;
+}
+
+.expCard-menu {
+  font-family: "inter";
+  font-weight: 200;
+  font-size: 1rem;
+  color: #333333;
+}
+
+.expCard-menu-close {
+  font-family: "inter";
+  font-weight: 600;
+  font-size: 0.9rem;
   color: #333333;
 }
 
@@ -299,6 +329,17 @@ html {
     rgba(87, 199, 133, 0.92) 63%,
     rgba(237, 221, 83, 0.74) 89%,
     rgba(255, 255, 255, 0) 100%
+  );
+}
+
+.content-center-b {
+  background: linear-gradient(
+    180deg,
+    rgba(12, 87, 117, 1) 0%,
+    rgba(42, 123, 155, 1) 25%,
+    rgba(87, 199, 133, 0.92) 50%,
+    rgba(237, 221, 83, 0.74) 70%,
+    rgba(255, 255, 255, 0) 95%
   );
 }
 

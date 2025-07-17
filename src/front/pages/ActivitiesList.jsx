@@ -46,9 +46,11 @@ export const ActivitiesList = () => {
 
   if (isLoading) {
     return (
-      <div className="container py-5 text-center">
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Cargando...</span>
+      <div className="container-fluid d-flex flex-column align-items-center justify-content-center min-vh-100 content-center">
+        <div className="container py-5 text-center">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Cargando...</span>
+          </div>
         </div>
       </div>
     );
@@ -56,96 +58,100 @@ export const ActivitiesList = () => {
 
   if (error) {
     return (
-      <div className="container py-5">
-        <div className="alert alert-danger" role="alert">
-          {error}
+      <div className="container-fluid d-flex flex-column align-items-center justify-content-center min-vh-100 max-vh-100 content-center">
+        <div className="container py-5">
+          <div className="alert alert-danger" role="alert">
+            {error}
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="container py-5">
-      <div className="row mb-4">
-        <div className="col-md-8 mx-auto">
-          <div className="input-group">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Buscar actividades por nombre..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <button className="btn btn-outline-secondary" type="button">
-              <i className="bi bi-search"></i>
-            </button>
+    <div className="container-fluid d-flex flex-column align-items-center justify-content-center min-vh-100 content-center">
+      <div className="container py-5">
+        <div className="row mb-4">
+          <div className="col-md-8 mx-auto">
+            <div className="input-group">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Buscar actividades por nombre..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <button className="btn btn-outline-secondary" type="button">
+                <i className="bi bi-search"></i>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        {filteredActivities.length > 0 ? (
-          filteredActivities.map((activity) => (
-            <div key={activity.id} className="col">
-              <div className="card h-100 shadow-sm">
-                {activity.img && (
-                  <img
-                    src={activity.img}
-                    className="card-img-top"
-                    alt={activity.name}
-                    style={{ height: "200px", objectFit: "cover" }}
-                  />
-                )}
-                <div className="card-body position-relative" style={{ paddingBottom: "3.5rem" }}>
-                  <h5 className="card-title">{activity.name}</h5>
-                  <p className="card-text text-truncate">{activity.description}</p>
-                  <div className="d-flex justify-content-between align-items-center">
-                    <span className="badge bg-primary rounded-pill">
-                      {activity.price} €
-                    </span>
-                    {activity.duration && (
-                      <small className="text-muted">
-                        {formatDuration(activity.duration)}
-                      </small>
-                    )}
-                  </div>
-                  <div className="activity-rating position-absolute bottom-0 start-0 m-2">
-                    <div className="text-warning ">
-                      {"★".repeat(Math.round(activity.rate || 0)) + "☆".repeat(5 - Math.round(activity.rate || 0))}
+        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+          {filteredActivities.length > 0 ? (
+            filteredActivities.map((activity) => (
+              <div key={activity.id} className="col">
+                <div className="card h-100 shadow-sm">
+                  {activity.img && (
+                    <img
+                      src={activity.img}
+                      className="card-img-top"
+                      alt={activity.name}
+                      style={{ height: "200px", objectFit: "cover" }}
+                    />
+                  )}
+                  <div className="card-body position-relative" style={{ paddingBottom: "3.5rem" }}>
+                    <h5 className="card-title">{activity.name}</h5>
+                    <p className="card-text text-truncate">{activity.description}</p>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <span className="badge bg-primary rounded-pill">
+                        {activity.price} €
+                      </span>
+                      {activity.duration && (
+                        <small className="text-muted">
+                          {formatDuration(activity.duration)}
+                        </small>
+                      )}
                     </div>
-                    <small className="text-muted">
-                      {activity.rate !== null && activity.rate !== undefined
-                        ? `${activity.rate.toFixed(1)} / 5`
-                        : "0.0 / 5"}
-                    </small>
+                    <div className="activity-rating position-absolute bottom-0 start-0 m-2">
+                      <div className="text-warning ">
+                        {"★".repeat(Math.round(activity.rate || 0)) + "☆".repeat(5 - Math.round(activity.rate || 0))}
+                      </div>
+                      <small className="text-muted">
+                        {activity.rate !== null && activity.rate !== undefined
+                          ? `${activity.rate.toFixed(1)} / 5`
+                          : "0.0 / 5"}
+                      </small>
+                    </div>
                   </div>
-                </div>
-                <div className="card-footer bg-transparent">
-                  <Link
-                    to={`/activities/${activity.id}`}
-                    className="btn btn-sm btn-outline-primary w-100"
-                  >
-                    Ver detalles
-                  </Link>
-                </div>
-                <div className="card-footer bg-transparent">
+                  <div className="card-footer bg-transparent">
+                    <Link
+                      to={`/activities/${activity.id}`}
+                      className="btn btn-sm btn-outline-primary w-100"
+                    >
+                      Ver detalles
+                    </Link>
+                  </div>
+                  <div className="card-footer bg-transparent">
+                  </div>
                 </div>
               </div>
+            ))
+          ) : (
+            <div className="col-12 text-center py-5">
+              <h4>No se encontraron actividades</h4>
+              {searchTerm && (
+                <button
+                  className="btn btn-link"
+                  onClick={() => setSearchTerm("")}
+                >
+                  Limpiar búsqueda
+                </button>
+              )}
             </div>
-          ))
-        ) : (
-          <div className="col-12 text-center py-5">
-            <h4>No se encontraron actividades</h4>
-            {searchTerm && (
-              <button
-                className="btn btn-link"
-                onClick={() => setSearchTerm("")}
-              >
-                Limpiar búsqueda
-              </button>
-            )}
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

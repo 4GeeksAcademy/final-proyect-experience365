@@ -5,6 +5,7 @@ export const CreateActivity = () => {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
+    city: "",
     price: "",
     hours: "",
     minutes: "",
@@ -19,6 +20,16 @@ export const CreateActivity = () => {
   const [galleryPreviews, setGalleryPreviews] = useState([]);
   const coverInputRef = useRef(null);
   const galleryInputRef = useRef(null);
+
+  const cities = [
+    "Madrid", "Barcelona", "Valencia", "Bilbao", "Sevilla", "Zaragoza", "Albacete", "Alicante",
+    "Almería", "Ávila", "Badajoz", "Burgos", "Cáceres", "Cádiz", "Castellón", "Ciudad Real",
+    "Córdoba", "A Coruña", "Cuenca", "Girona", "Granada", "Guadalajara", "Huelva", "Huesca",
+    "Jaén", "Las Palmas de Gran Canaria", "León", "Logroño", "Lugo", "Lleida", "Ourense",
+    "Oviedo", "Palencia", "Palma", "Pamplona", "Pontevedra", "Salamanca", "San Sebastián",
+    "Santa Cruz de Tenerife", "Segovia", "Soria", "Tarragona", "Teruel", "Toledo", "Valladolid",
+    "Vitoria", "Zamora"
+  ];
 
   // Eliminar portada
   const removeCover = () => {
@@ -112,7 +123,7 @@ export const CreateActivity = () => {
 
     try {
       // Validaciones básicas
-      if (!formData.name || !formData.description || !formData.price || !formData.hours || !formData.minutes) {
+      if (!formData.name || !formData.description || !formData.price || !formData.hours || !formData.minutes || !formData.city) {
         throw new Error("Todos los campos obligatorios deben completarse");
       }
 
@@ -129,6 +140,7 @@ export const CreateActivity = () => {
       const formDataToSend = new FormData();
       formDataToSend.append("name", formData.name);
       formDataToSend.append("description", formData.description);
+      formDataToSend.append("city", formData.city);
       formDataToSend.append("price", formData.price);
       formDataToSend.append("duration", duration);
 
@@ -247,6 +259,18 @@ export const CreateActivity = () => {
                       <span className="input-group-text">min</span>
                     </div>
                   </div>
+                </div>
+
+                <div className="mb-3">
+                  <label className="form-label">Ciudad*</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
 
                 <div className="mb-3">

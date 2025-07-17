@@ -30,7 +30,7 @@ export const Layout = () => {
             const data = await response.json();
             dispatch({ type: "handleFavorites", payload: data });
         } catch (error) {
-            toast.error(error.message);
+            console.error(error);
         }
     };
 
@@ -51,7 +51,8 @@ export const Layout = () => {
                 }
             } catch (error) {
                 console.error(error);
-                toast.error("Error al cargar la sesión");
+                toast.error("Inicio de sesión expirado");
+                localStorage.removeItem("token");
             } finally {
                 setLoading(false);
             }
@@ -62,13 +63,8 @@ export const Layout = () => {
 
     if (loading) {
         return (
-            <div className="container py-5 text-center">
-                <span
-                    className="spinner-border spinner-border-sm"
-                    role="status"
-                    aria-hidden="true"
-                ></span>
-            </div>
+            <Loading />
+
         );
     }
 

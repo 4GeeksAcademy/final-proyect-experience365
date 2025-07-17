@@ -22,10 +22,12 @@ cloudinary.config(
 api = Blueprint('/api/activity', __name__)
 CORS(api)
 
+
 @api.route('/', methods=['GET'])
 def get_activities():
-    activities = Activity.query.all()
+    activities = Activity.query.order_by(Activity.id).all()
     return jsonify([a.serialize() for a in activities]), 200
+
 
 @api.route('/', methods=['POST'])
 @jwt_required()
@@ -70,6 +72,7 @@ def create_activity():
 
     return jsonify(new_activity.serialize()), 201
 
+
 @api.route('/<int:id>', methods=['GET'])
 def get_activity(id):
     try:
@@ -87,13 +90,15 @@ def get_activity(id):
         print(f"Error in get_activity: {str(e)}")
         raise APIException(str(e), status_code=500)
 
+
 @api.route('/professional', methods=['GET'])
 @jwt_required()
 def get_professional_activities():
     try:
         user_id = get_jwt_identity()
-        professional = Professional.query.filter_by(user_id=int(user_id)).first()
-        
+        professional = Professional.query.filter_by(
+            user_id=int(user_id)).first()
+
         if not professional:
             return jsonify({"error": "Professional not found"}), 404
 
@@ -110,13 +115,15 @@ def get_professional_activities():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
 @api.route('/<int:id>', methods=['PUT'])
 @jwt_required()
 def update_activity(id):
     try:
         current_user_id = get_jwt_identity()
-        professional = Professional.query.filter_by(user_id=int(current_user_id)).first()
-        
+        professional = Professional.query.filter_by(
+            user_id=int(current_user_id)).first()
+
         if not professional:
             return jsonify({"error": "Only professionals can update activities"}), 403
 
@@ -135,6 +142,8 @@ def update_activity(id):
             activity.description = data['description']
         if 'price' in data:
             activity.price = int(float(data['price'].replace(",", ".")))
+        if 'city' in data:
+            activity.city = data['city']
         if 'duration' in data:
             activity.activity_date = data['duration']
         if 'is_active' in data:
@@ -151,13 +160,15 @@ def update_activity(id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
 @api.route('/<int:id>', methods=['DELETE'])
 @jwt_required()
 def delete_activity(id):
     try:
         current_user_id = get_jwt_identity()
-        professional = Professional.query.filter_by(user_id=int(current_user_id)).first()
-        
+        professional = Professional.query.filter_by(
+            user_id=int(current_user_id)).first()
+
         if not professional:
             return jsonify({"error": "Only professionals can delete activities"}), 403
 
