@@ -115,3 +115,31 @@ def get_user():
             "email": user.email
         }
     }), 200
+
+
+@api.route('/me', methods=['PUT'])
+@jwt_required()
+def update_user():
+
+    current_user_id = int(get_jwt_identity())
+
+    user = User.query.get(current_user_id)
+
+    if user is None:
+        return jsonify({"error": "User not found"}), 404
+
+    data = request.get_json()
+
+    user.name = data.get("name", user.name)
+    user.lastname = data.get("lastname", user.lastname)
+    user.email = data.get("email", user.email)
+
+    if data.get('password'):
+        user.set_password(data['password'])
+
+    try:
+        db.session.commit()
+        return jsonify({"message": "Profile updated successfully", "user": user.serialize()}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500

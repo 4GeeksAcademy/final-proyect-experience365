@@ -15,6 +15,8 @@ import { Link } from "react-router-dom";
 import { CheckoutResult } from "./pages/CheckoutResult";
 import { CancelResult } from "./pages/CancelResult";
 import { Error } from "./error/Error";
+import { EditProfile } from "./pages/Editprofile";
+import { EditProfessionalProfile } from "./pages/EditProfileProfessional";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,6 +41,11 @@ export const router = createBrowserRouter(
       {/* Actividades (nuevas rutas) */}
       <Route path="/login" element={<Login />} />
       <Route path="/registerprofessional" element={<RegisterProfessional />} />
+
+      {/* Ruta de edición de perfil */}
+      <Route path="/edit-profile" element={<EditProfile />} />
+      <Route path="/edit-professional-profile" element={<EditProfessionalProfile />} />
+
       <Route path="*" element={<NotFound />} />
     </Route>
   )
