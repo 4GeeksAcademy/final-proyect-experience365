@@ -62,7 +62,13 @@ def setup_commands(app):
                     "cif": prof["cif"],
                     "adress": prof["adress"],
                     "phone": prof["phone"],
-                    "description": prof["description"]
+                    "description": prof["description"],
+                    "image": prof["image"],
+                    "facebook": prof["facebook"],
+                    "instagram": prof["instagram"],
+                    "twitter": prof["twitter"],
+                    "linkedin": prof["linkedin"],
+
                 },
                 headers=headers
             )
@@ -94,6 +100,7 @@ def setup_commands(app):
                 form_data = {
                     "name": act["name"],
                     "description": act["description"],
+                    "city": act["city"],
                     "price": str(act["price"]),  # asegúrate de que sea string
                     # valor por defecto si no hay
                     "duration": str(act.get("duration", "1:00")),

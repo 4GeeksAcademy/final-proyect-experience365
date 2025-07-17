@@ -9,6 +9,7 @@ from flask_cors import CORS
 from api.database.db import db
 from api.models.Payments import Payments
 from api.models.Purchase import Purchase
+from api.models.Activity import Activity
 from datetime import datetime
 
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
@@ -137,3 +138,34 @@ def stripe_webhook():
     except Exception as e:
         print(f'Error en webhook: {str(e)}')
         return '', 400
+
+
+@api.route('/purchase/user', methods=['GET'])
+@jwt_required()
+def get_user_purchases():
+    try:
+        current_user_id = get_jwt_identity()
+        
+        # Obtener todas las compras del usuario
+        purchases = Purchase.query.filter_by(user_id=current_user_id).all()
+        
+        # Para cada compra, obtener los detalles de la actividad
+        result = []
+        for purchase in purchases:
+            # Necesitamos importar Activity si no está ya importado
+            from api.models.Activity import Activity
+            activity = Activity.query.get(purchase.activity_id)
+            
+            if activity:
+                result.append({
+                    "id": purchase.id,
+                    "activity_id": purchase.activity_id,
+                    "date": purchase.purchase_date,
+                    "status": "completed",  # Asumiendo que todas las compras aquí son completadas
+                    "activity": activity.serialize()
+                })
+        
+        return jsonify(result), 200
+        
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

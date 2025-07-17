@@ -139,7 +139,7 @@ export const ActivityDetail = () => {
 
   if (isLoading) {
     return (
-      <div className="container py-5 text-center">
+      <div className="container py-5 text-center content-center">
         <div className="spinner-border text-primary" role="status">
           <span className="visually-hidden">Cargando...</span>
         </div>
@@ -149,7 +149,7 @@ export const ActivityDetail = () => {
 
   if (error) {
     return (
-      <div className="container py-5">
+      <div className="container py-5 content-center">
         <div className="alert alert-danger" role="alert">
           {error}
         </div>
@@ -159,7 +159,7 @@ export const ActivityDetail = () => {
 
   if (!activity) {
     return (
-      <div className="container py-5">
+      <div className="container py-5 content-center">
         <div className="alert alert-warning" role="alert">
           Actividad no encontrada.
         </div>
@@ -167,7 +167,6 @@ export const ActivityDetail = () => {
     );
   }
 
-  console.log("activity", activity)
   return (
     <div className="container py-5">
       <div className="row mb-5">
@@ -211,13 +210,20 @@ export const ActivityDetail = () => {
           <div className="card shadow-sm h-100">
             <div className="card-body d-flex flex-column">
               <h1 className="card-title mb-3">{activity.name}</h1>
-              <p className="card-text flex-grow-1">{activity.description}</p>
+              <p className="card-text flex-grow-1">{activity.description}
+                <hr />
+                <p className="card-text text-muted h6">
+                  <i className="bi bi-geo-alt me-2"></i>
+                  {activity.city || "Horarios no especificados"}
+                </p>
+              </p>
+
               <div className="mt-auto">
                 <div className="d-flex justify-content-between align-items-center mb-3">
                   <span className="badge bg-primary fs-5 p-2">
                     {activity.price} €
                   </span>
-                  <span className="text-muted">
+                  <span className="text-muted d-flex">
                     <i className="bi bi-calendar me-2"></i>
                     {activity.activity_date || "Fechas no especificadas"}
                   </span>
@@ -246,7 +252,77 @@ export const ActivityDetail = () => {
           <div className="card shadow-sm">
             <div className="card-body">
               <h3 className="card-title">Sobre el anfitrión</h3>
-              <p className="text-muted">(falta terminar)</p>
+              {activity.professional ? (
+                <div className="row">
+                  <div className="col-md-3 d-flex flex-column align-items-center">
+                    <img
+                      src={activity.professional.image || "https://via.placeholder.com/150?text=Anfitrión"}
+                      alt={`${activity.professional.name} ${activity.professional.lastname}`}
+                      className="rounded-circle mb-3"
+                      style={{ width: "150px", height: "150px", objectFit: "cover" }}
+                    />
+                    <h4 className="text-center">{activity.professional.name} {activity.professional.lastname}</h4>
+                    <p className="text-muted text-center mb-3">
+                      <i className="bi bi-envelope me-2"></i>
+                      {activity.professional.email || "Email no disponible"}
+                    </p>
+                  </div>
+
+                  <div className="col-md-9">
+                    <div className="mb-3">
+                      <p className="mb-4">{activity.professional.description}</p>
+
+                      <div className="row">
+                        <div className="col-md-6">
+                          <p className="mb-2">
+                            <i className="bi bi-geo-alt-fill text-primary me-2"></i>
+                            {activity.professional.adress}
+                          </p>
+                          <p className="mb-2">
+                            <i className="bi bi-telephone-fill text-primary me-2"></i>
+                            {activity.professional.phone}
+                          </p>
+                          {activity.professional.web && (
+                            <p className="mb-2">
+                              <i className="bi bi-globe text-primary me-2"></i>
+                              <a href={activity.professional.web} target="_blank" rel="noopener noreferrer">
+                                Sitio web
+                              </a>
+                            </p>
+                          )}
+                        </div>
+
+                        <div className="col-md-6">
+                          <div className="d-flex flex-wrap gap-3 mt-2">
+                            {activity.professional.facebook && (
+                              <a href={activity.professional.facebook} target="_blank" rel="noopener noreferrer">
+                                <i className="bi bi-facebook fs-4 text-primary"></i>
+                              </a>
+                            )}
+                            {activity.professional.instagram && (
+                              <a href={activity.professional.instagram} target="_blank" rel="noopener noreferrer">
+                                <i className="bi bi-instagram fs-4 text-danger"></i>
+                              </a>
+                            )}
+                            {activity.professional.twitter && (
+                              <a href={activity.professional.twitter} target="_blank" rel="noopener noreferrer">
+                                <i className="bi bi-twitter-x fs-4"></i>
+                              </a>
+                            )}
+                            {activity.professional.linkedin && (
+                              <a href={activity.professional.linkedin} target="_blank" rel="noopener noreferrer">
+                                <i className="bi bi-linkedin fs-4 text-primary"></i>
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <p className="text-muted">Información del anfitrión no disponible</p>
+              )}
             </div>
           </div>
         </div>

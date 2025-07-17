@@ -3,14 +3,11 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { meUser } from "../services/loginUser.js";
-
 import useGlobalReducer from "../hooks/useGlobalReducer";
-import { s } from "framer-motion/client";
 
-import { FavoritesDropdown } from "./FavoritesDropdown";
+import logo_experience365 from "../assets/img/logo-experience365.svg";
 
 export const Navbar = () => {
-
   const { store, dispatch } = useGlobalReducer();
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
@@ -64,7 +61,7 @@ export const Navbar = () => {
           <span className="navbar-brand align-content-baseline">
 
             {/* Imagen Logo svg experience365 */}
-            <img src="src/front/assets/img/logo-experience365.svg"
+            <img src={logo_experience365}
               alt="Logo"
               width="100px"
               className="d-inline-block align-text-top m-sm-3 m-1"
@@ -72,20 +69,17 @@ export const Navbar = () => {
           </span>
         </Link>
 
-        {/* Botón de inicio de usuario modal */}
         <div className="d-flex justify-content-end align-items-center">
           {!store.sesion && (
             <button
               className="btn text-white"
               data-bs-toggle="modal"
               data-bs-target="#loginModal"
-            >Inicia Sesión
+            >
+              Inicia Sesión
             </button>
           )}
 
-          {/* Modal de inicio de usuario esta en oculto en el main.jsx*/}
-
-          {/* Menu desplegable*/}
           <div className="btn-group">
             <button
               type="button"
@@ -96,63 +90,78 @@ export const Navbar = () => {
               <span className="navbar-toggler-icon navbar-dark text-white"></span>
             </button>
             <ul className="dropdown-menu dropdown-menu-end">
-
               {store.sesion ? (
                 <>
                   <li>
+
                     <h3
                       className="dropdown-item text-dark h1 fs-5"
                       type="button"
                       onClick={handleProfileClick}
                     >
+
                       {store.user.email}
                     </h3>
                   </li>
                   <hr />
-                  <li className="dropdown-item text-dark">
-                    <FavoritesDropdown className="d-flex align-items-center justify-content-center" />
-                  </li>
-                  <li>
-                    <Link
-                      to="/experiences"
-                      className="dropdown-item"
-                      type="button"
-                    >
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/create"
-                      className="dropdown-item"
-                      type="button"
-                    >Experiencias contratadas
-                    </Link>
-                  </li>
+
+                  {/* Opción diferente según rol */}
+                  {store.user.role === 'professional' ? (
+                    <>
+                      <li>
+                        <Link to="/activities/create" className="dropdown-item">
+                          <i className="bi bi-plus-circle me-2"></i>
+                          Crear actividad
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/my-activities" className="dropdown-item">
+                          <i className="bi bi-calendar-check me-2"></i>
+                          Mis Actividades
+                        </Link>
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      <li>
+                        <Link to="/favorites" className="dropdown-item d-flex align-items-center">
+                          <i className="bi bi-heart-fill me-2 text-danger"></i>
+                          Favoritos
+                          {store.favorites.length > 0 && (
+                            <span className="ms-2 badge bg-danger rounded-pill">
+                              {store.favorites.length}
+                            </span>
+                          )}
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/my-reservations" className="dropdown-item">
+                          <i className="bi bi-calendar-check me-2"></i>
+                          Mis reservas
+                        </Link>
+                      </li>
+                    </>
+                  )}
+
                   <hr />
                   <li>
-                    <button
-                      className="dropdown-item"
-                      type="button"
-                      onClick={logout}
-                    >Cerrar Sesión
+                    <button className="dropdown-item" type="button" onClick={logout}>
+                      <i className="bi bi-box-arrow-right me-2"></i>
+                      Cerrar Sesión
                     </button>
                   </li>
                 </>
               ) : (
                 <>
                   <li>
-                    <Link
-                      to="/register"
-                      className="dropdown-item"
-                    >Regístrate como usuario
+                    <Link to="/register" className="dropdown-item">
+                      Regístrate como usuario
                     </Link>
                   </li>
                   <hr />
                   <li>
-                    <Link
-                      to="/registerprofessional"
-                      className="dropdown-item"
-                    >Regístrate como profesional
+                    <Link to="/registerprofessional" className="dropdown-item">
+                      Regístrate como profesional
                     </Link>
                   </li>
                 </>
@@ -161,6 +170,6 @@ export const Navbar = () => {
           </div>
         </div>
       </div>
-    </motion.nav >
+    </motion.nav>
   );
 };
