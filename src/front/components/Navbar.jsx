@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { meUser } from "../services/loginUser.js";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 
@@ -9,6 +10,7 @@ import logo_experience365 from "../assets/img/logo-experience365.svg";
 export const Navbar = () => {
   const { store, dispatch } = useGlobalReducer();
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (scrollY > 0) {
@@ -37,6 +39,18 @@ export const Navbar = () => {
     })
   };
 
+  // const handleProfileClick = () => {
+  //   navigate("/edit-profile");
+  // };
+  const handleProfileClick = () => {
+    // Si el usuario es profesional, lo redirige a /edit-professional-profile
+    if (store.user.role === "professional") {
+      navigate("/edit-professional-profile");
+    } else {
+      // Si es un usuario normal, lo redirige a /edit-profile
+      navigate("/edit-profile");
+    }
+  };
   return (
     <motion.nav
       className="navbar fixed-top"
@@ -79,7 +93,13 @@ export const Navbar = () => {
               {store.sesion ? (
                 <>
                   <li>
-                    <h3 className="dropdown-item text-dark h1 fs-5" type="button">
+
+                    <h3
+                      className="dropdown-item text-dark h1 fs-5"
+                      type="button"
+                      onClick={handleProfileClick}
+                    >
+
                       {store.user.email}
                     </h3>
                   </li>

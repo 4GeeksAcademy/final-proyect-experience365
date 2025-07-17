@@ -8,6 +8,8 @@ from api.models.Professional import Professional
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
 
 api = Blueprint('/api/professional', __name__)
 # Allow CORS requests to this API
@@ -81,6 +83,53 @@ def register_professional():
 
         }), 201
 
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
+@api.route('/professional/me', methods=['PUT'])
+@jwt_required()
+def update_professional():
+    current_user_id = int(get_jwt_identity())
+
+    # Obtener usuario y perfil de profesional
+    user = User.query.get(current_user_id)
+    professional = Professional.query.filter_by(user_id=current_user_id).first()
+
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+    if not professional:
+        return jsonify({"error": "Professional profile not found"}), 404
+
+    data = request.get_json()
+
+    # Actualizar campos del usuario
+    user.name = data.get("name", user.name)
+    user.lastname = data.get("lastname", user.lastname)
+    user.email = data.get("email", user.email)
+
+    # Actualizar campos del profesional
+    professional.cif = data.get("cif", professional.cif)
+    professional.adress = data.get("adress", professional.adress)
+    professional.phone = data.get("phone", professional.phone)
+    professional.web = data.get("web", professional.web)
+    professional.description = data.get("description", professional.description)
+    professional.image = data.get("image", professional.image)
+    professional.facebook = data.get("facebook", professional.facebook)
+    professional.instagram = data.get("instagram", professional.instagram)
+    professional.twitter = data.get("twitter", professional.twitter)
+    professional.linkedin = data.get("linkedin", professional.linkedin)
+
+    if data.get('password'):
+        user.set_password(data['password'])
+
+    try:
+        db.session.commit()
+        return jsonify({
+            "message": "Professional profile updated successfully",
+            "user": user.serialize(),
+            "professional": professional.serialize()
+        }), 200
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500

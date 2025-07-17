@@ -24,9 +24,14 @@ import { ResetPassword } from "./pages/ResetPassword";
 
 
 import { Error } from "./error/Error";
+
+import { EditProfile } from "./pages/Editprofile";
+import { EditProfessionalProfile } from "./pages/EditProfileProfessional";
+
 import { FavoritesPage } from "./pages/FavoritesPage";
 import { ProfessionalActivities } from "./pages/ProfessionalActivities";
 import { MyReservations } from "./pages/MyReservations";
+
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -54,6 +59,11 @@ export const router = createBrowserRouter(
       <Route path="/login" element={<Login />} />
       <Route path="/login/success" element={<LoginSuccess />} />
       <Route path="/registerprofessional" element={<RegisterProfessional />} />
+
+      {/* Ruta de edición de perfil */}
+      <Route path="/edit-profile" element={<EditProfile />} />
+      <Route path="/edit-professional-profile" element={<EditProfessionalProfile />} />
+
       <Route path="*" element={<NotFound />} />
 
 
