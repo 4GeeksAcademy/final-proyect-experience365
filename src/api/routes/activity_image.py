@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_cors import cross_origin
+from flask_cors import CORS
 from api.models.Activity import Activity
 from api.models.ActivityImage import ActivityImage
 from api.models.Professional import Professional
@@ -9,6 +10,7 @@ import cloudinary.uploader
 import os
 
 api = Blueprint('api_activity_images', __name__)
+CORS(api)
 
 @api.route('/<int:activity_id>/images', methods=['POST', 'OPTIONS'])
 @jwt_required()
