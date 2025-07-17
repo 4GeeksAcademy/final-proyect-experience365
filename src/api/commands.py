@@ -2,29 +2,15 @@ import click
 import json
 import requests
 import os
-
 from api.database.db import db
 from api.models.User import User
 from api.models.Professional import Professional
 from api.models.Activity import Activity
 from api.models.Payments import Payments
 
-
-"""
-In this file, you can add as many commands as you want using the @app.cli.command decorator
-Flask commands are usefull to run cronjobs or tasks outside of the API but sill in integration
-with youy database, for example: Import the price of bitcoin every night as 12am
-"""
-
-
 def setup_commands(app):
-    """
-    This is an example command "insert-test-users" that you can run from the command line
-    by typing: $ flask insert-test-users 5
-    Note: 5 is the number of users to add
-    """
-    @app.cli.command("insert-test-users")  # name of our command
-    @click.argument("count")  # argument of out command
+    @app.cli.command("insert-test-users")
+    @click.argument("count")
     def insert_test_users(count):
         print("Creating test users")
         for x in range(1, int(count) + 1):
@@ -39,7 +25,6 @@ def setup_commands(app):
 
     @app.cli.command("insert-test-data")
     def insert_test_data():
-        # Cambia si usas otro puerto
         base_url = os.getenv("VITE_BACKEND_URL", "http://localhost:3001")
         headers = {"Content-Type": "application/json"}
 
@@ -51,7 +36,7 @@ def setup_commands(app):
             return
 
         for prof in data:
-            # Crear usuario
+            # Crear usuario profesional
             requests.post(
                 f"{base_url}/api/professional/register",
                 json={
@@ -68,7 +53,6 @@ def setup_commands(app):
                     "instagram": prof["instagram"],
                     "twitter": prof["twitter"],
                     "linkedin": prof["linkedin"],
-
                 },
                 headers=headers
             )
@@ -88,33 +72,50 @@ def setup_commands(app):
             token = r.json().get("access_token")
             if not token:
                 print(f"No se recibió token para {prof['email']}")
-                print(f"Token", token)
                 continue
 
-            auth_headers = {
-                "Authorization": f"Bearer {token}",
-                "Content-Type": "application/json"
-            }
-
+            # Crear actividades
             for act in prof.get("activities", []):
-                form_data = {
+                # Crear actividad principal
+                activity_data = {
                     "name": act["name"],
                     "description": act["description"],
                     "city": act["city"],
-                    "price": str(act["price"]),  # asegúrate de que sea string
-                    # valor por defecto si no hay
+                    "price": str(act["price"]),
                     "duration": str(act.get("duration", "1:00")),
                     "img": act["image"]
-
                 }
 
                 r = requests.post(
                     f"{base_url}/api/activity",
-                    data=form_data,
+                    data=activity_data,
                     headers={"Authorization": f"Bearer {token}"}
                 )
 
-                if r.status_code in (200, 201):
-                    print(f"Actividad creada: {act['name']}")
-                else:
+                if r.status_code not in (200, 201):
                     print(f"Error creando actividad: {r.text}")
+                    continue
+
+                activity_id = r.json().get("id")
+                print(f"Actividad creada: {act['name']} (ID: {activity_id})")
+
+                # Subir imágenes adicionales si existen
+                if "activity_images" in act and activity_id and act["activity_images"]:
+                    print(f"Subiendo imágenes adicionales para actividad {activity_id}")
+                    
+                    try:
+                        response = requests.post(
+                            f"{base_url}/api/activity_images/{activity_id}/images",
+                            json={"urls": act["activity_images"]},
+                            headers={
+                                "Authorization": f"Bearer {token}",
+                                "Content-Type": "application/json"
+                            }
+                        )
+                        
+                        if response.status_code == 201:
+                            print(f"{len(act['activity_images'])} imágenes subidas correctamente")
+                        else:
+                            print(f"Error subiendo imágenes: {response.status_code} - {response.text}")
+                    except Exception as e:
+                        print(f"Error en el proceso de subida: {str(e)}")
