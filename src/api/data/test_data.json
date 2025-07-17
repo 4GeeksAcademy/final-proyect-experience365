@@ -20,6 +20,12 @@
         "city": "Barcelona",
         "price": 39,
         "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751321596/he8fwixax3m4tjkm784t.png",
+        "activity_images": [
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777024/ChatGPT_Image_15_jul_2025_19_14_25_cx5fym.png",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777026/Firefly_Tour_Gastron%C3%B3mico_por_el_Barrio_G%C3%B3tico__Descubre_los_sabores_tradicionales_de_Barcelo_535684_rb06s2.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777008/Firefly_Tour_Gastron%C3%B3mico_por_el_Barrio_G%C3%B3tico__Descubre_los_sabores_tradicionales_de_Barcelo_303790_qqkyjc.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777006/Firefly_Tour_Gastron%C3%B3mico_por_el_Barrio_G%C3%B3tico__Descubre_los_sabores_tradicionales_de_Barcelo_520507_ykd2vm.jpg"
+        ],
         "duration": "01:30"
       }
     ]
@@ -45,6 +51,12 @@
         "city": "Valencia",
         "price": 55,
         "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751366663/nhdbdmm5ms424ntgsxdx.png",
+        "activity_images": [
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777162/ChatGPT_Image_15_jul_2025_19_22_02_xqjk6i.png",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777147/Firefly_Aventura_en_Karting_Nocturno__Siente_la_adrenalina_en_una_carrera_de_karts_bajo_luces_303790_ypemqw.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777146/Firefly_Aventura_en_Karting_Nocturno__Siente_la_adrenalina_en_una_carrera_de_karts_bajo_luces_520507_uwshh9.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777160/Firefly_Aventura_en_Karting_Nocturno__Siente_la_adrenalina_en_una_carrera_de_karts_bajo_luces_569467_t2kaez.jpg"
+        ],
         "duration": "01:00"
       }
     ]
@@ -70,6 +82,11 @@
         "city": "Logroño",
         "price": 28,
         "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751367101/yqzen5rdmgncai62robl.png",
+        "activity_images": [
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777257/ChatGPT_Image_15_jul_2025_19_23_25_nor4ao.png",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777248/ChatGPT_Image_15_jul_2025_19_26_33_pqwpfc.png",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777237/ChatGPT_Image_15_jul_2025_19_32_26_avjmg4.png"
+        ],
         "duration": "01:15"
       }
     ]
@@ -95,6 +112,12 @@
         "city": "Málaga",
         "price": 25,
         "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751367602/oj5x5ylrojxd8htkkgdv.png",
+        "activity_images": [
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777352/Firefly_Paddle_Surf_al_Amanecer__Empieza_el_d%C3%ADa_con_energ%C3%ADa_desliz%C3%A1ndote_por_la_costa_de_M%C3%A1la_569467_mhswhc.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777356/ChatGPT_Image_17_jul_2025_16_23_13_utlk4u.png",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777348/Firefly_Paddle_Surf_al_Amanecer__Empieza_el_d%C3%ADa_con_energ%C3%ADa_desliz%C3%A1ndote_por_la_costa_de_M%C3%A1la_520507_d4cro2.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777344/Firefly_Paddle_Surf_al_Amanecer__Empieza_el_d%C3%ADa_con_energ%C3%ADa_desliz%C3%A1ndote_por_la_costa_de_M%C3%A1la_303790_ubg2y2.jpg"
+        ],
         "duration": "01:00"
       }
     ]
@@ -120,6 +143,11 @@
         "city": "Valencia",
         "price": 18,
         "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751367803/ymmzj9refqksy8pmybun.png",
+        "activity_images": [
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777448/Firefly_Escape_Room_Urbano_por_el_Centro_de_Valencia_Una_aventura_interactiva_a_trav%C3%A9s_de_pi_303790_w8acqk.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777433/Firefly_Escape_Room_Urbano_por_el_Centro_de_Valencia_Una_aventura_interactiva_a_trav%C3%A9s_de_pi_520507_mdjymp.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777428/Firefly_Escape_Room_Urbano_por_el_Centro_de_Valencia_Una_aventura_interactiva_a_trav%C3%A9s_de_pi_535684_rlxtb7.jpg"
+        ],
         "duration": "01:30"
       }
     ]
@@ -145,6 +173,12 @@
         "city": "Sevilla",
         "price": 35,
         "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751368182/lerymcc0gn9dozxzobc0.png",
+        "activity_images": [
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777549/Firefly_Clase_de_Flamenco_con_Show_Final__Sum%C3%A9rgete_en_el_arte_flamenco_en_Sevilla_con_una_cl_569467_l6an4a.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777536/Firefly_Clase_de_Flamenco_con_Show_Final__Sum%C3%A9rgete_en_el_arte_flamenco_en_Sevilla_con_una_cl_303790_pjbjpi.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777537/Firefly_Clase_de_Flamenco_con_Show_Final__Sum%C3%A9rgete_en_el_arte_flamenco_en_Sevilla_con_una_cl_520507_aghkyj.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777534/Firefly_Clase_de_Flamenco_con_Show_Final__Sum%C3%A9rgete_en_el_arte_flamenco_en_Sevilla_con_una_cl_535684_aqdlvz.jpg"
+        ],
         "duration": "01:30"
       }
     ]
@@ -170,6 +204,12 @@
         "city": "Madrid",
         "price": 30,
         "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751368367/zixxbh2tggeftb6idkdb.png",
+        "activity_images": [
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777617/Firefly_Ruta_Fotogr%C3%A1fica_por_Madrid_Secreta__Recorre_rincones_%C3%BAnicos_de_Madrid_acompa%C3%B1ado_de_535684_jyvff9.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777624/Firefly_Ruta_Fotogr%C3%A1fica_por_Madrid_Secreta__Recorre_rincones_%C3%BAnicos_de_Madrid_acompa%C3%B1ado_de_303790_xemxif.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777650/Firefly_Ruta_Fotogr%C3%A1fica_por_Madrid_Secreta__Recorre_rincones_%C3%BAnicos_de_Madrid_acompa%C3%B1ado_de_569467_snyhhb.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777622/Firefly_Ruta_Fotogr%C3%A1fica_por_Madrid_Secreta__Recorre_rincones_%C3%BAnicos_de_Madrid_acompa%C3%B1ado_de_520507_sfzw6p.jpg"
+        ],
         "duration": "01:15"
       }
     ]
@@ -195,6 +235,12 @@
         "city": "Santa Cruz de Tenerife",
         "price": 40,
         "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751368582/czu4psro3cfvyrkquam7.png",
+        "activity_images": [
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777721/Firefly_Experiencia_Astron%C3%B3mica_en_el_Teide__Observa_las_estrellas_desde_uno_de_los_mejores_c_535684_q3oxmm.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777738/Firefly_Experiencia_Astron%C3%B3mica_en_el_Teide__Observa_las_estrellas_desde_uno_de_los_mejores_c_569467_xyi2hs.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777725/Firefly_Experiencia_Astron%C3%B3mica_en_el_Teide__Observa_las_estrellas_desde_uno_de_los_mejores_c_303790_kxtvop.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777724/Firefly_Experiencia_Astron%C3%B3mica_en_el_Teide__Observa_las_estrellas_desde_uno_de_los_mejores_c_520507_twy7bm.jpg"
+        ],
         "duration": "02:00"
       }
     ]
@@ -220,6 +266,12 @@
         "city": "Bilbao",
         "price": 22,
         "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751368951/wvgrndpnp11me10uaapn.png",
+        "activity_images": [
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777816/Firefly_Ruta_en_Bicicleta_El%C3%A9ctrica_por_Bilbao__Una_forma_c%C3%B3moda_y_ecol%C3%B3gica_de_descubrir_los_303790_foy84s.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777804/Firefly_Ruta_en_Bicicleta_El%C3%A9ctrica_por_Bilbao__Una_forma_c%C3%B3moda_y_ecol%C3%B3gica_de_descubrir_los_535684_a9c6pi.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777812/Firefly_Ruta_en_Bicicleta_El%C3%A9ctrica_por_Bilbao__Una_forma_c%C3%B3moda_y_ecol%C3%B3gica_de_descubrir_los_520507_ocnbto.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777807/Firefly_Ruta_en_Bicicleta_El%C3%A9ctrica_por_Bilbao__Una_forma_c%C3%B3moda_y_ecol%C3%B3gica_de_descubrir_los_569467_ww8zvi.jpg"
+        ],
         "duration": "01:15"
       }
     ]
@@ -245,6 +297,12 @@
         "city": "Granada",
         "price": 26,
         "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751369205/hrgawhmpvm7cnayp9ujj.png",
+        "activity_images": [
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777902/Firefly_Taller_de_Cer%C3%A1mica_en_Granada__Aprende_las_t%C3%A9cnicas_b%C3%A1sicas_de_la_cer%C3%A1mica_andalus%C3%AD_y_520507_olkpv2.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777891/Firefly_Taller_de_Cer%C3%A1mica_en_Granada__Aprende_las_t%C3%A9cnicas_b%C3%A1sicas_de_la_cer%C3%A1mica_andalus%C3%AD_y_303790_impgnv.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777886/Firefly_Taller_de_Cer%C3%A1mica_en_Granada__Aprende_las_t%C3%A9cnicas_b%C3%A1sicas_de_la_cer%C3%A1mica_andalus%C3%AD_y_535684_vv7ybq.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777884/Firefly_Taller_de_Cer%C3%A1mica_en_Granada__Aprende_las_t%C3%A9cnicas_b%C3%A1sicas_de_la_cer%C3%A1mica_andalus%C3%AD_y_569467_tf3nmo.jpg"
+        ],
         "duration": "01:30"
       }
     ]
@@ -270,6 +328,12 @@
         "city": "Barcelona",
         "price": 20,
         "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751369717/jkpiziwbijus1dhiqd6q.png",
+        "activity_images": [
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777979/Firefly_Senderismo_Guiado_por_el_Parque_Natural_del_Montseny_Explora_uno_de_los_entornos_natu_569467_loygda.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777967/Firefly_Senderismo_Guiado_por_el_Parque_Natural_del_Montseny_Explora_uno_de_los_entornos_natu_520507_uz5phq.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777965/Firefly_Senderismo_Guiado_por_el_Parque_Natural_del_Montseny_Explora_uno_de_los_entornos_natu_303790_vgdd7o.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752777961/Firefly_Senderismo_Guiado_por_el_Parque_Natural_del_Montseny_Explora_uno_de_los_entornos_natu_535684_fnmviw.jpg"
+        ],
         "duration": "02:00"
       }
     ]
@@ -295,6 +359,12 @@
         "city": "Palma de Mallorca",
         "price": 16,
         "image": "http://res.cloudinary.com/dftas91qh/image/upload/v1751370018/mgqi4djaxeewmn8dxf7n.png",
+        "activity_images": [
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752778042/Firefly_Meditaci%C3%B3n_al_Atardecer_en_Playa_de_Palma_Una_experiencia_%C3%BAnica_para_desconectar_y_re_569467_fjfvcu.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752778042/Firefly_Meditaci%C3%B3n_al_Atardecer_en_Playa_de_Palma_Una_experiencia_%C3%BAnica_para_desconectar_y_re_520507_gxalwl.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752778041/Firefly_Meditaci%C3%B3n_al_Atardecer_en_Playa_de_Palma_Una_experiencia_%C3%BAnica_para_desconectar_y_re_303790_olca75.jpg",
+          "https://res.cloudinary.com/dftas91qh/image/upload/v1752778036/Firefly_Meditaci%C3%B3n_al_Atardecer_en_Playa_de_Palma_Una_experiencia_%C3%BAnica_para_desconectar_y_re_535684_vfaamh.jpg"
+        ],
         "duration": "01:00"
       }
     ]
