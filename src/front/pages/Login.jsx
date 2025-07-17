@@ -26,7 +26,6 @@ export const Login = () => {
       if (response.ok) {
         setMessage("Inicio de sesión exitoso.");
         localStorage.setItem("token", data.access_token);
-        localStorage.setItem("user", JSON.stringify(data.user));
         window.location.href = "/login/success";
 
 

@@ -65,64 +65,85 @@ export const ActivitiesList = () => {
 
     <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 m-5">
       {filteredActivities.length > 0 ? (
-        filteredActivities.map((activity) => (
-          <motion.div
-            animate={{ opacity: 1, scale: 1 }}
-            initial={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.3 }}
-            key={activity.id}
-            className="col my-5">
-            <div className="card h-100 shadow-sm">
-              {activity.img && (
-                <img
-                  src={activity.img}
-                  className="card-img-top"
-                  alt={activity.name}
-                  style={{ height: "200px", objectFit: "cover" }}
-                />
-              )}
-              <div className="card-body">
-                <h5 className="card-title">{activity.name}</h5>
-                <p className="card-text text-truncate">{activity.description}</p>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span className="text-muted"><FontAwesomeIcon icon={faLocationDot} className="me-2" />{activity.city}</span>
-                  <div className="activity-rating m-2">
-                    <div className="text-warning ">
-                      {"★".repeat(Math.round(activity.rate || 0)) + "☆".repeat(5 - Math.round(activity.rate || 0))}
+        filteredActivities.map((activity, index) => {
+          const groupDelay = 0.2;   // retraso entre grupos
+          const itemDelay = 0.05;   // retraso entre elementos del mismo grupo
+          const group = Math.floor(index / 4);
+          const positionInGroup = index % 4;
+          const delay = (group * groupDelay) + (positionInGroup * itemDelay);
+
+          return (
+            <motion.div
+              key={activity.id}
+              className="col my-5"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, ease: "easeInOut", delay }}
+            >
+              <motion.div
+                className="card h-100 shadow-sm"
+                initial={{ scale: 1, zIndex: 1 }}
+                whileHover={{ scale: 1.03, zIndex: 1000 }}
+                transition={{ duration: 0.05, ease: "easeInOut" }}
+              >
+                {activity.img && (
+                  <img
+                    src={activity.img}
+                    className="card-img-top"
+                    alt={activity.name}
+                    style={{ height: "200px", objectFit: "cover" }}
+                  />
+                )}
+                <div className="card-body">
+                  <h5 className="card-title">{activity.name}</h5>
+                  <p className="card-text text-truncate">{activity.description}</p>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <span className="text-muted">
+                      <FontAwesomeIcon icon={faLocationDot} className="me-2" />
+                      {activity.city}
+                    </span>
+                    <div className="activity-rating m-2">
+                      <div className="text-warning">
+                        {"★".repeat(Math.round(activity.rate || 0)) +
+                          "☆".repeat(5 - Math.round(activity.rate || 0))}
+                      </div>
+                      <small className="text-muted">
+                        {activity.rate !== null && activity.rate !== undefined
+                          ? `${activity.rate.toFixed(1)} / 5`
+                          : "0.0 / 5"}
+                      </small>
                     </div>
-                    <small className="text-muted">
-                      {activity.rate !== null && activity.rate !== undefined
-                        ? `${activity.rate.toFixed(1)} / 5`
-                        : "0.0 / 5"}
-                    </small>
+                    <span
+                      className="landing-t3 p-2"
+                      style={{ fontSize: "1.5rem", color: "#333333ff" }}
+                    >
+                      {activity.price}€
+                    </span>
                   </div>
-                  <span className="landing-t3 p-2" style={{ fontSize: "1.5rem", color: "#333333ff" }}>
-                    {activity.price}€
-                  </span>
                 </div>
-              </div>
-              <div className="card-footer bg-transparent border-0 d-flex justify-content-end">
-                <Link
-                  to={`/activities/${activity.id}`}
-                  className="btn expCard-btn rounded-pill mt-3 mb-3 border-0 text-white"
-                >
-                  Ver detalles
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-        ))
+                <div className="card-footer bg-transparent border-0 d-flex justify-content-end">
+                  <Link
+                    to={`/activities/${activity.id}`}
+
+                  >
+                    <motion.button
+                      className="btn expCard-btn-b expCard-btn-txt rounded-pill mt-3 mb-3 border-0 text-white"
+                      initial={{ scale: 1 }}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    >Ver detalles
+                    </motion.button>
+
+                  </Link>
+                </div>
+              </motion.div>
+            </motion.div>
+          );
+        })
       ) : (
         <div className="col-12 text-center py-5">
           <h4>No se encontraron actividades</h4>
-          {searchTerm && (
-            <button
-              className="btn btn-link"
-              onClick={() => setSearchTerm("")}
-            >
-              Limpiar búsqueda
-            </button>
-          )}
         </div>
       )}
     </div>

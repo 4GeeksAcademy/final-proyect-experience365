@@ -31,14 +31,7 @@ export const ModalLogin = () => {
 
       setMessage("Inicio de sesión exitoso.");
       localStorage.setItem("token", data.access_token);
-      const user_to_store = JSON.stringify(data.user);
-      console.log(data.user);
-      dispatch({
-        type: "SET_USER",
-        payload: user_to_store
-      })
-      console.log("store.user", store.user);
-      console.log("data.user", data.user);
+
       setTimeout(() => {
         window.location.href = "/login/success";
       })

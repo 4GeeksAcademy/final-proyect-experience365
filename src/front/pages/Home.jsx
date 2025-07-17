@@ -25,17 +25,30 @@ export const Home = () => {
         background: "linear-gradient(180deg,rgba(12, 87, 117, 1) 0%, rgba(42, 123, 155, 1) 33%, rgba(87, 199, 133, 0.92) 63%, rgba(237, 221, 83, 0.74) 89%, rgba(255, 255, 255, 0) 100%)"
       }}>
 
-        <div
+        <motion.div
           className="d-flex flex-column align-items-center justify-content-center p-2 p-sm-0"
+          initial={{ opacity: 0, }}
+          animate={{ opacity: 1, }}
+          transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
           style={{ width: "100%", zIndex: 0 }}
         >
-          <h1 className="landing-t1 p-md-0 p-2" >¡Descubre experiencias únicas!</h1>
-          <h5 className="landing-t2 p-md-0 p-2" >Planes exclusivos en más de 20 ciudades de toda España</h5>
+          <motion.h1
+            className="landing-t1 p-md-0 p-2"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut", delay: 0.4 }}
+          >¡Descubre experiencias únicas!</motion.h1>
+          <motion.h5
+            className="landing-t2 p-md-0 p-2"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
+          >Planes exclusivos en más de 20 ciudades de toda España</motion.h5>
           <SearchBar />
           <div className="d-flex align-items-start justify-content-center position-absolute" style={{ width: "100%", zIndex: -2 }} >
             <AnimatedImages />
           </div>
-        </div>
+        </motion.div>
       </div>
       <ActivitiesList />
     </>

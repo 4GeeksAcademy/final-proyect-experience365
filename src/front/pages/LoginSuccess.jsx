@@ -15,7 +15,7 @@ export const LoginSuccess = () => {
   useEffect(() => {
     setTimeout(() => {
       Navigate("/"); // Redirigir a la página principal después de 3 segundos
-    }, 4000);
+    }, 3500);
   }, []);
 
   return (
@@ -26,16 +26,21 @@ export const LoginSuccess = () => {
           className="landing-t1"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut", delay: 0.1 }}
+          transition={{ duration: 1, ease: "easeOut", delay: 0 }}
         >Hola, </motion.h2>
 
         <motion.p
           className="landing-t4 text-white"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
+          transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
         >{store.user.email}</motion.p>
-        <motion.p className="landing-t2">¡Bienvenido de vuelta!</motion.p>
+        <motion.p
+          className="landing-t2"
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
+        >¡Bienvenido de vuelta!</motion.p>
       </div>
     </div>
 
