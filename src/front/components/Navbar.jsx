@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -39,6 +39,7 @@ export const Navbar = () => {
       type: "SET_USER",
       payload: {}
     })
+    navigate("/");
   };
 
   const handleProfileClick = () => {

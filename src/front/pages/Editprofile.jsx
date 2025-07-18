@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export const EditProfile = () => {
   const [profile, setProfile] = useState({
@@ -43,12 +44,12 @@ export const EditProfile = () => {
 
   const validateForm = () => {
     if (!profile.email || !profile.name || !profile.lastname) {
-      setError("All fields are required");
+      setError("Todos los campos son obligatorios");
       return false;
     }
 
     if (profile.password && profile.password.length < 6) {
-      setError("Password must be at least 6 characters");
+      setError("La contraseña debe tener al menos 6 caracteres");
       return false;
     }
 
@@ -79,13 +80,13 @@ export const EditProfile = () => {
           setError(null);
           setTimeout(() => {
             navigate("/profile");
-          }, 2000); // Redirigir después de 2 segundos
+          }, 2000);
         } else {
-          setError("Error updating profile");
+          setError("Error al actualizar el perfil");
         }
       })
       .catch((error) => {
-        setError("Error updating profile");
+        setError("Error al actualizar el perfil");
       })
       .finally(() => {
         setIsLoading(false);
@@ -93,122 +94,131 @@ export const EditProfile = () => {
   };
 
   return (
-    <div className="container py-5">
-      <div className="row justify-content-center">
-        <div className="col-md-8 col-lg-6">
-          <div className="card shadow-sm">
-            <div className="card-body p-4">
-              <h2 className="card-title text-center mb-4">Editar Perfil</h2>
+    <div className="container-fluid d-flex flex-column align-items-center justify-content-center min-vh-100 content-center">
+      <div className="container py-5">
+        <div className="row justify-content-center">
+          <div className="col-md-6 col-lg-4">
+            <motion.div
+              className="card shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="card-body p-4">
+                <h2 className="expCard-header fs-3 text-center mb-4">Editar Perfil</h2>
 
-              {error && (
-                <div className="alert alert-danger" role="alert">
-                  {error}
-                </div>
-              )}
-              {success && (
-                <div className="alert alert-success" role="alert">
-                  Perfil actualizado con éxito!
-                </div>
-              )}
+                {error && (
+                  <div className="alert alert-danger fs-6" role="alert">
+                    {error}
+                  </div>
+                )}
+                {success && (
+                  <div className="alert alert-success fs-6" role="alert">
+                    Perfil actualizado con éxito!
+                  </div>
+                )}
 
-              <form onSubmit={handleSubmit}>
-                <div style={{ display: "none" }}>
-                  <input
-                    type="email"
-                    name="prevent_autofill_email"
-                    autoComplete="off"
-                    tabIndex="-1"
-                  />
-                  <input
-                    type="password"
-                    name="prevent_autofill_password"
-                    autoComplete="new-password"
-                    tabIndex="-1"
-                  />
-                </div>
-
-                <div className="row">
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="name" className="form-label">
-                      Nombre
-                    </label>
+                <form onSubmit={handleSubmit}>
+                  <div style={{ display: "none" }}>
                     <input
-                      type="text"
-                      className="form-control"
-                      id="name"
-                      name="name"
-                      value={profile.name}
-                      onChange={handleChange}
-                      required
+                      type="email"
+                      name="prevent_autofill_email"
                       autoComplete="off"
+                      tabIndex="-1"
+                    />
+                    <input
+                      type="password"
+                      name="prevent_autofill_password"
+                      autoComplete="new-password"
+                      tabIndex="-1"
                     />
                   </div>
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="lastname" className="form-label">
-                      Apellido
+
+                  <div className="row">
+                    <div className="col-md-6 mb-3">
+                      <label htmlFor="name" className="form-label expLogin-t3 fs-6">
+                        Nombre
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control rounded-pill fs-6"
+                        id="name"
+                        name="name"
+                        value={profile.name}
+                        onChange={handleChange}
+                        required
+                        autoComplete="off"
+                      />
+                    </div>
+                    <div className="col-md-6 mb-3">
+                      <label htmlFor="lastname" className="form-label expLogin-t3 fs-6">
+                        Apellido
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control rounded-pill fs-6"
+                        id="lastname"
+                        name="lastname"
+                        value={profile.lastname}
+                        onChange={handleChange}
+                        required
+                        autoComplete="off"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mb-3">
+                    <label htmlFor="email" className="form-label expLogin-t3 fs-6">
+                      Email
                     </label>
                     <input
-                      type="text"
-                      className="form-control"
-                      id="lastname"
-                      name="lastname"
-                      value={profile.lastname}
+                      type="email"
+                      className="form-control rounded-pill fs-6"
+                      id="email"
+                      name="email"
+                      value={profile.email}
                       onChange={handleChange}
                       required
-                      autoComplete="off"
+                      autoComplete="new-email"
                     />
                   </div>
-                </div>
 
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    name="email"
-                    value={profile.email}
-                    onChange={handleChange}
-                    required
-                    autoComplete="new-email"
-                  />
-                </div>
+                  <div className="mb-4">
+                    <label htmlFor="password" className="form-label expLogin-t3 fs-6">
+                      Contraseña
+                    </label>
+                    <input
+                      type="password"
+                      className="form-control rounded-pill fs-6"
+                      id="password"
+                      name="password"
+                      value={profile.password}
+                      onChange={handleChange}
+                      minLength="6"
+                      autoComplete="new-password"
+                    />
+                    <div className="form-text in-text fs-7">Mínimo 6 caracteres</div>
+                  </div>
 
-                <div className="mb-4">
-                  <label htmlFor="password" className="form-label">
-                    Contraseña
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    name="password"
-                    value={profile.password}
-                    onChange={handleChange}
-                    minLength="6"
-                    autoComplete="new-password"
-                  />
-                  <div className="form-text">Mínimo 6 caracteres</div>
-                </div>
-
-                <button
-                  type="submit"
-                  className="btn btn-primary w-100 py-2"
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <>
-                      <span className="spinner-border spinner-border-sm me-2"></span>
-                      Guardando...
-                    </>
-                  ) : (
-                    "Guardar Cambios"
-                  )}
-                </button>
-              </form>
-            </div>
+                  <motion.button
+                    type="submit"
+                    className="btn expCard-btn expCard-btn-txt border-0 rounded-pill w-100 py-2 fs-6"
+                    disabled={isLoading}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {isLoading ? (
+                      <>
+                        <span className="spinner-border spinner-border-sm me-2"></span>
+                        Guardando...
+                      </>
+                    ) : (
+                      "Guardar Cambios"
+                    )}
+                  </motion.button>
+                </form>
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>
