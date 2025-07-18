@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatedImages } from "../components/landing/AnimatedImages.jsx";
 import { SearchBar } from "../components/landing/SearchBar.jsx";
 import { ActivitiesList } from "../components/landing/ActivitiesList.jsx";
+import { ActivitiesSearched } from "../components/landing/ActivitiesSearched.jsx";
 import { motion } from "framer-motion";
 import '@fontsource/inter';
 import '@fontsource/playfair-display';
@@ -17,6 +18,18 @@ export const Home = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [sesion, setSesion] = useState(false);
+
+  useEffect(() => {
+    dispatch({
+      type: "SET_SEARCH_RESULTS",
+      payload: []
+    })
+
+    dispatch({
+      type: "SET_HAVE_RESULTS",
+      payload: true
+    })
+  }, []);
 
   return (
     <>

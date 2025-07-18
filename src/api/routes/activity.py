@@ -1,11 +1,12 @@
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask import Flask, request, jsonify, url_for, Blueprint
+from sqlalchemy import and_, text
 from api.database.db import db
 from api.models.Activity import Activity
 from api.models.ActivityImage import ActivityImage
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from api.models.Professional import Professional
 import os
 import cloudinary
@@ -186,3 +187,44 @@ def delete_activity(id):
         return jsonify({"message": "Activity deleted successfully"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@api.route('/search', methods=['GET'])
+def search_activities():
+    city = request.args.get('city')
+    price_min = request.args.get('priceMin', type=float)
+    price_max = request.args.get('priceMax', type=float)
+    duration_min = request.args.get('durationMin', type=int)
+    duration_max = request.args.get('durationMax', type=int)
+
+    filters = []
+
+    if city:
+        filters.append(Activity.city == city)
+
+    if price_min is not None:
+        filters.append(Activity.price >= price_min)
+
+    if price_max is not None:
+        filters.append(Activity.price <= price_max)
+
+    time_expr = text(
+        "(CAST(SPLIT_PART(activity_date, ':', 1) AS INT) * 60 + "
+        "CAST(SPLIT_PART(activity_date, ':', 2) AS INT))"
+    )
+
+    if duration_min is not None:
+        filters.append(
+            text(f"{time_expr} >= {duration_min}")
+        )
+
+    if duration_max is not None:
+        filters.append(
+            text(f"{time_expr} <= {duration_max}")
+        )
+
+    activities = Activity.query.filter(and_(*filters)).all()
+
+    result = [activity.serialize() for activity in activities]
+
+    return jsonify(result), 200
