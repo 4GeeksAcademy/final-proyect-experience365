@@ -12,6 +12,8 @@ import { ActivityDetail } from "./pages/ActivityDetail";
 import { Login } from "./pages/Login";
 import { LoginSuccess } from "./pages/LoginSuccess";
 import { RegisterProfessional } from "./pages/RegisterProfessional";
+import { Results } from "./pages/Results";
+
 import { Link } from "react-router-dom";
 
 // Stripe
@@ -64,13 +66,15 @@ export const router = createBrowserRouter(
       <Route path="/edit-profile" element={<EditProfile />} />
       <Route path="/edit-professional-profile" element={<EditProfessionalProfile />} />
 
+      <Route path="/results" element={<Results />} />
+
       <Route path="*" element={<NotFound />} />
 
 
       {/* Recuperar Contraseña */}
       <Route path="/recovery-password" element={<RecoveryPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
- 
+
       <Route path="/favorites" element={<FavoritesPage />} />
 
     </Route>

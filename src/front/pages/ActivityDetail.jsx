@@ -185,13 +185,6 @@ export const ActivityDetail = () => {
                 className="card-img img-fluid"
                 style={{ height: "400px", objectFit: "cover", width: "100%" }}
               />
-              {/* <div className="card-img-overlay d-flex flex-column justify-content-start z-1">
-                <h2 className="card-title text-light landing-t4 px-2" style={{ textShadow: "2px 2px 5px rgba(0, 0, 0, 0.7)" }}>{activity.name}</h2>
-              </div>
-              <div className="card-img-overlay d-flex flex-column justify-content-end bg-dark opacity-25 z-0">
-                <div className="d-flex justify-content-between">
-                </div>
-              </div> */}
               {activity.images?.length > 1 && (
                 <div className="d-flex flex-wrap gap-2 p-3 bg-light">
                   {activity.images.slice(1).map((image, index) => (

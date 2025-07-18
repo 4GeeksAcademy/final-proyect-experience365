@@ -1,14 +1,21 @@
 import React, { useState } from "react";
+
+import useGlobalReducer from "../../hooks/useGlobalReducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faEuroSign, faClock, faLocationDot, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
+import { use } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 export const SearchBar = ({ onSearch }) => {
+  const Navigate = useNavigate();
   const [city, setCity] = useState("");
-  const [duration, setDuration] = useState("");
-  const [price, setPrice] = useState("");
-  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [selectedDuration, setSelectedDuration] = useState(null);
+  const [selectedPrice, setSelectedPrice] = useState(null);
+  const [results, setResults] = useState([]);
+
+  const { store, dispatch } = useGlobalReducer();
 
   const cities = [
     "Madrid", "Barcelona", "Valencia", "Bilbao", "Sevilla", "Zaragoza", "Albacete", "Alicante",
@@ -20,14 +27,48 @@ export const SearchBar = ({ onSearch }) => {
     "Vitoria", "Zamora"
   ];
 
-  const durations = ["30 min", "1 hora", "2 horas", "3 horas", "+ de 3 horas"];
+  const durations = [
+    { label: "30 min a 1 hora", value: { min: 30, max: 60 } },
+    { label: "1 hora a 2 horas", value: { min: 60, max: 120 } },
+    { label: "2 horas a 3 horas", value: { min: 120, max: 180 } },
+    { label: "+ de 3 horas", value: { min: 180, max: null } }
+  ];
 
-  const prices = ["0€ - 15€", "15€ - 30€", "30€ - 60€", "60€ - 100€", "+ de 100€"];
+  const prices = [
+    { label: "0€ - 15€", value: { min: 0, max: 15 } },
+    { label: "15€ - 30€", value: { min: 15, max: 30 } },
+    { label: "30€ - 60€", value: { min: 30, max: 60 } },
+    { label: "60€ - 100€", value: { min: 60, max: 100 } },
+    { label: "+ de 100€", value: { min: 100, max: null } }
+  ];
 
   const handleSearch = () => {
-    if (onSearch) {
-      onSearch({ city, duration, price });
-    }
+    const paramsObj = {
+      ...(city && { city }),
+      ...(selectedPrice?.value.min != null && { priceMin: selectedPrice.value.min }),
+      ...(selectedPrice?.value.max != null && { priceMax: selectedPrice.value.max }),
+      ...(selectedDuration?.value.min != null && { durationMin: selectedDuration.value.min }),
+      ...(selectedDuration?.value.max != null && { durationMax: selectedDuration.value.max })
+    };
+
+    const params = new URLSearchParams(paramsObj).toString();
+
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/activity/search?${params}`)
+      .then(res => {
+        if (!res.ok) throw new Error(`Error del servidor: ${res.status}`);
+        return res.json();
+      })
+      .then(data => {
+        setResults([data]);
+        dispatch({
+          type: "SET_SEARCH_RESULTS",
+          payload: data
+        });
+        Navigate("/results");
+      })
+      .catch(err => {
+        console.error("Error al buscar actividades:", err);
+      });
   };
 
   return (
@@ -41,6 +82,7 @@ export const SearchBar = ({ onSearch }) => {
         width: "80%",
         maxWidth: 800,
         border: "5px solid rgb(58, 255, 206)",
+        zIndex: 3
       }}
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -67,12 +109,12 @@ export const SearchBar = ({ onSearch }) => {
         whileHover={{ scale: 1.05 }}
       >
         <button className="btn in-text border-0" type="button" data-bs-toggle="dropdown">
-          <FontAwesomeIcon icon={faClock} className="me-2" /> {duration || "Duración"}
+          <FontAwesomeIcon icon={faClock} className="me-2" /> {selectedDuration?.label || "Duración"}
           <FontAwesomeIcon icon={faCaretDown} className="ms-3 me-2" />
         </button>
         <ul className="dropdown-menu">{
           durations.map((duration, index) => (
-            <li key={index}><button className="dropdown-item" onClick={() => setDuration(duration)}>{duration}</button></li>
+            <li key={index}><button className="dropdown-item" onClick={() => setSelectedDuration(duration)}>{duration.label}</button></li>
           ))}
         </ul>
       </motion.div>
@@ -82,12 +124,12 @@ export const SearchBar = ({ onSearch }) => {
         whileHover={{ scale: 1.05 }}
       >
         <button className="btn in-text border-0" type="button" data-bs-toggle="dropdown">
-          <FontAwesomeIcon icon={faEuroSign} /> {price || "Precio"}
+          <FontAwesomeIcon icon={faEuroSign} /> {selectedPrice?.label || "Precio"}
           <FontAwesomeIcon icon={faCaretDown} className="ms-3 me-2" />
         </button>
         <ul className="dropdown-menu">{
           prices.map((price, index) => (
-            <li key={index}><button className="dropdown-item" onClick={() => setPrice(price)}>{price}</button></li>
+            <li key={index}><button className="dropdown-item" onClick={() => setSelectedPrice(price)}>{price.label}</button></li>
           ))}
         </ul>
       </motion.div>

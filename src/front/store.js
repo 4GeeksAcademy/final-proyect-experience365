@@ -2,7 +2,9 @@ export const initialStore = () => {
   return {
     user: {},
     sesion: false,
-    favorites: [], // Nuevo estado para favoritos
+    favorites: [],
+    searchResults: [],
+    haveResults: true,
   };
 };
 
@@ -23,7 +25,18 @@ export default function storeReducer(store, action = {}) {
     case "handleFavorites":
       return {
         ...store,
-        favorites: action.payload, // Actualiza la lista completa de favoritos
+        favorites: action.payload,
+      };
+    case "SET_SEARCH_RESULTS":
+      return {
+        ...store,
+        searchResults: action.payload,
+      };
+
+    case "SET_HAVE_RESULTS":
+      return {
+        ...store,
+        haveResults: action.payload,
       };
 
     default:
