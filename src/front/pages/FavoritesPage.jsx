@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faHeart } from "@fortawesome/free-solid-svg-icons";
 
 export const FavoritesPage = () => {
   const { store, dispatch } = useGlobalReducer();
@@ -20,7 +22,6 @@ export const FavoritesPage = () => {
 
       if (!response.ok) throw new Error("Error al eliminar favorito");
 
-      // Actualizar lista de favoritos
       const updatedResponse = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/api/favorite/user`,
         { headers: { Authorization: `Bearer ${token}` } }
@@ -34,19 +35,25 @@ export const FavoritesPage = () => {
   };
 
   return (
-    <div className="container py-5">
-      <h2 className="mb-4">Mis Favoritos</h2>
-      <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+    <div className="container-fluid d-flex flex-column align-items-center justify-content-center min-vh-100 content-center">
+    <div className="container text-center py-5 mt-5">
+      <h2 className="landing-t1 fs-1 mb-4">Mis Favoritos</h2>
+      <div className="row justify-content-center">
         {store.favorites.length > 0 ? (
           store.favorites.map((fav) => (
             <motion.div
               key={fav.id}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-              className="col"
+              className="col-md-3 my-5"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
             >
-              <div className="card h-100 shadow-sm">
+              <motion.div
+                className="card h-100 shadow-sm"
+                initial={{ scale: 1, zIndex: 1 }}
+                whileHover={{ scale: 1.03, zIndex: 1000 }}
+                transition={{ duration: 0.05, ease: "easeInOut" }}
+              >
                 {fav.activity?.img && (
                   <img
                     src={fav.activity.img}
@@ -58,37 +65,53 @@ export const FavoritesPage = () => {
                 <div className="card-body">
                   <h5 className="card-title">{fav.activity?.name}</h5>
                   <div className="d-flex justify-content-between align-items-center">
-                    <span className="badge bg-primary rounded-pill">
-                      {fav.activity?.price} €
+                    <span className="landing-t3 p-2" style={{ fontSize: "1.5rem", color: "#333333ff" }}>
+                      {fav.activity?.price}€
                     </span>
-                  </div>
                 </div>
-                <div className="card-footer bg-transparent d-flex justify-content-between">
-                  <Link
-                    to={`/activities/${fav.activity_id}`}
-                    className="btn btn-sm btn-outline-primary"
-                  >
-                    Ver detalles
+                </div>
+                <div className="card-footer bg-transparent border-0 d-flex justify-content-between">
+                  <Link to={`/activities/${fav.activity_id}`}>
+                    <motion.button
+                      className="btn expCard-btn-b expCard-btn-txt rounded-pill mt-3 mb-3 border-0 text-white"
+                      initial={{ scale: 1 }}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    >
+                      Ver detalles
+                    </motion.button>
                   </Link>
-                  <button
-                    className="btn btn-sm btn-outline-danger"
+                  <motion.button
+                    className="btn btn-sm border-0"
                     onClick={() => removeFavorite(fav.id)}
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.9 }}
                   >
-                    <i className="bi bi-trash"></i>
-                  </button>
+                    <FontAwesomeIcon icon={faTrash} className="text-danger" />
+                  </motion.button>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
           ))
         ) : (
           <div className="col-12 text-center py-5">
-            <h4>No tienes favoritos guardados</h4>
-            <Link to="/activities" className="btn btn-primary mt-3">
-              Explorar actividades
+            <h4 className="expCard-header">No tienes favoritos guardados</h4>
+            <Link to="/activities">
+              <motion.button
+                className="btn expCard-btn-b expCard-btn-txt rounded-pill mt-3 mb-3 border-0 text-white"
+                initial={{ scale: 1 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+              >
+                Explorar actividades
+              </motion.button>
             </Link>
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 };
