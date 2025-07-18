@@ -24,6 +24,7 @@ cryptography = "*"
 cloudinary = "*"
 stripe = "*"
 itsdangerous = "*"
+tomli = "*"
 
 [requires]
 python_version = "3.13"
