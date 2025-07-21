@@ -154,7 +154,7 @@ export const CreateActivity = () => {
         await uploadImages(activityData.id);
       }
 
-      navigate("/activities", { state: { success: "¡Actividad creada!" } });
+      navigate("/my-activities", { state: { success: "¡Actividad creada!" } });
     } catch (err) {
       setError(err.message);
     } finally {
@@ -164,6 +164,7 @@ export const CreateActivity = () => {
 
   return (
     <div className="container-fluid d-flex flex-column align-items-center justify-content-center min-vh-100 content-center">
+
     <div className="container py-4">
       <div className="row justify-content-center">
         <div className="col-md-8 col-lg-6">
@@ -207,114 +208,106 @@ export const CreateActivity = () => {
                   <div className="col-md-6 mb-3">
                     <label className="form-label expLogin-t3 fs-6">Precio (€)*</label>
                     <input
-                      type="number"
+                      type="text"
                       className="form-control rounded-pill fs-6"
-                      name="price"
-                      min="0"
-                      step="0.01"
-                      value={formData.price}
+                      name="name"
+                      value={formData.name}
                       onChange={handleChange}
                       required
                     />
                   </div>
 
-                  <div className="col-md-6 mb-3">
-                    <label className="form-label expLogin-t3 fs-6">Duración*</label>
-                    <div className="input-group">
+                  <div className="mb-3">
+                    <label className="form-label expLogin-t3 fs-6">Descripción*</label>
+                    <textarea
+                      className="form-control fs-6"
+                      name="description"
+                      rows="4"
+                      value={formData.description}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+
+                  <div className="row">
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label expLogin-t3 fs-6">Precio (€)*</label>
                       <input
                         type="number"
                         className="form-control rounded-pill fs-6"
-                        name="hours"
+                        name="price"
                         min="0"
-                        max="24"
-                        value={formData.hours}
+                        step="0.01"
+                        value={formData.price}
                         onChange={handleChange}
                         required
                       />
-                      <span className="input-group-text fs-6">h</span>
-                      <input
-                        type="number"
-                        className="form-control rounded-pill fs-6"
-                        name="minutes"
-                        min="0"
-                        max="59"
-                        value={formData.minutes}
-                        onChange={handleChange}
-                        required
-                      />
-                      <span className="input-group-text fs-6">min</span>
+                    </div>
+
+                    <div className="col-md-6 mb-3">
+                      <label className="form-label expLogin-t3 fs-6">Duración*</label>
+                      <div className="input-group">
+                        <input
+                          type="number"
+                          className="form-control rounded-pill fs-6"
+                          name="hours"
+                          min="0"
+                          max="24"
+                          value={formData.hours}
+                          onChange={handleChange}
+                          required
+                        />
+                        <span className="input-group-text fs-6">h</span>
+                        <input
+                          type="number"
+                          className="form-control rounded-pill fs-6"
+                          name="minutes"
+                          min="0"
+                          max="59"
+                          value={formData.minutes}
+                          onChange={handleChange}
+                          required
+                        />
+                        <span className="input-group-text fs-6">min</span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="mb-3">
-                  <label className="form-label expLogin-t3 fs-6">Ciudad*</label>
-                  <input
-                    type="text"
-                    className="form-control rounded-pill fs-6"
-                    name="city"
-                    value={formData.city}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
+                  <div className="mb-3">
+                    <label className="form-label expLogin-t3 fs-6">Ciudad*</label>
+                    <input
+                      type="text"
+                      className="form-control rounded-pill fs-6"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
 
-                <div className="mb-3">
-                  <label className="form-label expLogin-t3 fs-6">Imagen de portada*</label>
-                  <input
-                    type="file"
-                    className="form-control fs-6"
-                    accept="image/*"
-                    onChange={handleCoverImage}
-                    required
-                    ref={coverInputRef}
-                  />
+                  <div className="mb-3">
+                    <label className="form-label expLogin-t3 fs-6">Imagen de portada*</label>
+                    <input
+                      type="file"
+                      className="form-control fs-6"
+                      accept="image/*"
+                      onChange={handleCoverImage}
+                      required
+                      ref={coverInputRef}
+                    />
 
-                  {coverPreview && (
-                    <div className="mt-2 position-relative" style={{ width: "200px" }}>
-                      <img
-                        src={coverPreview}
-                        alt="Portada preview"
-                        className="img-thumbnail"
-                        style={{ width: "200px", height: "200px", objectFit: "cover" }}
-                      />
-                      <motion.button
-                        type="button"
-                        className="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
-                        onClick={removeCover}
-                        style={{ borderRadius: "50%" }}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      >
-                        &times;
-                      </motion.button>
-                    </div>
-                  )}
-                </div>
-
-                <div className="mb-3">
-                  <label className="form-label expLogin-t3 fs-6">Añadir más imágenes (opcional)</label>
-                  <input
-                    type="file"
-                    className="form-control fs-6"
-                    multiple
-                    accept="image/*"
-                    onChange={handleGalleryImages}
-                    ref={galleryInputRef}
-                  />
-                  <div className="d-flex flex-wrap gap-2 mt-2">
-                    {galleryPreviews.map((url, index) => (
-                      <div key={index} className="position-relative">
+                    {coverPreview && (
+                      <div className="mt-2 position-relative" style={{ width: "200px" }}>
                         <img
-                          src={url}
-                          alt={`Preview ${index}`}
+                          src={coverPreview}
+                          alt="Portada preview"
                           className="img-thumbnail"
-                          style={{ width: "100px", height: "100px", objectFit: "cover" }}
+                          style={{ width: "200px", height: "200px", objectFit: "cover" }}
                         />
                         <motion.button
                           type="button"
                           className="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
-                          onClick={() => removeGalleryImage(index)}
+                          onClick={removeCover}
                           style={{ borderRadius: "50%" }}
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
@@ -322,32 +315,64 @@ export const CreateActivity = () => {
                           &times;
                         </motion.button>
                       </div>
-                    ))}
+                    )}
                   </div>
-                </div>
+                  <div className="mb-3">
+                    <label className="form-label expLogin-t3 fs-6">Añadir más imágenes (opcional)</label>
+                    <input
+                      type="file"
+                      className="form-control fs-6"
+                      multiple
+                      accept="image/*"
+                      onChange={handleGalleryImages}
+                      ref={galleryInputRef}
+                    />
+                    <div className="d-flex flex-wrap gap-2 mt-2">
+                      {galleryPreviews.map((url, index) => (
+                        <div key={index} className="position-relative">
+                          <img
+                            src={url}
+                            alt={`Preview ${index}`}
+                            className="img-thumbnail"
+                            style={{ width: "100px", height: "100px", objectFit: "cover" }}
+                          />
+                          <motion.button
+                            type="button"
+                            className="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
+                            onClick={() => removeGalleryImage(index)}
+                            style={{ borderRadius: "50%" }}
+                            whileHover={{ scale: 1.1 }}
+                            whileTap={{ scale: 0.9 }}
+                          >
+                            &times;
+                          </motion.button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
 
-                <motion.button
-                  type="submit"
-                  className="expCard-btn expCard-btn-txt border-0 rounded-pill w-100 py-2 fs-6"
-                  disabled={isLoading}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  {isLoading ? (
-                    <>
-                      <span className="spinner-border spinner-border-sm me-2"></span>
-                      Creando...
-                    </>
-                  ) : (
-                    "Crear Actividad"
-                  )}
-                </motion.button>
-              </form>
-            </div>
-          </motion.div>
+                  <motion.button
+                    type="submit"
+                    className="expCard-btn expCard-btn-txt border-0 rounded-pill w-100 py-2 fs-6"
+                    disabled={isLoading}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {isLoading ? (
+                      <>
+                        <span className="spinner-border spinner-border-sm me-2"></span>
+                        Creando...
+                      </>
+                    ) : (
+                      "Crear Actividad"
+                    )}
+                  </motion.button>
+                </form>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };

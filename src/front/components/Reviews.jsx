@@ -29,7 +29,6 @@ export const Reviews = ({ activityId }) => {
                 .then((res) => res.json())
                 .then((data) => {
                     setCanReview(data.allowed);
-                    console.log("¿Puede dejar reseña?", data.allowed);
                 })
                 .catch((err) => console.error("Error al verificar permiso para reseñar", err));
         }

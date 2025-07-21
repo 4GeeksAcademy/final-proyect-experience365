@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 import { motion } from "framer-motion";
+import { Loading } from "../components/Loading";
 
 export const MyReservations = () => {
     const { store } = useGlobalReducer();
@@ -37,67 +38,66 @@ export const MyReservations = () => {
 
     if (loading) {
         return (
-            <div className="container py-5 text-center">
-                <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Cargando...</span>
-                </div>
-            </div>
+            <Loading />
         );
     }
 
     return (
         <div className="container-fluid d-flex flex-column align-items-center justify-content-center min-vh-100 content-center">
+
         <div className="container text-center py-5 mt-5">
             <h2 className="landing-t1">Mis Reservas</h2>
 
-            <div className="row justify-content-center">
-                {reservations.length > 0 ? (
-                    reservations.map(reservation => (
-                        <motion.div
-                            key={reservation.id}
-                            className="col-md-3 my-5"
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.5, ease: "easeInOut" }}
-                        >
+                <div className="row justify-content-center">
+                    {reservations.length > 0 ? (
+                        reservations.map(reservation => (
                             <motion.div
-                                className="card h-100 shadow-sm"
-                                initial={{ scale: 1, zIndex: 1 }}
-                                whileHover={{ scale: 1.03, zIndex: 1000 }}
-                                transition={{ duration: 0.05, ease: "easeInOut" }}
+                                key={reservation.id}
+                                className="col-md-3 my-5"
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.5, ease: "easeInOut" }}
                             >
-                                <img
-                                    src={reservation.activity?.img || "https://via.placeholder.com/300"}
-                                    className="card-img-top"
-                                    alt={reservation.activity?.name}
-                                    style={{ height: "200px", objectFit: "cover" }}
-                                />
-                                <div className="card-body">
-                                    <h5 className="card-title">{reservation.activity?.name}</h5>
-                                    <p className="card-text">Fecha: {new Date(reservation.date).toLocaleDateString()}</p>
-                                    <div className="d-flex justify-content-between align-items-center">
-                                        <span className="landing-t3 p-2" style={{ fontSize: "1.5rem", color: "#333333ff" }}>
-                                            {reservation.activity?.price}€
-                                        </span>
-                                        <span className={`badge rounded-pill ${reservation.status === 'completed' ? 'bg-success' : 'bg-warning'}`}>
-                                            {reservation.status === 'completed' ? 'Completada' : 'Pendiente'}
-                                        </span>
+                                <motion.div
+                                    className="card h-100 shadow-sm"
+                                    initial={{ scale: 1, zIndex: 1 }}
+                                    whileHover={{ scale: 1.03, zIndex: 1000 }}
+                                    transition={{ duration: 0.05, ease: "easeInOut" }}
+                                >
+                                    <img
+                                        src={reservation.activity?.img || "https://via.placeholder.com/300"}
+                                        className="card-img-top"
+                                        alt={reservation.activity?.name}
+                                        style={{ height: "200px", objectFit: "cover" }}
+                                    />
+                                    <div className="card-body">
+                                        <h5 className="card-title">{reservation.activity?.name}</h5>
+                                        <p className="card-text">Fecha: {new Date(reservation.date).toLocaleDateString()}</p>
+                                        <div className="d-flex justify-content-between align-items-center">
+                                            <span className="landing-t3 p-2" style={{ fontSize: "1.5rem", color: "#333333ff" }}>
+                                                {reservation.activity?.price}€
+                                            </span>
+                                            <span className={`badge rounded-pill ${reservation.status === 'completed' ? 'bg-success' : 'bg-warning'}`}>
+                                                {reservation.status === 'completed' ? 'Completada' : 'Pendiente'}
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="card-footer bg-transparent border-0 d-flex justify-content-end">
-                                    <Link to={`/activities/${reservation.activity_id}`}>
-                                        <motion.button
-                                            className="btn expCard-btn-b expCard-btn-txt rounded-pill mt-3 mb-3 border-0 text-white"
-                                            initial={{ scale: 1 }}
-                                            whileHover={{ scale: 1.1 }}
-                                            whileTap={{ scale: 0.98 }}
-                                            transition={{ duration: 0.3, ease: "easeInOut" }}
-                                        >
-                                            Ver actividad
-                                        </motion.button>
-                                    </Link>
-                                </div>
+                                    <div className="card-footer bg-transparent border-0 d-flex justify-content-end">
+                                        <Link to={`/activities/${reservation.activity_id}`}>
+                                            <motion.button
+                                                className="btn expCard-btn-b expCard-btn-txt rounded-pill mt-3 mb-3 border-0 text-white"
+                                                initial={{ scale: 1 }}
+                                                whileHover={{ scale: 1.1 }}
+                                                whileTap={{ scale: 0.98 }}
+                                                transition={{ duration: 0.3, ease: "easeInOut" }}
+                                            >
+                                                Ver actividad
+                                            </motion.button>
+                                        </Link>
+                                    </div>
+                                </motion.div>
                             </motion.div>
+
                         </motion.div>
                     ))
                 ) : (
@@ -117,7 +117,6 @@ export const MyReservations = () => {
                     </div>
                 )}
             </div>
-        </div>
         </div>
     );
 };

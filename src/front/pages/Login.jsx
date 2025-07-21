@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -45,34 +46,81 @@ export const Login = () => {
 
   return (
     <div className="container-fluid d-flex flex-column align-items-center justify-content-center min-vh-100 content-center">
-      <h1 className="landing-t1">Iniciar Sesión</h1>
+      <div className="container py-4">
+        <div className="row justify-content-center">
+          <div className="col-md-6 col-lg-4 m-5">
+            <motion.div
+              className="card shadow-lg border-0 rounded-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="card-body p-4">
+                <h2 className="expCard-header fs-4 text-center mt-3 my-4">Iniciar Sesión</h2>
 
-      <form onSubmit={handleSubmit} className="mt-4 col-md-2 mx-auto">
-        <div className="mb-3">
-          <label className="form-label login-t2 p-2 landing-t2" htmlFor="email">Email</label>
-          <input className="form-control rounded-pill" type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                {error && <div className="alert alert-danger fs-6">{message}</div>}
+
+                <form onSubmit={handleSubmit} className="mt-4 col-12 align-items-center py-3 d-flex flex-column">
+                  <div className="mb-3">
+                    <label className="form-label expLogin-t3 fs-6" htmlFor="email">Email</label>
+                    <input className="form-control rounded-pill fs-6" type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="form-label expLogin-t3 fs-6" htmlFor="password">Password</label>
+                    <input className="form-control rounded-pill fs-6" type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                  </div>
+                  <p className="text-center expLogin-t2 mt-3" >
+                    ¿Has olvidado tu contraseña?{" "}
+                    <span
+                      className="text-decoration-underline text-primary"
+                      style={{ cursor: "pointer" }}
+                      data-bs-dismiss="modal"
+                      onClick={() => Navigate("/recovery-password")}
+                    >
+                      Restablece aquí
+                    </ span>
+                  </p>
+                  <br />
+                  <motion.button
+                    type="submit"
+                    className="expCard-btn expCard-btn-txt py-2 px-3 mt-3 border-0 rounded-pill"
+                    initial={{ scale: 1 }}
+                    transition={{ duration: 0.2 }}
+                    whileHover={{ scale: 1.1 }}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <>
+                        <span className="spinner-border spinner-border-sm me-2"></span>
+                      </>
+                    ) : <span className="expCard-btn-txt"
+                    >Iniciar Sesión
+                    </span>}
+                  </motion.button>
+                </form>
+                {error ? (
+                  <div className="alert alert-danger" role="alert">
+                    {message}
+                  </div>
+                ) : ""}
+                <hr />
+                <p className="text-center expLogin-t2">
+                  ¿No tienes cuenta?{" "}
+                  <span
+                    className="text-decoration-underline text-primary"
+                    style={{ cursor: "pointer" }}
+                    data-bs-dismiss="modal"
+                    onClick={() => Navigate("/register")}
+                  >
+                    Regístrate aquí
+                  </span>
+                </p>
+              </div>
+            </motion.div>
+          </div>
         </div>
-
-        <div className="mb-3">
-          <label className="form-label login-t2 p-2 landing-t2" htmlFor="password">Password</label>
-          <input className="form-control rounded-pill" type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        </div>
-
-        <button
-          type="submit"
-          className="btn w-100 my-5 btn-primary rounded-pill "
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <>
-              <span className="spinner-border spinner-border-sm me-2"></span>
-            </>
-          ) : "Iniciar Sesión"}
-        </button>
-      </form>
-
-      {error && (<p className="mt-3 alert alert-danger col-md-6 mx-auto">{message}</p>)}
-
+      </div>
     </div>
   );
 };
