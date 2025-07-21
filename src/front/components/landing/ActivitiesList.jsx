@@ -43,11 +43,17 @@ export const ActivitiesList = () => {
 
   if (isLoading) {
     return (
-      <div className="container py-5 text-center">
-        <div className="spinner-border text-primary" role="status">
+      <motion.div
+        className="container py-5 text-center"
+        initial={{ opacity: 0, y: 0, scale: 6 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 1, ease: "easeOut", delay: 0 }}
+        repeat={Infinity}
+      >
+        <div className="spinner-border" role="status">
           <span className="visually-hidden">Cargando...</span>
         </div>
-      </div>
+      </motion.div>
     );
   }
 

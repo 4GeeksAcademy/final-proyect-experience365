@@ -4,6 +4,7 @@ import useGlobalReducer from "../hooks/useGlobalReducer";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { Loading } from "../components/Loading";
 
 export const ProfessionalActivities = () => {
     const { store } = useGlobalReducer();
@@ -39,11 +40,7 @@ export const ProfessionalActivities = () => {
 
     if (loading) {
         return (
-            <div className="container py-5 text-center">
-                <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Cargando...</span>
-                </div>
-            </div>
+            <Loading />
         );
     }
 
@@ -54,11 +51,11 @@ export const ProfessionalActivities = () => {
                     <div className="col-12 text-center mb-4">
                         <h2 className="landing-t1 fs-3">Mis Actividades</h2>
                     </div>
-                    
+
                     <div className="col-12 text-center mb-4">
                         <Link to="/activities/create">
                             <motion.button
-                                className="btn expCard-btn-b expCard-btn-txt rounded-pill border-0 text-white px-4"
+                                className="btn-primary py-2 expCard-btn-txt rounded-pill border-0 text-white px-4"
                                 initial={{ scale: 0.9 }}
                                 whileHover={{ scale: 1 }}
                                 whileTap={{ scale: 0.98 }}

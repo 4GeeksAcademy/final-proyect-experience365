@@ -11,15 +11,26 @@ export const ActivitiesSearched = () => {
 
   if (!activities.length) {
     return (
-      <div className="col-12 text-center py-5">
-        <h4 className="landing-t3">No se encontraron actividades</h4>
-        <Link to="/" className="btn btn-primary m-5">Volver al inicio</Link>
+      <div
+        className="container-fluid d-flex flex-column text-center py-5 align-items-center justify-content-center"
+        style={{ height: "50vh" }}
+      >
+        <h4 className="landing-t2 text-white align-items-center justify-content-center fs-2">No se encontraron actividades</h4>
+        <Link to="/" >
+          <motion.div
+            className="btn btn-primary rounded-pill m-5 expCard-btn-txt fs-5 px-4"
+            initial={{ scale: 1 }}
+            whileHover={{ opacity: 1, scale: 1.1 }}
+            transition={{ duration: 0.1, ease: "easeInOut" }}
+          >Volver
+          </motion.div>
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 m-5">
+    <>
       {activities.map((activity, index) => {
         const groupDelay = 0.2;
         const itemDelay = 0.05;
@@ -30,14 +41,14 @@ export const ActivitiesSearched = () => {
         return (
           <motion.div
             key={activity.id}
-            className="col my-5"
+            className="col-sm-6 col-md-4 col-lg-3 mb-4 d-flex justify-content-center"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, ease: "easeInOut", delay }}
           >
             <motion.div
               className="card shadow-sm"
-              style={{ overflow: "hidden", zIndex: 0 }}
+              style={{ overflow: "hidden", zIndex: 0, maxWidth: "300px" }}
               initial={{ scale: 1 }}
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.05, ease: "easeInOut" }}
@@ -47,7 +58,10 @@ export const ActivitiesSearched = () => {
                   src={activity.img}
                   className="card-img-top"
                   alt={activity.name}
-                  style={{ height: "200px", objectFit: "cover" }}
+                  style={{
+                    height: "200px",
+                    objectFit: "cover"
+                  }}
                 />
               )}
               <div className="card-body">
@@ -94,6 +108,6 @@ export const ActivitiesSearched = () => {
           </motion.div>
         );
       })}
-    </div>
+    </>
   );
 };
