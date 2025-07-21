@@ -55,7 +55,7 @@ export const ProfessionalActivities = () => {
                     <div className="col-12 text-center mb-4">
                         <Link to="/activities/create">
                             <motion.button
-                                className="btn-primary py-2 expCard-btn-txt rounded-pill border-0 text-white px-4"
+                                className="btn-primary py-2 expCard-btn-txt px-3 rounded-pill border-0 text-white"
                                 initial={{ scale: 0.9 }}
                                 whileHover={{ scale: 1 }}
                                 whileTap={{ scale: 0.98 }}

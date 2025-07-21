@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-
+import { Carousel } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faEuroSign, faClock, faLocationDot, faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faEuroSign, faClock, faLocationDot, faCaretDown, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 export const ActivitiesList = () => {
   const [activities, setActivities] = useState([]);
@@ -68,15 +69,17 @@ export const ActivitiesList = () => {
   }
 
   return (
-
     <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 m-5">
       {filteredActivities.length > 0 ? (
         filteredActivities.map((activity, index) => {
-          const groupDelay = 0.2;   // retraso entre grupos
-          const itemDelay = 0.05;   // retraso entre elementos del mismo grupo
+          const groupDelay = 0.2;
+          const itemDelay = 0.05;
           const group = Math.floor(index / 4);
           const positionInGroup = index % 4;
           const delay = (group * groupDelay) + (positionInGroup * itemDelay);
+
+          // Verificar si hay imágenes para mostrar en el carrusel
+          const hasImages = activity.images && activity.images.length > 0;
 
           return (
             <motion.div
@@ -92,14 +95,43 @@ export const ActivitiesList = () => {
                 whileHover={{ scale: 1.03, zIndex: 1000 }}
                 transition={{ duration: 0.05, ease: "easeInOut" }}
               >
-                {activity.img && (
+                {/* Carrusel de imágenes */}
+                {hasImages ? (
+                  <Carousel
+                    fade
+                    indicators={false}
+                    prevIcon={<FontAwesomeIcon icon={faChevronLeft} className="text-dark bg-white p-2 rounded-circle" />}
+                    nextIcon={<FontAwesomeIcon icon={faChevronRight} className="text-dark bg-white p-2 rounded-circle" />}
+                    interval={null}
+                    style={{ height: "200px", overflow: "hidden" }}
+                  >
+                    {activity.images.map((image, imgIndex) => (
+                      <Carousel.Item key={imgIndex}>
+                        <img
+                          src={image.url}
+                          className="d-block w-100"
+                          alt={`${activity.name} ${imgIndex + 1}`}
+                          style={{
+                            height: "200px",
+                            objectFit: "cover",
+                            objectPosition: "center"
+                          }}
+                          onError={(e) => {
+                            e.target.src = "https://via.placeholder.com/800x400?text=Imagen+no+disponible";
+                          }}
+                        />
+                      </Carousel.Item>
+                    ))}
+                  </Carousel>
+                ) : (
                   <img
-                    src={activity.img}
+                    src={activity.img || "https://via.placeholder.com/800x400?text=Imagen+no+disponible"}
                     className="card-img-top"
                     alt={activity.name}
                     style={{ height: "200px", objectFit: "cover" }}
                   />
                 )}
+
                 <div className="card-body">
                   <h5 className="card-title">{activity.name}</h5>
                   <p className="card-text text-truncate">{activity.description}</p>
@@ -128,19 +160,16 @@ export const ActivitiesList = () => {
                   </div>
                 </div>
                 <div className="card-footer bg-transparent border-0 d-flex justify-content-end">
-                  <Link
-                    to={`/activities/${activity.id}`}
-
-                  >
+                  <Link to={`/activities/${activity.id}`}>
                     <motion.button
                       className="btn expCard-btn-b expCard-btn-txt rounded-pill mt-3 mb-3 border-0 text-white"
                       initial={{ scale: 1 }}
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.98 }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
-                    >Ver detalles
+                    >
+                      Ver detalles
                     </motion.button>
-
                   </Link>
                 </div>
               </motion.div>

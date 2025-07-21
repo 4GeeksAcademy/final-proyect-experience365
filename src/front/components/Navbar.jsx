@@ -121,8 +121,8 @@ export const Navbar = () => {
                 {store.sesion ? (
                   <>
                     <li>
-                      <h3 
-                        className="dropdown-item text-dark bg-transparent expCard-menu-user mt-2" 
+                      <h3
+                        className="dropdown-item text-dark bg-transparent expCard-menu-user mt-2"
                         type="button"
                         onClick={handleProfileClick}
                       >

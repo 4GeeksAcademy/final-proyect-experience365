@@ -37,7 +37,7 @@ export const FavoritesPage = () => {
   return (
     <div className="container-fluid d-flex flex-column align-items-center justify-content-center min-vh-100 content-center">
     <div className="container text-center py-5 mt-5">
-      <h2 className="landing-t1 fs-1 mb-4">Mis Favoritos</h2>
+      <h2 className="landing-t1">Mis Favoritos</h2>
       <div className="row justify-content-center">
         {store.favorites.length > 0 ? (
           store.favorites.map((fav) => (
@@ -95,17 +95,17 @@ export const FavoritesPage = () => {
             </motion.div>
           ))
         ) : (
-          <div className="col-12 text-center py-5">
-            <h4 className="expCard-header">No tienes favoritos guardados</h4>
-            <Link to="/activities">
+          <div className="col-12 text-center">
+            <h4 className="landing-t2 fs-5">No tienes favoritos guardados</h4>
+            <Link to="/">
               <motion.button
-                className="btn expCard-btn-b expCard-btn-txt rounded-pill mt-3 mb-3 border-0 text-white"
+                className="btn-primary py-2 expCard-btn-txt px-3 rounded-pill mt-5 mb-3 border-0 text-white"
                 initial={{ scale: 1 }}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
               >
-                Explorar actividades
+                Ver actividades
               </motion.button>
             </Link>
           </div>

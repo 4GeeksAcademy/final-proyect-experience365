@@ -164,23 +164,49 @@ export const CreateActivity = () => {
 
   return (
     <div className="container-fluid d-flex flex-column align-items-center justify-content-center min-vh-100 content-center">
-      <div className="container py-4">
-        <div className="row justify-content-center">
-          <div className="col-md-8 col-lg-6">
-            <motion.div
-              className="card shadow-sm"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="card-body p-4">
-                <h2 className="expCard-header fs-4 text-center mb-3">Crear Nueva Actividad</h2>
 
-                {error && <div className="alert alert-danger fs-6">{error}</div>}
+    <div className="container py-4">
+      <div className="row justify-content-center">
+        <div className="col-md-8 col-lg-6">
+          <motion.div
+            className="card shadow-sm"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="card-body p-4">
+              <h2 className="expCard-header fs-4 text-center mb-4">Crear Nueva Actividad</h2>
 
-                <form onSubmit={handleSubmit}>
-                  <div className="mb-3">
-                    <label className="form-label expLogin-t3 fs-6">Nombre*</label>
+              {error && <div className="alert alert-danger fs-6">{error}</div>}
+
+              <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                  <label className="form-label expLogin-t3 fs-6">Nombre*</label>
+                  <input
+                    type="text"
+                    className="form-control rounded-pill fs-6"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label className="form-label expLogin-t3 fs-6">Descripción*</label>
+                  <textarea
+                    className="form-control fs-6"
+                    name="description"
+                    rows="4"
+                    value={formData.description}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
+                <div className="row">
+                  <div className="col-md-6 mb-3">
+                    <label className="form-label expLogin-t3 fs-6">Precio (€)*</label>
                     <input
                       type="text"
                       className="form-control rounded-pill fs-6"
@@ -291,7 +317,6 @@ export const CreateActivity = () => {
                       </div>
                     )}
                   </div>
-
                   <div className="mb-3">
                     <label className="form-label expLogin-t3 fs-6">Añadir más imágenes (opcional)</label>
                     <input
