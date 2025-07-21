@@ -97,8 +97,6 @@ export const MyReservations = () => {
                                     </div>
                                 </motion.div>
                             </motion.div>
-
-                        </motion.div>
                     ))
                 ) : (
                     <div className="col-12 text-center">
@@ -118,5 +116,6 @@ export const MyReservations = () => {
                 )}
             </div>
         </div>
+    </div>
     );
 };
