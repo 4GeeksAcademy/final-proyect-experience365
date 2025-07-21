@@ -105,7 +105,7 @@ export const Reviews = ({ activityId }) => {
     };
 
     return (
-        <div className="card shadow-sm mt-4">
+        <div className="card shadow-sm">
             <div className="card-body">
                 <h3 className="card-title">Reseñas</h3>
 

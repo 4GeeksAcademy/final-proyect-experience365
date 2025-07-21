@@ -79,7 +79,7 @@ export const EditProfile = () => {
           setSuccess(true);
           setError(null);
           setTimeout(() => {
-            navigate("/profile");
+            navigate("/");
           }, 2000);
         } else {
           setError("Error al actualizar el perfil");
@@ -202,7 +202,7 @@ export const EditProfile = () => {
 
                   <motion.button
                     type="submit"
-                    className="btn expCard-btn expCard-btn-txt border-0 rounded-pill w-100 py-2 fs-6"
+                    className="expCard-btn expCard-btn-txt border-0 rounded-pill w-100 py-2 fs-6"
                     disabled={isLoading}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}

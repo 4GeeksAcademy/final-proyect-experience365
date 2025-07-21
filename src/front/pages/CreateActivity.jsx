@@ -174,7 +174,7 @@ export const CreateActivity = () => {
             transition={{ duration: 0.5 }}
           >
             <div className="card-body p-4">
-              <h2 className="expCard-header fs-4 text-center mb-3">Crear Nueva Actividad</h2>
+              <h2 className="expCard-header fs-4 text-center mb-4">Crear Nueva Actividad</h2>
 
               {error && <div className="alert alert-danger fs-6">{error}</div>}
 
@@ -328,7 +328,7 @@ export const CreateActivity = () => {
 
                 <motion.button
                   type="submit"
-                  className="btn expCard-btn expCard-btn-txt rounded-pill w-100 py-2 fs-6"
+                  className="expCard-btn expCard-btn-txt border-0 rounded-pill w-100 py-2 fs-6"
                   disabled={isLoading}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
