@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export const Register = () => {
   const [formData, setFormData] = useState({
@@ -62,116 +63,125 @@ export const Register = () => {
   };
 
   return (
-    <div className="container py-5">
-      <div className="row justify-content-center">
-        <div className="col-md-8 col-lg-6">
-          <div className="card shadow-sm">
-            <div className="card-body p-4">
-              <h2 className="card-title text-center mb-4">Regístrate</h2>
-              {error && (
-                <div className="alert alert-danger" role="alert">
-                  {error}
-                </div>
-              )}
+    <div className="container-fluid d-flex flex-column align-items-center justify-content-center min-vh-100 content-center">
+      <div className="container py-4">
+        <div className="row justify-content-center">
+          <div className="col-md-6 col-lg-4">
+            <motion.div
+              className="card shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="card-body p-4">
+                <h2 className="expCard-header fs-3 text-center mb-3">Regístrate</h2>
+                {error && (
+                  <div className="alert alert-danger fs-6" role="alert">
+                    {error}
+                  </div>
+                )}
 
-              <form onSubmit={handleSubmit}>
-                <div style={{ display: 'none' }}>
-                  <input type="email" name="prevent_autofill_email" autoComplete="off" tabIndex="-1" />
-                  <input type="password" name="prevent_autofill_password" autoComplete="new-password" tabIndex="-1" />
-                </div>
+                <form onSubmit={handleSubmit}>
+                  <div style={{ display: 'none' }}>
+                    <input type="email" name="prevent_autofill_email" autoComplete="off" tabIndex="-1" />
+                    <input type="password" name="prevent_autofill_password" autoComplete="new-password" tabIndex="-1" />
+                  </div>
 
-                <div className="row">
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="name" className="form-label">
-                      Nombre
+                  <div className="row">
+                    <div className="col-md-6 mb-3">
+                      <label htmlFor="name" className="form-label expLogin-t3 fs-6">
+                        Nombre
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control rounded-pill fs-6"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                        autoComplete="off"
+                      />
+                    </div>
+                    <div className="col-md-6 mb-3">
+                      <label htmlFor="lastname" className="form-label expLogin-t3 fs-6">
+                        Apellido
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control rounded-pill fs-6"
+                        id="lastname"
+                        name="lastname"
+                        value={formData.lastname}
+                        onChange={handleChange}
+                        required
+                        autoComplete="off"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mb-3">
+                    <label htmlFor="email" className="form-label expLogin-t3 fs-6">
+                      Email
                     </label>
                     <input
-                      type="text"
-                      className="form-control"
-                      id="name"
-                      name="name"
-                      value={formData.name}
+                      type="email"
+                      className="form-control rounded-pill fs-6"
+                      id="email"
+                      name="email"
+                      value={formData.email}
                       onChange={handleChange}
                       required
-                      autoComplete="off"
+                      autoComplete="new-email"
                     />
                   </div>
-                  <div className="col-md-6 mb-3">
-                    <label htmlFor="lastname" className="form-label">
-                      Apellido
+
+                  <div className="mb-4">
+                    <label htmlFor="password" className="form-label expLogin-t3 fs-6">
+                      Contraseña
                     </label>
                     <input
-                      type="text"
-                      className="form-control"
-                      id="lastname"
-                      name="lastname"
-                      value={formData.lastname}
+                      type="password"
+                      className="form-control rounded-pill fs-6"
+                      id="password"
+                      name="password"
+                      value={formData.password}
                       onChange={handleChange}
+                      minLength="6"
                       required
-                      autoComplete="off"
+                      autoComplete="new-password"
                     />
+                    <div className="form-text in-text fs-7">
+                      Mínimo 6 caracteres
+                    </div>
                   </div>
+
+                  <motion.button
+                    type="submit"
+                    className="expCard-btn expCard-btn-txt border-0 rounded-pill w-100 py-2 fs-6"
+                    disabled={isLoading}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {isLoading ? (
+                      <>
+                        <span className="spinner-border spinner-border-sm me-2"></span>
+                        Registrando...
+                      </>
+                    ) : "Registrarse"}
+                  </motion.button>
+                </form>
+
+                <div className="mt-3 text-center">
+                  <p className="mb-0 expLogin-t2 fs-6">
+                    ¿Ya tienes una cuenta?{" "}
+                    <Link to="/login" className="text-decoration-underline text-primary">
+                      Inicia sesión
+                    </Link>
+                  </p>
                 </div>
-
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    autoComplete="new-email"
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label htmlFor="password" className="form-label">
-                    Contraseña
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    minLength="6"
-                    required
-                    autoComplete="new-password"
-                  />
-                  <div className="form-text">
-                    Mínimo 6 caracteres
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  className="btn btn-primary w-100 py-2"
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <>
-                      <span className="spinner-border spinner-border-sm me-2"></span>
-                      Registrando...
-                    </>
-                  ) : "Registrarse"}
-                </button>
-              </form>
-
-              <div className="mt-3 text-center">
-                <p className="mb-0">
-                  ¿Ya tienes una cuenta?{" "}
-                  <Link to="/login" className="text-primary">
-                    Inicia sesión
-                  </Link>
-                </p>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

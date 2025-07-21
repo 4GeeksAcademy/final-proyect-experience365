@@ -113,7 +113,7 @@ export const EditProfessionalProfile = () => {
                             transition={{ duration: 0.5 }}
                         >
                             <div className="card-body p-4">
-                                <h2 className="expCard-header fs-3 text-center mb-3">Editar Perfil Profesional</h2>
+                                <h2 className="expCard-header fs-3 text-center mb-5">Editar Perfil Profesional</h2>
 
                                 {error && (
                                     <div className="alert alert-danger fs-6" role="alert">
@@ -229,7 +229,7 @@ export const EditProfessionalProfile = () => {
 
                                     <motion.button
                                         type="submit"
-                                        className="btn expCard-btn expCard-btn-txt border-0 rounded-pill w-100 py-2 fs-6"
+                                        className="expCard-btn expCard-btn-txt border-0 rounded-pill w-100 py-2 fs-6"
                                         disabled={isLoading}
                                         whileHover={{ scale: 1.02 }}
                                         whileTap={{ scale: 0.98 }}
