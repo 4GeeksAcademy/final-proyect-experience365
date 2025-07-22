@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -18,6 +18,9 @@ export const RegisterProfessional = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [profileImage, setProfileImage] = useState(null);
+  const [profilePreview, setProfilePreview] = useState("");
+  const profileInputRef = useRef(null);
 
   const handleChange = (e) => {
     setFormData({
@@ -25,6 +28,29 @@ export const RegisterProfessional = () => {
       [e.target.name]: e.target.value,
     });
     if (error) setError("");
+  };
+
+  const handleProfileImage = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setProfileImage(file);
+    setProfilePreview(URL.createObjectURL(file));
+    setFormData({
+      ...formData,
+      image: file.name // Puedes ajustar esto según lo que necesites enviar al backend
+    });
+  };
+
+  const removeProfileImage = () => {
+    setProfileImage(null);
+    setProfilePreview("");
+    URL.revokeObjectURL(profilePreview);
+    if (profileInputRef.current) profileInputRef.current.value = "";
+    setFormData({
+      ...formData,
+      image: ""
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -40,12 +66,24 @@ export const RegisterProfessional = () => {
         throw new Error("La contraseña debe tener al menos 6 caracteres");
       }
 
+      // Crear FormData para enviar la imagen
+      const formDataToSend = new FormData();
+      formDataToSend.append("name", formData.name);
+      formDataToSend.append("lastname", formData.lastname);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("password", formData.password);
+      formDataToSend.append("cif", formData.cif);
+      formDataToSend.append("adress", formData.adress);
+      formDataToSend.append("phone", formData.phone);
+      formDataToSend.append("description", formData.description);
+      
+      if (profileImage) {
+        formDataToSend.append("image", profileImage);
+      }
+
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/professional/register`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: formDataToSend,
       });
 
       const data = await response.json();
@@ -183,14 +221,35 @@ export const RegisterProfessional = () => {
                   </div>
 
                   <div className="mb-4">
-                    <label htmlFor="image" className="form-label expLogin-t3 fs-6">URL de imagen</label>
-                    <input 
-                      type="text" 
-                      name="image" 
-                      value={formData.image} 
-                      onChange={handleChange} 
-                      className="form-control rounded-pill fs-6" 
+                    <label className="form-label expLogin-t3 fs-6">Imagen de perfil</label>
+                    <input
+                      type="file"
+                      className="form-control fs-6"
+                      accept="image/*"
+                      onChange={handleProfileImage}
+                      ref={profileInputRef}
                     />
+
+                    {profilePreview && (
+                      <div className="mt-2 position-relative" style={{ width: "200px" }}>
+                        <img
+                          src={profilePreview}
+                          alt="Perfil preview"
+                          className="img-thumbnail"
+                          style={{ width: "200px", height: "200px", objectFit: "cover" }}
+                        />
+                        <motion.button
+                          type="button"
+                          className="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
+                          onClick={removeProfileImage}
+                          style={{ borderRadius: "50%" }}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                        >
+                          &times;
+                        </motion.button>
+                      </div>
+                    )}
                   </div>
 
                   <motion.button
