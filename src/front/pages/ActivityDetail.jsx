@@ -352,22 +352,22 @@ export const ActivityDetail = () => {
 
                     <div className="d-flex justify-content-center gap-4 mb-4">
                       {activity.professional.facebook && (
-                        <a href={activity.professional.facebook} target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
                           <FontAwesomeIcon icon={faFacebook} className="fs-4 text-primary" />
                         </a>
                       )}
                       {activity.professional.instagram && (
-                        <a href={activity.professional.instagram} target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
                           <FontAwesomeIcon icon={faInstagram} className="fs-4 text-danger" />
                         </a>
                       )}
                       {activity.professional.twitter && (
-                        <a href={activity.professional.twitter} target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
                           <FontAwesomeIcon icon={faTwitter} className="fs-4 text-info" />
                         </a>
                       )}
                       {activity.professional.linkedin && (
-                        <a href={activity.professional.linkedin} target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
                           <FontAwesomeIcon icon={faLinkedin} className="fs-4 text-primary" />
                         </a>
                       )}
