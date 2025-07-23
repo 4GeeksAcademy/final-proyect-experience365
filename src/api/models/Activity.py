@@ -30,7 +30,6 @@ class Activity(db.Model):
         back_populates="activity",
         cascade="all, delete-orphan"
     )
-
     def serialize(self):
         return {
             "id": self.id,
