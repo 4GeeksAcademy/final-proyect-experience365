@@ -11,6 +11,8 @@ export const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [successSubmit, setSuccessSubmit] = useState(false);
 
+  const Navigate = useNavigate();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -72,16 +74,15 @@ export const Login = () => {
                   </div>
                   <p className="text-center expLogin-t2 mt-3" >
                     ¿Has olvidado tu contraseña?{" "}
-                    <span
+                    <p
                       className="text-decoration-underline text-primary"
                       style={{ cursor: "pointer" }}
                       data-bs-dismiss="modal"
                       onClick={() => Navigate("/recovery-password")}
                     >
                       Restablece aquí
-                    </ span>
+                    </ p>
                   </p>
-                  <br />
                   <motion.button
                     type="submit"
                     className="expCard-btn expCard-btn-txt py-2 px-3 mt-3 border-0 rounded-pill"

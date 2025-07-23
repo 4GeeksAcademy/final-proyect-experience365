@@ -2,10 +2,14 @@ from flask import Blueprint, request, jsonify
 from api.models.User import User
 from api.database.db import db
 from itsdangerous import URLSafeTimedSerializer
+from flask_cors import CORS
 import os
 import smtplib
 from email.mime.text import MIMEText
-from flask_cors import CORS
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+
 
 api = Blueprint('/api/credentials', __name__)
 CORS(api)
@@ -14,12 +18,28 @@ CORS(api)
 serializer = URLSafeTimedSerializer(os.getenv('FLASK_APP_KEY', 'default-key'))
 
 
-def send_email(to_email, subject, html_content):
-    msg = MIMEText(html_content, "html")
-    msg["Subject"] = subject
-    msg["From"] = os.getenv("GMAIL_USER")
-    msg["To"] = to_email
+def send_email_with_inline_image(to_email, subject, html_content, image_path):
+    msg = MIMEMultipart('related')
+    msg['Subject'] = subject
+    msg['From'] = os.getenv("GMAIL_USER")
+    msg['To'] = to_email
 
+    # Parte alternativa para HTML
+    msg_alt = MIMEMultipart('alternative')
+    msg.attach(msg_alt)
+
+    part_html = MIMEText(html_content, 'html')
+    msg_alt.attach(part_html)
+
+    # Adjunta la imagen
+    with open(image_path, 'rb') as img:
+        mime_img = MIMEImage(img.read())
+        mime_img.add_header('Content-ID', '<logo_image>')
+        mime_img.add_header('Content-Disposition',
+                            'inline', filename='logo.png')
+        msg.attach(mime_img)
+
+    # Envía el correo
     with smtplib.SMTP("smtp.gmail.com", 587) as server:
         server.starttls()
         server.login(os.getenv("GMAIL_USER"), os.getenv("GMAIL_PASSWORD"))
@@ -36,24 +56,51 @@ def forgot_password():
 
     user = User.query.filter_by(email=current_email).first()
 
+    # No revelar si existe o no por seguridad
     if not user:
-        # No revelar si existe o no por seguridad
         return jsonify({"message": "If the email exists, a reset link has been sent"}), 200
 
+    # Genera token y enlace
     token = serializer.dumps(user.id, salt="reset-password")
     frontend_url = os.getenv("VITE_FRONTEND_URL", "http://localhost:3000")
     link = f"{frontend_url}/reset-password?token={token}"
 
+    # Construye el HTML del correo
     html_content = f"""
-        <p>Hola {user.email},</p>
-        <p>Haz clic en el enlace para restablecer tu contraseña:</p>
-        <p><a href="{link}">{link}</a></p>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0"
+            style="style="background: white; color: #333; padding: 20px; font-family: Arial, sans-serif; color: white;">
+            <tr>
+            <td align="center">
+            <table width="600" cellpadding="20" cellspacing="0" style="  background: linear-gradient(180deg, rgba(12, 87, 117, 1) 0%, rgba(42, 123, 155, 1) 33%, rgba(87, 199, 133, 0.92) 63%, rgba(237, 221, 83, 0.74) 89%, rgba(255, 255, 255, 0) 100%);">
+                <tr>
+                <td align="center">
+                    <img src="cid:logo_image" alt="Logo" width="120" />
+                    <h2 style="color: white;">Restablece tu contraseña</h2>
+                    <p style="color: white;">Recibimos una solicitud para restablecer la contraseña de tu cuenta. Si fuiste tú quien la solicitó, haz clic en el siguiente botón para crear una nueva contraseña:</p>
+                    <br>
+                    <p>
+                    <a href="{link}" style="background-color: #ff5a5f; color: white; padding: 12px 24px; text-decoration: none; border-radius: 20px;">Restablecer contraseña</a>
+                    </p>
+                    <br>
+                    <p style="color: white;">O si prefieres, copia y pega este enlace en tu navegador:</p>
+                    <p><a href="{link}">{link}</a></p>
+                    <br>
+                    <hr style="border: none; border-top: 1px solid #ddd;" />
+                    <p style="font-size: 12px; color: white;">Si no solicitaste restablecer tu contraseña, puedes ignorar este mensaje. Tu cuenta seguirá siendo segura.</p>
+                </td>
+                </tr>
+            </table>
+            </td>
+            </tr>
+        </table>
     """
 
-    send_email(
+    # Llama a la función para enviar el correo
+    send_email_with_inline_image(
         to_email=user.email,
         subject="Restablece tu contraseña",
-        html_content=html_content
+        html_content=html_content,
+        image_path="src/api/assets/img/logo-experience365.png"
     )
 
     return jsonify({"message": "If the email exists, a reset link has been sent"}), 200
