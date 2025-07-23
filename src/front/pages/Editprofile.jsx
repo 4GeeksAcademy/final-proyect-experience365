@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 export const EditProfile = () => {
@@ -13,7 +13,7 @@ export const EditProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BACKEND_URL}/api/user/me`, {
@@ -79,7 +79,7 @@ export const EditProfile = () => {
           setSuccess(true);
           setError(null);
           setTimeout(() => {
-            navigate("/");
+            window.location.href = "/login/success";
           }, 2000);
         } else {
           setError("Error al actualizar el perfil");

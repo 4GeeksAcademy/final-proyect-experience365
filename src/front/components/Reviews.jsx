@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 export const Reviews = ({ activityId }) => {
     const [reviews, setReviews] = useState([]);
@@ -177,13 +178,15 @@ export const Reviews = ({ activityId }) => {
                                 onChange={(e) => setComment(e.target.value)}
                             />
                         </div>
-                        <button
-                            className="btn btn-primary"
+                        <motion.button
+                            className="btn expCard-btn-b expCard-btn-txt w-50 border-0 text-white"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
                             onClick={handleSubmitReview}
                             disabled={!comment.trim()}
                         >
                             Enviar reseña
-                        </button>
+                        </motion.button>
                     </div>
                 )}
             </div>

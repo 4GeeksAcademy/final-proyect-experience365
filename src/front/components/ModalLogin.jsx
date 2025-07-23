@@ -31,6 +31,7 @@ export const ModalLogin = () => {
 
       setMessage("Inicio de sesión exitoso.");
       localStorage.setItem("token", data.access_token);
+      setIsError(false);
 
       setTimeout(() => {
         window.location.href = "/login/success";
@@ -136,7 +137,7 @@ export const ModalLogin = () => {
                 </button>
               </div>
             </form>
-            {isError ? (
+            {isError && !isLoading ? (
               <div className="alert alert-danger" role="alert">
                 {message}
               </div>
