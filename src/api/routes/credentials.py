@@ -18,7 +18,7 @@ CORS(api)
 serializer = URLSafeTimedSerializer(os.getenv('FLASK_APP_KEY', 'default-key'))
 
 
-def send_email_with_inline_image(to_email, subject, html_content, image_path):
+def send_email_with_inline_image(to_email, subject, html_content):
     msg = MIMEMultipart('related')
     msg['Subject'] = subject
     msg['From'] = os.getenv("GMAIL_USER")
@@ -32,12 +32,12 @@ def send_email_with_inline_image(to_email, subject, html_content, image_path):
     msg_alt.attach(part_html)
 
     # Adjunta la imagen
-    with open(image_path, 'rb') as img:
-        mime_img = MIMEImage(img.read())
-        mime_img.add_header('Content-ID', '<logo_image>')
-        mime_img.add_header('Content-Disposition',
-                            'inline', filename='logo.png')
-        msg.attach(mime_img)
+    # with open(image_path, 'rb') as img:
+    #     mime_img = MIMEImage(img.read())
+    #     mime_img.add_header('Content-ID', '<logo_image>')
+    #     mime_img.add_header('Content-Disposition',
+    #                         'inline', filename='logo.png')
+    #     msg.attach(mime_img)
 
     # Envía el correo
     with smtplib.SMTP("smtp.gmail.com", 587) as server:
@@ -74,7 +74,7 @@ def forgot_password():
             <table width="600" cellpadding="20" cellspacing="0" style="  background: linear-gradient(180deg, rgba(12, 87, 117, 1) 0%, rgba(42, 123, 155, 1) 33%, rgba(87, 199, 133, 0.92) 63%, rgba(237, 221, 83, 0.74) 89%, rgba(255, 255, 255, 0) 100%);">
                 <tr>
                 <td align="center">
-                    <img src="cid:logo_image" alt="Logo" width="120" />
+                    <img src="https://res.cloudinary.com/dftas91qh/image/upload/v1753298222/logo_e365_dsnmvn.png" alt="Logo" width="120" />
                     <h2 style="color: white;">Restablece tu contraseña</h2>
                     <p style="color: white;">Recibimos una solicitud para restablecer la contraseña de tu cuenta. Si fuiste tú quien la solicitó, haz clic en el siguiente botón para crear una nueva contraseña:</p>
                     <br>
@@ -99,8 +99,7 @@ def forgot_password():
     send_email_with_inline_image(
         to_email=user.email,
         subject="Restablece tu contraseña",
-        html_content=html_content,
-        image_path="src/api/assets/img/logo-experience365.png"
+        html_content=html_content
     )
 
     return jsonify({"message": "If the email exists, a reset link has been sent"}), 200
