@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
@@ -8,6 +8,7 @@ import useGlobalReducer from "../../hooks/useGlobalReducer";
 export const ActivitiesSearched = () => {
   const { store } = useGlobalReducer();
   const activities = store.searchResults || [];
+  const Navigate = useNavigate();
 
   if (!activities.length) {
     return (
@@ -16,15 +17,17 @@ export const ActivitiesSearched = () => {
         style={{ height: "50vh" }}
       >
         <h4 className="landing-t2 text-white align-items-center justify-content-center fs-2">No se encontraron actividades</h4>
-        <Link to="/" >
+        <div>
           <motion.div
-            className="btn btn-primary rounded-pill m-5 expCard-btn-txt fs-5 px-4"
+            className="btn-primary rounded-pill m-5 py-2 px-4 expCard-btn-txt fs-5"
+            style={{ cursor: "pointer" }}
+            onClick={() => Navigate("/")}
             initial={{ scale: 1 }}
             whileHover={{ opacity: 1, scale: 1.1 }}
             transition={{ duration: 0.1, ease: "easeInOut" }}
           >Volver
           </motion.div>
-        </Link>
+        </div>
       </div>
     );
   }

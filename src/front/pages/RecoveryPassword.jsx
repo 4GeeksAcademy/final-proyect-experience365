@@ -1,7 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
+import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { sendEmail } from "../services/sendEmail";
 
 
@@ -36,8 +38,26 @@ export const RecoveryPassword = () => {
     return (
       <div className="container-fluid d-flex flex-column align-items-center justify-content-center min-vh-100 content-center">
         <div className="container py-5 text-center">
-          <h2 className="landing-t1">Correo enviado</h2>
-          <p className="landing-t2">Te hemos enviado un correo para restablecer tu contraseña</p>
+          <motion.h2
+            className="landing-t1"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0 }}
+          ><FontAwesomeIcon icon={faEnvelope} /></motion.h2>
+          <motion.p
+            className="landing-t1 text-white"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+          >Correo enviado
+          </motion.p>
+          <motion.p
+            className="landing-t3"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
+          >Te hemos enviado un correo para restablecer tu contraseña
+          </motion.p>
         </div>
       </div>
     )
@@ -45,31 +65,49 @@ export const RecoveryPassword = () => {
 
   return (
     <div className="container-fluid d-flex flex-column align-items-center justify-content-center min-vh-100 content-center">
-      <h1 className="landing-t1">Recupera tu cuenta</h1>
-      <p className="p-2 landing-t3 fs-5 text-light">Introduce tu email y te enviaremos las instrucciones para recuperar tu contraseña.</p>
-
-      <form onSubmit={handleSubmit} className="mt-4 col-md-2 mx-auto">
-        <div className="mb-3">
-          <label className="form-label login-t2 p-2 landing-t2" htmlFor="email">Email</label>
-          <input className="form-control rounded-pill" type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-
-        </div>
-
-        <button
-          type="submit"
-          className="btn w-100 my-5 btn-primary rounded-pill "
-          disabled={isLoading}
+      <div className="col-md-6 col-lg-4 m-5">
+        <motion.div
+          className="card shadow-lg border-0 rounded-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          {isLoading ? (
-            <>
-              <span className="spinner-border spinner-border-sm me-2"></span>
-            </>
-          ) : "Enviar Correo"}
-        </button>
-      </form>
+          <div className="card-body p-4">
+            <h2 className="expCard-header fs-4 text-center mt-3 my-4">Recupera tu cuenta</h2>
 
-      {message === "If the email exists, a reset link has been sent" ? (<p className="mt-3 alert alert-success col-md-6 mx-auto">{message}</p>) :
-        message && (<p className="mt-3 alert alert-danger col-md-6 mx-auto">{message}</p>)}
+            <p className="ps-4 expCard-txt fs-5">Introduce tu email y te enviaremos las instrucciones para recuperar tu contraseña.</p>
+            <form
+              className="mt-4 col-12 align-items-center d-flex flex-column"
+              onSubmit={handleSubmit}
+            >
+              <div className="mb-3">
+                <label className="form-label expLogin-t3 fs-6" htmlFor="email">Email</label>
+                <input className="form-control rounded-pill fs-6" type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              </div>
+
+              <motion.button
+                type="submit"
+                className="expCard-btn expCard-btn-txt py-2 px-3 mt-3 border-0 rounded-pill"
+                initial={{ scale: 1 }}
+                transition={{ duration: 0.2 }}
+                whileHover={{ scale: 1.1 }}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <span className="spinner-border spinner-border-sm me-2"></span>
+                  </>
+                ) : <span className="expCard-btn-txt"
+                >Enviar Correo
+                </span>}
+              </motion.button>
+            </form>
+
+            {message === "If the email exists, a reset link has been sent" ? (<p className="mt-3 alert alert-success col-md-6 mx-auto">{message}</p>) :
+              message && (<p className="mt-3 alert alert-danger col-md-6 mx-auto">{message}</p>)}
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 };

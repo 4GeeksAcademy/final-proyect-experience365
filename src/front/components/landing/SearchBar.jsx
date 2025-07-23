@@ -90,46 +90,49 @@ export const SearchBar = ({ onSearch }) => {
     >
       <motion.div
         className="dropdown mx-2 col-md-3 my-2 my-md-0"
-        whileHover={{ scale: 1.05 }}
       >
-        <button className="btn in-text border-0"
+        <button className="in-text border-0 bg-transparent"
           type="button" data-bs-toggle="dropdown">
           <FontAwesomeIcon icon={faLocationDot} className="ms-3 me-2" /> {city || "Ciudad"}
           <FontAwesomeIcon icon={faCaretDown} className="ms-3 me-2" />
         </button>
         <ul className="dropdown-menu dropdown-scroll">{
           cities.map((city, index) => (
-            <li key={index}><button className="dropdown-item" onClick={() => setCity(city)}>{city}</button></li>
+            <li key={index}>
+              <button
+                className="dropdown-item bg-transparent"
+                style={{}}
+                onClick={() => setCity(city)}>{city}
+              </button>
+            </li>
           ))}
         </ul>
       </motion.div>
 
       <motion.div
         className="dropdown mx-2 col-md-3 my-2 my-md-0"
-        whileHover={{ scale: 1.05 }}
       >
-        <button className="btn in-text border-0" type="button" data-bs-toggle="dropdown">
+        <button className="in-text border-0 bg-transparent" type="button" data-bs-toggle="dropdown">
           <FontAwesomeIcon icon={faClock} className="me-2" /> {selectedDuration?.label || "Duración"}
           <FontAwesomeIcon icon={faCaretDown} className="ms-3 me-2" />
         </button>
         <ul className="dropdown-menu">{
           durations.map((duration, index) => (
-            <li key={index}><button className="dropdown-item" onClick={() => setSelectedDuration(duration)}>{duration.label}</button></li>
+            <li key={index}><button className="dropdown-item bg-transparent" onClick={() => setSelectedDuration(duration)}>{duration.label}</button></li>
           ))}
         </ul>
       </motion.div>
 
       <motion.div
         className="dropdown mx-2 col-md-3 my-2 my-md-0"
-        whileHover={{ scale: 1.05 }}
       >
-        <button className="btn in-text border-0" type="button" data-bs-toggle="dropdown">
+        <button className="in-text border-0 bg-transparent" type="button" data-bs-toggle="dropdown">
           <FontAwesomeIcon icon={faEuroSign} /> {selectedPrice?.label || "Precio"}
           <FontAwesomeIcon icon={faCaretDown} className="ms-3 me-2" />
         </button>
         <ul className="dropdown-menu">{
           prices.map((price, index) => (
-            <li key={index}><button className="dropdown-item" onClick={() => setSelectedPrice(price)}>{price.label}</button></li>
+            <li key={index}><button className="dropdown-item bg-transparent" onClick={() => setSelectedPrice(price)}>{price.label}</button></li>
           ))}
         </ul>
       </motion.div>
