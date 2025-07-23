@@ -10,21 +10,21 @@ import useGlobalReducer from "../hooks/useGlobalReducer";
 import { Loading } from "../components/Loading";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { 
-  faHeart, 
-  faCalendarAlt, 
-  faMapMarkerAlt, 
+import {
+  faHeart,
+  faCalendarAlt,
+  faMapMarkerAlt,
   faEnvelope,
   faClock,
-  faGlobe, 
-  faChevronLeft, 
-  faChevronRight 
+  faGlobe,
+  faChevronLeft,
+  faChevronRight
 } from "@fortawesome/free-solid-svg-icons";
-import { 
-  faFacebook, 
-  faInstagram, 
-  faTwitter, 
-  faLinkedin 
+import {
+  faFacebook,
+  faInstagram,
+  faTwitter,
+  faLinkedin
 } from "@fortawesome/free-brands-svg-icons";
 
 const SampleNextArrow = (props) => {
@@ -227,7 +227,7 @@ export const ActivityDetail = () => {
           <div className="col-md-7 mb-md-0 mb-5">
             <motion.div
               className="border-0 shadow-sm rounded-3 overflow-hidden"
-              style={{height:"400px"}}
+              style={{ height: "400px" }}
               initial={{ opacity: 0, y: -40, scale: 1 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.6, ease: "easeInOut", delay: 0.3 }}
@@ -240,10 +240,10 @@ export const ActivityDetail = () => {
                         src={image.url || "https://via.placeholder.com/800x500?text=Imagen+no+disponible"}
                         alt={`${activity.name} ${index + 1}`}
                         className="img-fluid"
-                        style={{ 
-                          height: "400px", 
-                          width: "100%", 
-                          objectFit: "cover" 
+                        style={{
+                          height: "400px",
+                          width: "100%",
+                          objectFit: "cover"
                         }}
                       />
                     </div>
@@ -342,7 +342,7 @@ export const ActivityDetail = () => {
                     <h4 className="expCard-menu-user mb-3">
                       {activity.professional.name} {activity.professional.lastname}
                     </h4>
-                    
+
                     <div className="mb-4">
                       <a href={`mailto:${activity.professional.email}`} className="text-decoration-none">
                         <FontAwesomeIcon icon={faEnvelope} className="me-2" />
@@ -351,26 +351,26 @@ export const ActivityDetail = () => {
                     </div>
 
                     <div className="d-flex justify-content-center gap-4 mb-4">
-                      {activity.professional.facebook && (
-                        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-                          <FontAwesomeIcon icon={faFacebook} className="fs-4 text-primary" />
-                        </a>
-                      )}
-                      {activity.professional.instagram && (
-                        <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-                          <FontAwesomeIcon icon={faInstagram} className="fs-4 text-danger" />
-                        </a>
-                      )}
-                      {activity.professional.twitter && (
-                        <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
-                          <FontAwesomeIcon icon={faTwitter} className="fs-4 text-info" />
-                        </a>
-                      )}
-                      {activity.professional.linkedin && (
-                        <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
-                          <FontAwesomeIcon icon={faLinkedin} className="fs-4 text-primary" />
-                        </a>
-                      )}
+                      {/* {activity.professional.facebook && ( */}
+                      <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+                        <FontAwesomeIcon icon={faFacebook} className="fs-4 text-primary" />
+                      </a>
+                      {/* )} */}
+                      {/* {activity.professional.instagram && ( */}
+                      <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+                        <FontAwesomeIcon icon={faInstagram} className="fs-4 text-danger" />
+                      </a>
+                      {/* )} */}
+                      {/* {activity.professional.twitter && ( */}
+                      <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
+                        <FontAwesomeIcon icon={faTwitter} className="fs-4 text-info" />
+                      </a>
+                      {/* )} */}
+                      {/* {activity.professional.linkedin && ( */}
+                      <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+                        <FontAwesomeIcon icon={faLinkedin} className="fs-4 text-primary" />
+                      </a>
+                      {/* )} */}
                     </div>
 
                     {activity.professional.web && (
