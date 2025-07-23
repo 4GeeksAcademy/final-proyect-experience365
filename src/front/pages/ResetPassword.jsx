@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { upgradePassword } from "../services/upgradeCredentials";
-import { use } from "react";
-import { nav } from "framer-motion/client";
+import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
 
 export const ResetPassword = () => {
@@ -57,56 +58,106 @@ export const ResetPassword = () => {
     return (
       <div className="container-fluid d-flex flex-column align-items-center justify-content-center min-vh-100 content-center">
         <div className="container py-5 text-center">
-          <h2 className="landing-t1">Contraseña actualizada</h2>
-          <p className="landing-t2">La contraseña ha sido actualizada correctamente.</p>
-          <button
-            type="submit"
-            className="btn my-5 btn-primary rounded-pill"
-            onClick={() => Navigate("/login")}
-          >Ir a iniciar Sesión</button>
+          <motion.h2
+            className="landing-t1"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0 }}
+          ><FontAwesomeIcon icon={faCircleCheck} /></motion.h2>
+          <motion.p
+            className="landing-t1 text-white"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+          >Contraseña actualizada
+          </motion.p>
+          <motion.p
+            className="landing-t3"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
+          >La contraseña ha sido actualizada correctamente.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0.8 }}
+          >
+            <motion.button
+              className="my-4 btn-primary expCard-btn-txt rounded-pill py-2 px-4 border-0"
+              transition={{ duration: 0.2, ease: "easeOut", delay: 0 }}
+              whileHover={{ scale: 1.1 }}
+              onClick={() => Navigate("/login")}
+            >
+              Iniciar Sesión
+            </motion.button>
+          </motion.div>
         </div>
       </div>
     );
   }
   return (
     <div className="container-fluid d-flex flex-column align-items-center justify-content-center min-vh-100 content-center">
-      <h1 className="landing-t1">Escribe tu nueva contraseña</h1>
-      <form onSubmit={handleSubmit} className="mt-4 mx-auto">
-        <div>
-          <label className="form-label login-t2 p-2 landing-t2">Nueva Contraseña</label>
-          <input
-            type="password"
-            className="form-control rounded-pill"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            disabled={loading}
-          />
-        </div>
-
-        <div>
-          <label className="bform-label login-t2 p-2 landing-t2">Confirma tu nueva contraseña</label>
-          <input
-            type="password"
-            className="form-control rounded-pill"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            disabled={loading}
-          />
-        </div>
-        {alertCoincidence && <p className="mt-3 text-red-500 col-md-12 mx-auto">{alertCoincidence}</p>}
-
-        <button
-          type="submit"
-          className="btn w-100 my-5 btn-primary rounded-pill"
-          disabled={loading || !password || !confirmPassword || !isCoincide}
+      <div className="col-md-6 col-lg-4 m-5">
+        <motion.div
+          className="card shadow-lg border-0 rounded-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          {loading ? (
-            <span className="spinner-border spinner-border-sm me-2"></span>
-          ) : ("Actualizar Contraseña")}
-        </button>
-      </form>
-      {error && <p className="mt-3 alert alert-danger col-md-6 mx-auto">{error}</p>}
-      {message && <p className="mt-3 alert alert-success col-md-2 mx-auto">{message}</p>}
+          <div className="card-body p-4">
+            <h2 className="expCard-header fs-4 text-center mt-3 my-4">
+              Escribe tu nueva contraseña
+            </h2>
+            <form
+              className="mt-4 col-12 align-items-center d-flex flex-column"
+              onSubmit={handleSubmit}
+            >
+              <div className="mb-3 col-10">
+                <label className="form-label expLogin-t3 fs-6 p-2" htmlFor="password">
+                  Nueva Contraseña</label>
+                <input
+                  type="password"
+                  className="form-control rounded-pill fs-6"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  disabled={loading}
+                />
+              </div>
+
+              <div className="mb-3 col-10">
+                <label className="form-label expLogin-t3 fs-6 p-2" htmlFor="password"
+                >Confirma tu nueva contraseña
+                </label>
+                <input
+                  type="password"
+                  className="form-control rounded-pill"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  disabled={loading}
+                />
+              </div>
+              {alertCoincidence ? <p className="mt-3 alert text-center alert-danger py-1 col-md-10 rounded-4">{alertCoincidence}</p> :
+
+                <motion.button
+                  type="submit"
+                  className="expCard-btn expCard-btn-txt py-2 px-3 mt-4 mb-3 border-0 rounded-pill"
+                  style={{ cursor: "pointer" }}
+                  initial={{ scale: 1 }}
+                  transition={{ duration: 0.2 }}
+                  whileHover={{ scale: 1.1 }}
+                  disabled={loading || !password || !confirmPassword || !isCoincide}
+                >
+                  {loading ? (
+                    <span className="spinner-border spinner-border-sm me-2"></span>
+                  ) : ("Actualizar Contraseña")}
+                </motion.button>}
+            </form>
+            {error && <p className="mt-3 alert text-center alert-danger py-1 col-md-10 rounded-4">{error}</p>}
+            {message && <p className="mt-3 alert text-center alert-success py-1 col-md-10 rounded-4">{message}</p>}
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 }

@@ -50,8 +50,6 @@ export const Layout = () => {
                     await fetchFavorites();
                 }
             } catch (error) {
-                console.error(error);
-                toast.error("Inicio de sesión expirado");
                 localStorage.removeItem("token");
             } finally {
                 setLoading(false);

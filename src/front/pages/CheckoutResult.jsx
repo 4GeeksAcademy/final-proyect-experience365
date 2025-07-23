@@ -1,5 +1,10 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Loading } from "../components/Loading";
+import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+
 
 export const CheckoutResult = () => {
   const [searchParams] = useSearchParams();
@@ -24,7 +29,7 @@ export const CheckoutResult = () => {
         if (res.ok && data.payment_status === "completed") {
           setStatus(1);
           setTimeout(() => {
-            Navigate("/activities");
+            Navigate("/my-reservations");
           }, 3000);
         } else {
           Navigate("/payment/checkout-result/cancel");
@@ -42,17 +47,34 @@ export const CheckoutResult = () => {
 
   if (status === 0) {
     return (
-      <div className="container py-5 text-center">
-        <span className="spinner-border spinner-border-sm me-2"></span>
-      </div>
+      <Loading />
     );
   }
 
   if (status === 1)
     return (
-      <div className="container py-5 text-center">
-        <h2 className="text-success">Pago Completado.</h2>
-        <p>La transacción se ha reailzado con exito.</p>
+      <div className="container-fluid d-flex flex-column align-items-center justify-content-center min-vh-100 content-center">
+        <div className="container py-5 text-center">
+          <motion.h2
+            className="landing-t1"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0 }}
+          ><FontAwesomeIcon icon={faCircleCheck} /></motion.h2>
+
+          <motion.p
+            className="landing-t1 text-white"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+          >Pago aceptado</motion.p>
+          <motion.p
+            className="landing-t3"
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
+          >La transacción se completó correctamente.</motion.p>
+        </div>
       </div>
     );
 };

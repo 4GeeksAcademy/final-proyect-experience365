@@ -2,11 +2,56 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loadStripe } from "@stripe/stripe-js";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import { Reviews } from "../components/Reviews";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 import { Loading } from "../components/Loading";
 import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHeart,
+  faCalendarAlt,
+  faMapMarkerAlt,
+  faEnvelope,
+  faClock,
+  faGlobe,
+  faChevronLeft,
+  faChevronRight
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  faFacebook,
+  faInstagram,
+  faTwitter,
+  faLinkedin
+} from "@fortawesome/free-brands-svg-icons";
 
+const SampleNextArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", right: "10px", zIndex: 1 }}
+      onClick={onClick}
+    >
+      <FontAwesomeIcon icon={faChevronRight} size="lg" color="#fff" />
+    </div>
+  );
+};
+
+const SamplePrevArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", left: "10px", zIndex: 1 }}
+      onClick={onClick}
+    >
+      <FontAwesomeIcon icon={faChevronLeft} size="lg" color="#fff" />
+    </div>
+  );
+};
 
 export const ActivityDetail = () => {
   const { store, dispatch } = useGlobalReducer();
@@ -18,10 +63,22 @@ export const ActivityDetail = () => {
   const [isUser, setIsUser] = useState(false);
   const navigate = useNavigate();
 
-  // Verificar si es favorito usando el store global
   const isFavorite = store.favorites.some(fav => fav.activity_id === parseInt(id));
 
-  // Fetch de la actividad
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: true,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+    adaptiveHeight: true,
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
     const token = localStorage.getItem("token");
@@ -45,7 +102,6 @@ export const ActivityDetail = () => {
     fetchActivity();
   }, []);
 
-  // Manejar click en favorito
   const handleFavorite = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -83,14 +139,12 @@ export const ActivityDetail = () => {
         throw new Error(errorData.message || "Error al actualizar favoritos");
       }
 
-      // Obtener favoritos actualizados después de la operación
       const favResponse = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/api/favorite/user`,
         { headers: { "Authorization": `Bearer ${token}` } }
       );
       const updatedFavorites = await favResponse.json();
 
-      // Actualizar el store global
       dispatch({ type: "handleFavorites", payload: updatedFavorites });
 
       toast.success(
@@ -139,9 +193,7 @@ export const ActivityDetail = () => {
   };
 
   if (isLoading) {
-    return (
-      <Loading />
-    );
+    return <Loading />;
   }
 
   if (error) {
@@ -174,83 +226,84 @@ export const ActivityDetail = () => {
         <div className="row mt-5">
           <div className="col-md-7 mb-md-0 mb-5">
             <motion.div
-              className="card shadow-sm overflow-hidden"
+              className="border-0 shadow-sm rounded-3 overflow-hidden"
+              style={{ height: "400px" }}
               initial={{ opacity: 0, y: -40, scale: 1 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.6, ease: "easeInOut", delay: 0.3 }}
             >
-              <img
-                src={activity.images?.[0]?.url || activity.img || "https://via.placeholder.com/800x500?text=Imagen+no+disponible"}
-                alt={activity.name}
-                className="card-img img-fluid"
-                style={{ height: "400px", objectFit: "cover", width: "100%" }}
-              />
-              {activity.images?.length > 1 && (
-                <div className="d-flex flex-wrap gap-2 p-3 bg-light">
-                  {activity.images.slice(1).map((image, index) => (
-                    <div key={index} className="position-relative">
+              {activity.images?.length > 0 ? (
+                <Slider {...sliderSettings}>
+                  {activity.images.map((image, index) => (
+                    <div key={index}>
                       <img
-                        src={image.url}
-                        alt={`${activity.name} ${index + 2}`}
-                        className="img-thumbnail"
+                        src={image.url || "https://via.placeholder.com/800x500?text=Imagen+no+disponible"}
+                        alt={`${activity.name} ${index + 1}`}
+                        className="img-fluid"
                         style={{
-                          width: "80px",
-                          height: "80px",
-                          objectFit: "cover",
-                          cursor: "pointer"
-                        }}
-                        onClick={() => {
-                          const newImages = [...activity.images];
-                          [newImages[0], newImages[index + 1]] = [newImages[index + 1], newImages[0]];
-                          setActivity({ ...activity, images: newImages });
+                          height: "400px",
+                          width: "100%",
+                          objectFit: "cover"
                         }}
                       />
                     </div>
                   ))}
-                </div>
+                </Slider>
+              ) : (
+                <img
+                  src="https://via.placeholder.com/800x500?text=Imagen+no+disponible"
+                  alt={activity.name}
+                  className="card-img img-fluid"
+                  style={{ height: "400px", objectFit: "cover", width: "100%" }}
+                />
               )}
             </motion.div>
           </div>
 
           <div className="col-md-5">
             <motion.div
-              className="card shadow-sm h-100"
+              className="card shadow-sm"
               initial={{ opacity: 0, y: -40, scale: 1 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.6, ease: "easeInOut", delay: 0.3 }}
             >
               <div className="card-body d-flex flex-column">
-                <h1 className="card-title mb-3">{activity.name}</h1>
-                <p className="card-text flex-grow-1">{activity.description}
-                </p>
+                <h1 className="expCard-header fs-1 mb-3">{activity.name}</h1>
+                <p className="card-text flex-grow-1 fs-6">{activity.description}</p>
                 <hr />
                 <p className="card-text text-muted h6">
-                  <i className="bi bi-geo-alt me-2"></i>
-                  {activity.city || "Horarios no especificados"}
+                  <FontAwesomeIcon icon={faMapMarkerAlt} className="me-2" />
+                  {activity.city || "Ubicación no especificada"}
                 </p>
-
 
                 <div className="mt-auto">
                   <div className="d-flex justify-content-between align-items-center mb-3">
-                    <span className="badge bg-primary fs-5 p-2">
+                    <span className="landing-t3 fs-4 p-2" style={{ color: "#333333ff" }}>
                       {activity.price} €
                     </span>
-                    <span className="text-muted d-flex">
-                      <i className="bi bi-calendar me-2"></i>
+                    <span className="text-muted d-flex align-items-center">
+                      <FontAwesomeIcon icon={faClock} className="me-2" />
                       {activity.activity_date || "Fechas no especificadas"}
                     </span>
                   </div>
                   <div className="d-flex gap-2">
-                    <button
+                    <motion.button
                       className={`btn w-50 ${isFavorite ? "btn-danger" : "btn-outline-danger"}`}
                       onClick={handleFavorite}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
                     >
-                      <i className={`bi bi-heart${isFavorite ? "-fill" : ""}`}></i>
-                      {isFavorite ? " Quitar de favoritos" : " Añadir a favoritos"}
-                    </button>
-                    <button className="btn btn-primary w-50" onClick={handlePay}>
+                      <FontAwesomeIcon icon={faHeart} className="me-2" />
+                      {isFavorite ? "Quitar favorito" : "Añadir favorito"}
+                    </motion.button>
+                    <motion.button
+                      className="btn expCard-btn-b expCard-btn-txt w-50 border-0 text-white"
+                      onClick={handlePay}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
                       Reservar
-                    </button>
+                    </motion.button>
                   </div>
                 </div>
               </div>
@@ -258,103 +311,83 @@ export const ActivityDetail = () => {
           </div>
         </div>
 
-        {/* Sección del anfitrión */}
         <div className="row mt-5">
-          <div className="col-12">
+          <div className="col-lg-8">
             <motion.div
-              className="card shadow-sm"
               initial={{ opacity: 0, y: -40, scale: 1 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.6, ease: "easeInOut", delay: 0.4 }}
             >
-              <div className="card-body">
-                <h3 className="card-title">Sobre el anfitrión</h3>
+              <Reviews activityId={activity.id} />
+            </motion.div>
+          </div>
+
+          <div className="col-lg-4">
+            <motion.div
+              className="card shadow-sm mt-3 mt-md-0"
+              initial={{ opacity: 0, y: -40, scale: 1 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.6, ease: "easeInOut", delay: 0.6 }}
+            >
+              <div className="card-body text-center">
+                <h3 className="expCard-header fs-3 mb-3">Anfitrión</h3>
                 {activity.professional ? (
-                  <div className="row">
-                    <div className="col-md-3 d-flex flex-column align-items-center">
-                      <img
-                        src={activity.professional.image || "https://via.placeholder.com/150?text=Anfitrión"}
-                        alt={`${activity.professional.name} ${activity.professional.lastname}`}
-                        className="rounded-circle mb-3"
-                        style={{ width: "150px", height: "150px", objectFit: "cover" }}
-                      />
-                      <h4 className="text-center">{activity.professional.name} {activity.professional.lastname}</h4>
-                      <p className="text-muted text-center mb-3">
-                        <i className="bi bi-envelope me-2"></i>
-                        {activity.professional.email || "Email no disponible"}
-                      </p>
+                  <>
+                    <img
+                      src={activity.professional.image || "https://via.placeholder.com/150?text=Anfitrión"}
+                      alt={`${activity.professional.name} ${activity.professional.lastname}`}
+                      className="rounded-circle mb-3"
+                      style={{ width: "120px", height: "120px", objectFit: "cover" }}
+                    />
+                    <h4 className="expCard-menu-user mb-3">
+                      {activity.professional.name} {activity.professional.lastname}
+                    </h4>
+
+                    <div className="mb-4">
+                      <a href={`mailto:${activity.professional.email}`} className="text-decoration-none">
+                        <FontAwesomeIcon icon={faEnvelope} className="me-2" />
+                        {activity.professional.email}
+                      </a>
                     </div>
 
-                    <div className="col-md-9">
-                      <div className="mb-3">
-                        <p className="mb-4">{activity.professional.description}</p>
+                    <div className="d-flex justify-content-center gap-4 mb-4">
+                      {/* {activity.professional.facebook && ( */}
+                      <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+                        <FontAwesomeIcon icon={faFacebook} className="fs-4 text-primary" />
+                      </a>
+                      {/* )} */}
+                      {/* {activity.professional.instagram && ( */}
+                      <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+                        <FontAwesomeIcon icon={faInstagram} className="fs-4 text-danger" />
+                      </a>
+                      {/* )} */}
+                      {/* {activity.professional.twitter && ( */}
+                      <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
+                        <FontAwesomeIcon icon={faTwitter} className="fs-4 text-info" />
+                      </a>
+                      {/* )} */}
+                      {/* {activity.professional.linkedin && ( */}
+                      <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+                        <FontAwesomeIcon icon={faLinkedin} className="fs-4 text-primary" />
+                      </a>
+                      {/* )} */}
+                    </div>
 
-                        <div className="row">
-                          <div className="col-md-6">
-                            <p className="mb-2">
-                              <i className="bi bi-geo-alt-fill text-primary me-2"></i>
-                              {activity.professional.adress}
-                            </p>
-                            <p className="mb-2">
-                              <i className="bi bi-telephone-fill text-primary me-2"></i>
-                              {activity.professional.phone}
-                            </p>
-                            {activity.professional.web && (
-                              <p className="mb-2">
-                                <i className="bi bi-globe text-primary me-2"></i>
-                                <a href={activity.professional.web} target="_blank" rel="noopener noreferrer">
-                                  Sitio web
-                                </a>
-                              </p>
-                            )}
-                          </div>
-
-                          <div className="col-md-6">
-                            <div className="d-flex flex-wrap gap-3 mt-2">
-                              {activity.professional.facebook && (
-                                <a href={activity.professional.facebook} target="_blank" rel="noopener noreferrer">
-                                  <i className="bi bi-facebook fs-4 text-primary"></i>
-                                </a>
-                              )}
-                              {activity.professional.instagram && (
-                                <a href={activity.professional.instagram} target="_blank" rel="noopener noreferrer">
-                                  <i className="bi bi-instagram fs-4 text-danger"></i>
-                                </a>
-                              )}
-                              {activity.professional.twitter && (
-                                <a href={activity.professional.twitter} target="_blank" rel="noopener noreferrer">
-                                  <i className="bi bi-twitter-x fs-4"></i>
-                                </a>
-                              )}
-                              {activity.professional.linkedin && (
-                                <a href={activity.professional.linkedin} target="_blank" rel="noopener noreferrer">
-                                  <i className="bi bi-linkedin fs-4 text-primary"></i>
-                                </a>
-                              )}
-                            </div>
-                          </div>
-                        </div>
+                    {activity.professional.web && (
+                      <div>
+                        <a href={activity.professional.web} target="_blank" rel="noopener noreferrer" className="text-decoration-none">
+                          <FontAwesomeIcon icon={faGlobe} className="me-2" />
+                          Visitar sitio web
+                        </a>
                       </div>
-                    </div>
-                  </div>
+                    )}
+                  </>
                 ) : (
                   <p className="text-muted">Información del anfitrión no disponible</p>
                 )}
               </div>
             </motion.div>
           </div>
-        </div>
-
-        {/* Sección de valoraciones */}
-        <div className="row mt-4">
-          <motion.div
-            className="col-12"
-            initial={{ opacity: 0, y: -40, scale: 1 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.6, ease: "easeInOut", delay: 0.6 }}
-          >
-            <Reviews activityId={activity.id} />
-          </motion.div>
         </div>
       </div>
     </div>

@@ -8,7 +8,8 @@ import { use } from "react";
 import { useNavigate } from "react-router-dom";
 
 
-export const SearchBar = ({ onSearch }) => {
+export const SearchBarTop = () => {
+
   const Navigate = useNavigate();
   const [city, setCity] = useState("");
   const [selectedDuration, setSelectedDuration] = useState(null);
@@ -73,14 +74,14 @@ export const SearchBar = ({ onSearch }) => {
 
   return (
     <motion.div
-      className="mt-4 p-2 bg-white rounded-sm-pill rounded-5
+      className="mt-5 p-2 bg-white rounded-sm-pill rounded-5
         d-flex flex-column 
         flex-sm-row align-items-center 
         justify-content-center justify-content-sm-between
         shadow"
       style={{
-        width: "80%",
-        maxWidth: 800,
+        minWidth: "50vw",
+        maxWidth: "60vw",
         border: "5px solid rgb(58, 255, 206)",
         zIndex: 3
       }}
@@ -88,54 +89,62 @@ export const SearchBar = ({ onSearch }) => {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay: 0.8 }}
     >
-      <motion.div
+      <div
         className="dropdown mx-2 col-md-3 my-2 my-md-0"
       >
-        <button className="in-text border-0 bg-transparent"
-          type="button" data-bs-toggle="dropdown">
+        <motion.button
+          className="in-text border-0 bg-transparent"
+          type="button"
+          data-bs-toggle="dropdown"
+          whileHover={{ scale: 1.05 }}
+        >
           <FontAwesomeIcon icon={faLocationDot} className="ms-3 me-2" /> {city || "Ciudad"}
           <FontAwesomeIcon icon={faCaretDown} className="ms-3 me-2" />
-        </button>
+        </motion.button>
         <ul className="dropdown-menu dropdown-scroll">{
           cities.map((city, index) => (
-            <li key={index}>
-              <button
-                className="dropdown-item bg-transparent"
-                style={{}}
-                onClick={() => setCity(city)}>{city}
-              </button>
-            </li>
+            <li key={index}><button className="dropdown-item bg-transparent" onClick={() => setCity(city)}>{city}</button></li>
           ))}
         </ul>
-      </motion.div>
+      </div>
 
-      <motion.div
+      <div
         className="dropdown mx-2 col-md-3 my-2 my-md-0"
       >
-        <button className="in-text border-0 bg-transparent" type="button" data-bs-toggle="dropdown">
+        <motion.button
+          className="in-text border-0 bg-transparent"
+          whileHover={{ scale: 1.05 }}
+          type="button"
+          data-bs-toggle="dropdown"
+        >
           <FontAwesomeIcon icon={faClock} className="me-2" /> {selectedDuration?.label || "Duración"}
           <FontAwesomeIcon icon={faCaretDown} className="ms-3 me-2" />
-        </button>
+        </motion.button>
         <ul className="dropdown-menu">{
           durations.map((duration, index) => (
-            <li key={index}><button className="dropdown-item bg-transparent" onClick={() => setSelectedDuration(duration)}>{duration.label}</button></li>
+            <li key={index}><button className="dropdown-item" onClick={() => setSelectedDuration(duration)}>{duration.label}</button></li>
           ))}
         </ul>
-      </motion.div>
+      </div>
 
-      <motion.div
+      <div
         className="dropdown mx-2 col-md-3 my-2 my-md-0"
       >
-        <button className="in-text border-0 bg-transparent" type="button" data-bs-toggle="dropdown">
+        <motion.button
+          className="in-text border-0 bg-transparent"
+          whileHover={{ scale: 1.05 }}
+          type="button"
+          data-bs-toggle="dropdown"
+        >
           <FontAwesomeIcon icon={faEuroSign} /> {selectedPrice?.label || "Precio"}
           <FontAwesomeIcon icon={faCaretDown} className="ms-3 me-2" />
-        </button>
+        </motion.button>
         <ul className="dropdown-menu">{
           prices.map((price, index) => (
-            <li key={index}><button className="dropdown-item bg-transparent" onClick={() => setSelectedPrice(price)}>{price.label}</button></li>
+            <li key={index}><button className="dropdown-item" onClick={() => setSelectedPrice(price)}>{price.label}</button></li>
           ))}
         </ul>
-      </motion.div>
+      </div>
 
       <motion.button
         onClick={handleSearch}
