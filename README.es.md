@@ -1,81 +1,112 @@
-# Plantilla de WebApp con React JS y Flask API
+# 🌐 Experience 365
+**Plataforma interactiva de experiencias gastronómicas y de ocio que conecta usuarios con actividades personalizadas.**  
+Desarrollada con **React.js** para el frontend y **Flask (Python)** para el backend, con **SQLAlchemy** como capa de abstracción de base de datos.
 
-Construye aplicaciones web usando React.js para el front end y python/flask para tu API backend.
+Este proyecto combina un stack moderno, despliegue ágil y una arquitectura pensada para escalar funcionalidades de forma rápida y eficiente.
 
-- La documentación se puede encontrar aquí: https://4geeks.com/docs/start/react-flask-template
-- Aquí hay un video sobre [cómo usar esta plantilla](https://www.youtube.com/watch?v=qBz6Ddd2m38)
-- Integrado con Pipenv para la gestión de paquetes.
-- Despliegue rápido a Render [en solo unos pocos pasos aquí](https://4geeks.com/es/docs/start/despliega-con-render-com).
-- Uso del archivo .env.
-- Integración de SQLAlchemy para la abstracción de bases de datos.
+---
 
-### 1) Instalación:
+## 🚀 Tecnologías utilizadas
 
-> Si usas Github Codespaces (recomendado) o Gitpod, esta plantilla ya vendrá con Python, Node y la base de datos Posgres instalados. Si estás trabajando localmente, asegúrate de instalar Python 3.10, Node.
+- **Frontend:** React.js  
+- **Backend:** Python + Flask  
+- **Base de datos:** SQLAlchemy + PostgreSQL (compatible con SQLite y MySQL)  
+- **Gestor de paquetes:** Pipenv (para Python) y NPM (para JS)  
+- **Entorno recomendado:** GitHub Codespaces o entorno local con Python 3.10 y Node 20+
 
-Se recomienda instalar el backend primero, asegúrate de tener Python 3.10, Pipenv y un motor de base de datos (se recomienda Posgres).
+---
 
-1. Instala los paquetes de python: `$ pipenv install`
-2. Crea un archivo .env basado en el .env.example: `$ cp .env.example .env`
-3. Instala tu motor de base de datos y crea tu base de datos, dependiendo de tu base de datos, debes crear una variable DATABASE_URL con uno de los valores posibles, asegúrate de reemplazar los valores con la información de tu base de datos:
+## 📦 Características principales
 
-| Motor     | DATABASE_URL                                        |
-| --------- | --------------------------------------------------- |
-| SQLite    | sqlite:////test.db                                  |
-| MySQL     | mysql://username:password@localhost:port/example    |
-| Postgres  | postgres://username:password@localhost:5432/example |
+- 📚 Arquitectura modular lista para escalar nuevas funcionalidades.  
+- 🧰 Configuración con `.env` para separar credenciales y variables sensibles.  
+- 🛠️ Integración completa con SQLAlchemy para manejar modelos y migraciones fácilmente.  
+- 🌍 Preparado para desplegar en **Render** o **Heroku** en cuestión de minutos.  
+- 🧪 Scripts para generar datos de prueba rápidamente.
 
-4. Migra las migraciones: `$ pipenv run migrate` (omite si no has hecho cambios en los modelos en `./src/api/models.py`)
-5. Ejecuta las migraciones: `$ pipenv run upgrade`
-6. Ejecuta la aplicación: `$ pipenv run start`
+---
 
-> Nota: Los usuarios de Codespaces pueden conectarse a psql escribiendo: `psql -h localhost -U gitpod example`
+## 🛠️ Instalación del Backend
 
-### Deshacer una migración
+> Asegúrate de tener **Python 3.10**, **Pipenv** y un motor de base de datos instalado (se recomienda PostgreSQL).
 
-También puedes deshacer una migración ejecutando
+1. Instalar dependencias de Python:  
+   ```bash
+   pipenv install
+   ```
 
-```sh
-$ pipenv run downgrade
+2. Crear archivo `.env` a partir del ejemplo:  
+   ```bash
+   cp .env.example .env
+   ```
+
+3. Configurar la variable `DATABASE_URL` con tus credenciales:
+
+| Motor      | Ejemplo de DATABASE_URL                                   |
+|-----------|------------------------------------------------------------|
+| SQLite    | sqlite:////test.db                                        |
+| MySQL     | mysql://user:password@localhost:3306/example               |
+| Postgres  | postgres://user:password@localhost:5432/example            |
+
+4. Migrar la base de datos:  
+   ```bash
+   pipenv run migrate
+   pipenv run upgrade
+   ```
+
+5. Iniciar el servidor backend:  
+   ```bash
+   pipenv run start
+   ```
+
+---
+
+## 🔄 Deshacer una migración
+
+Si necesitas revertir una migración:
+
+```bash
+pipenv run downgrade
 ```
 
-### Población de la tabla de usuarios en el backend
+---
 
-Para insertar usuarios de prueba en la base de datos, ejecuta el siguiente comando:
+## 👤 Poblar la base de datos con usuarios de prueba
 
-```sh
-$ flask insert-test-users 5
+Puedes insertar usuarios de prueba con:
+
+```bash
+flask insert-test-users 5
 ```
 
-Y verás el siguiente mensaje:
+Esto generará automáticamente varios registros en tu base de datos para desarrollo.
 
-```
-    Creating test users
-    test_user1@test.com created.
-    test_user2@test.com created.
-    test_user3@test.com created.
-    test_user4@test.com created.
-    test_user5@test.com created.
-    Users created successfully!
-```
+---
 
-### **Nota importante para la base de datos y los datos dentro de ella**
+## 💻 Instalación del Frontend
 
-Cada entorno de Github Codespace tendrá **su propia base de datos**, por lo que si estás trabajando con más personas, cada uno tendrá una base de datos diferente y diferentes registros dentro de ella. Estos datos **se perderán**, así que no pases demasiado tiempo creando registros manualmente para pruebas, en su lugar, puedes automatizar la adición de registros a tu base de datos editando el archivo ```commands.py``` dentro de la carpeta ```/src/api```. Edita la línea 32 de la función ```insert_test_data``` para insertar los datos según tu modelo (usa la función ```insert_test_users``` anterior como ejemplo). Luego, todo lo que necesitas hacer es ejecutar ```pipenv run insert-test-data```.
+> Asegúrate de tener **Node.js versión 20** instalada y el backend funcionando correctamente.
 
-### Instalación manual del Front-End:
+1. Instalar dependencias de Node:  
+   ```bash
+   npm install
+   ```
 
--   Asegúrate de estar usando la versión 20 de node y de que ya hayas instalado y ejecutado correctamente el backend.
+2. Iniciar el servidor de desarrollo de React:  
+   ```bash
+   npm run start
+   ```
 
-1. Instala los paquetes: `$ npm install`
-2. ¡Empieza a codificar! inicia el servidor de desarrollo de webpack `$ npm run start`
+---
 
-## ¡Publica tu sitio web!
+## 🌍 Despliegue
 
-Esta plantilla está 100% lista para desplegarse con Render.com y Heroku en cuestión de minutos. Por favor, lee la [documentación oficial al respecto](https://4geeks.com/docs/start/deploy-to-render-com).
+Experience 365 está lista para desplegarse en **Render** o **Heroku** rápidamente.  
+Consulta la documentación de Render para ver los pasos específicos.
 
-### Contribuyentes
+---
 
-Esta plantilla fue construida como parte del [Coding Bootcamp](https://4geeksacademy.com/us/coding-bootcamp) de 4Geeks Academy por [Alejandro Sanchez](https://twitter.com/alesanchezr) y muchos otros contribuyentes. Descubre más sobre nuestro [Curso de Desarrollador Full Stack](https://4geeksacademy.com/us/coding-bootcamps/part-time-full-stack-developer) y [Bootcamp de Ciencia de Datos](https://4geeksacademy.com/us/coding-bootcamps/datascience-machine-learning).
+## 👥 Créditos y agradecimientos
 
-Puedes encontrar otras plantillas y recursos como este en la [página de github de la escuela](https://github.com/4geeksacademy/).
+Este proyecto se inspira en la plantilla original de 4Geeks Academy y su comunidad de contribuidores, adaptada para **Experience 365**.
+
