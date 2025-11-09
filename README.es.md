@@ -1,81 +1,81 @@
-# Plantilla de WebApp con React JS y Flask API
+# 🌍 Experience365
 
-Construye aplicaciones web usando React.js para el front end y python/flask para tu API backend.
+**Experience365** es una plataforma web que conecta a viajeros y locales con anfitriones que ofrecen experiencias auténticas, diseñadas para promover la conexión humana más allá del turismo tradicional.  
+Nuestro objetivo es que viajar vuelva a ser una experiencia humana, no un producto turístico. ✨  
 
-- La documentación se puede encontrar aquí: https://4geeks.com/docs/start/react-flask-template
-- Aquí hay un video sobre [cómo usar esta plantilla](https://www.youtube.com/watch?v=qBz6Ddd2m38)
-- Integrado con Pipenv para la gestión de paquetes.
-- Despliegue rápido a Render [en solo unos pocos pasos aquí](https://4geeks.com/es/docs/start/despliega-con-render-com).
-- Uso del archivo .env.
-- Integración de SQLAlchemy para la abstracción de bases de datos.
+---
 
-### 1) Instalación:
+## 🚀 Características principales
 
-> Si usas Github Codespaces (recomendado) o Gitpod, esta plantilla ya vendrá con Python, Node y la base de datos Posgres instalados. Si estás trabajando localmente, asegúrate de instalar Python 3.10, Node.
+- 🔍 Filtros por **ciudad**, **duración** y **precio**.  
+- 👥 Roles diferenciados de **usuario** y **anfitrión**.  
+- 📸 Subida y gestión de imágenes mediante **Cloudinary**.  
+- 💬 Sistema de reservas en tiempo real.  
+- 💳 Integración con **Stripe** para pagos seguros.  
+- 🔔 Notificaciones automáticas a través de **Firebase**.  
 
-Se recomienda instalar el backend primero, asegúrate de tener Python 3.10, Pipenv y un motor de base de datos (se recomienda Posgres).
+---
 
-1. Instala los paquetes de python: `$ pipenv install`
-2. Crea un archivo .env basado en el .env.example: `$ cp .env.example .env`
-3. Instala tu motor de base de datos y crea tu base de datos, dependiendo de tu base de datos, debes crear una variable DATABASE_URL con uno de los valores posibles, asegúrate de reemplazar los valores con la información de tu base de datos:
+## 🛠️ Tecnologías utilizadas
 
-| Motor     | DATABASE_URL                                        |
-| --------- | --------------------------------------------------- |
-| SQLite    | sqlite:////test.db                                  |
-| MySQL     | mysql://username:password@localhost:port/example    |
-| Postgres  | postgres://username:password@localhost:5432/example |
+**Frontend:** React, Bootstrap, Cloudinary API  
+**Backend:** Flask, SQLAlchemy, Python  
+**Base de datos:** PostgreSQL  
+**Servicios externos:** Firebase (notificaciones), Google Places API (geolocalización), Stripe (pagos)  
+**Despliegue:** Render  
 
-4. Migra las migraciones: `$ pipenv run migrate` (omite si no has hecho cambios en los modelos en `./src/api/models.py`)
-5. Ejecuta las migraciones: `$ pipenv run upgrade`
-6. Ejecuta la aplicación: `$ pipenv run start`
+---
 
-> Nota: Los usuarios de Codespaces pueden conectarse a psql escribiendo: `psql -h localhost -U gitpod example`
+## ⚙️ Instalación y ejecución
 
-### Deshacer una migración
+1. **Clonar el repositorio:**
+   git clone https://github.com/4GeeksAcademy/final-proyect-experience365.git
+   cd final-proyect-experience365
 
-También puedes deshacer una migración ejecutando
+2. **Instalar dependencias del backend:**
+   pipenv install
+   pipenv shell
 
-```sh
-$ pipenv run downgrade
-```
+3. **Instalar dependencias del frontend:**
+   npm install
 
-### Población de la tabla de usuarios en el backend
+4. **Configurar las variables de entorno** en un archivo `.env`:
+   DATABASE_URL=postgresql://usuario:contraseña@localhost:5432/nombre_bd
+   CLOUDINARY_URL=tu_api_key
+   STRIPE_SECRET_KEY=tu_clave_secreta
+   FIREBASE_CONFIG=tu_config
 
-Para insertar usuarios de prueba en la base de datos, ejecuta el siguiente comando:
+5. **Ejecutar el proyecto:**
+   Backend → pipenv run start
+   Frontend → npm run start
 
-```sh
-$ flask insert-test-users 5
-```
+---
 
-Y verás el siguiente mensaje:
+## 💻 Demo
 
-```
-    Creating test users
-    test_user1@test.com created.
-    test_user2@test.com created.
-    test_user3@test.com created.
-    test_user4@test.com created.
-    test_user5@test.com created.
-    Users created successfully!
-```
+🔗 Repositorio en GitHub: https://github.com/4GeeksAcademy/final-proyect-experience365  
+📸 *(Puedes añadir aquí un enlace o imagen del despliegue si lo tienen online)*  
 
-### **Nota importante para la base de datos y los datos dentro de ella**
+---
 
-Cada entorno de Github Codespace tendrá **su propia base de datos**, por lo que si estás trabajando con más personas, cada uno tendrá una base de datos diferente y diferentes registros dentro de ella. Estos datos **se perderán**, así que no pases demasiado tiempo creando registros manualmente para pruebas, en su lugar, puedes automatizar la adición de registros a tu base de datos editando el archivo ```commands.py``` dentro de la carpeta ```/src/api```. Edita la línea 32 de la función ```insert_test_data``` para insertar los datos según tu modelo (usa la función ```insert_test_users``` anterior como ejemplo). Luego, todo lo que necesitas hacer es ejecutar ```pipenv run insert-test-data```.
+## 👩‍💻 Equipo de desarrollo
 
-### Instalación manual del Front-End:
+- Melanie Medigovich → https://github.com/medigovichmelanie  
+- David Querol Pallarés → https://github.com/davidqueroldev  
+- Sergio García → https://github.com/SergioGarcia95  
 
--   Asegúrate de estar usando la versión 20 de node y de que ya hayas instalado y ejecutado correctamente el backend.
+---
 
-1. Instala los paquetes: `$ npm install`
-2. ¡Empieza a codificar! inicia el servidor de desarrollo de webpack `$ npm run start`
+## 🔮 Futuras mejoras
 
-## ¡Publica tu sitio web!
+- 📱 App móvil para iOS y Android.  
+- 🤖 IA para recomendaciones personalizadas.  
+- 🎯 Sistema de recompensas y referidos.  
+- 📊 Dashboard con métricas de uso y rendimiento.  
 
-Esta plantilla está 100% lista para desplegarse con Render.com y Heroku en cuestión de minutos. Por favor, lee la [documentación oficial al respecto](https://4geeks.com/docs/start/deploy-to-render-com).
+---
 
-### Contribuyentes
+## 🏫 Créditos
 
-Esta plantilla fue construida como parte del [Coding Bootcamp](https://4geeksacademy.com/us/coding-bootcamp) de 4Geeks Academy por [Alejandro Sanchez](https://twitter.com/alesanchezr) y muchos otros contribuyentes. Descubre más sobre nuestro [Curso de Desarrollador Full Stack](https://4geeksacademy.com/us/coding-bootcamps/part-time-full-stack-developer) y [Bootcamp de Ciencia de Datos](https://4geeksacademy.com/us/coding-bootcamps/datascience-machine-learning).
-
-Puedes encontrar otras plantillas y recursos como este en la [página de github de la escuela](https://github.com/4geeksacademy/).
+Proyecto desarrollado como parte del **Bootcamp Full Stack Developer** de 4Geeks Academy (https://4geeksacademy.com/).  
+“Experience365 no es solo una app de ocio: es una herramienta para reconectar con lo humano en un mundo saturado de escaparates turísticos.” 🌱  
