@@ -1,81 +1,126 @@
-# WebApp boilerplate with React JS and Flask API
+# 🌐 Experience 365
 
-Build web applications using React.js for the front end and python/flask for your backend API.
+**Interactive platform connecting users with providers of personalized leisure activities.**  
+Developed with **React.js** for the frontend and **Flask (Python)** for the backend, using **SQLAlchemy** as the database abstraction layer.
 
-- Documentation can be found here: https://4geeks.com/docs/start/react-flask-template
-- Here is a video on [how to use this template](https://www.loom.com/share/f37c6838b3f1496c95111e515e83dd9b)
-- Integrated with Pipenv for package managing.
-- Fast deployment to Render [in just a few steps here](https://4geeks.com/docs/start/deploy-to-render-com).
-- Use of .env file.
-- SQLAlchemy integration for database abstraction.
+This project combines a modern stack, agile deployment, and an architecture designed to scale new features quickly and efficiently.
 
-### 1) Installation:
+---
 
-> If you use Github Codespaces (recommended) or Gitpod this template will already come with Python, Node and the Posgres Database installed. If you are working locally make sure to install Python 3.10, Node 
+## 🚀 Technologies Used
 
-It is recomended to install the backend first, make sure you have Python 3.10, Pipenv and a database engine (Posgress recomended)
+- **Frontend:** React.js
+- **Backend:** Python + Flask
+- **Database:** SQLAlchemy + PostgreSQL (compatible with SQLite and MySQL)
+- **Package Managers:** Pipenv (for Python) and NPM (for JS)
+- **Recommended Environment:** GitHub Codespaces or local setup with Python 3.10 and Node 20+
 
-1. Install the python packages: `$ pipenv install`
-2. Create a .env file based on the .env.example: `$ cp .env.example .env`
-3. Install your database engine and create your database, depending on your database you have to create a DATABASE_URL variable with one of the possible values, make sure you replace the valudes with your database information:
+---
 
-| Engine    | DATABASE_URL                                        |
-| --------- | --------------------------------------------------- |
-| SQLite    | sqlite:////test.db                                  |
-| MySQL     | mysql://username:password@localhost:port/example    |
-| Postgress | postgres://username:password@localhost:5432/example |
+## 📦 Main Features
 
-4. Migrate the migrations: `$ pipenv run migrate` (skip if you have not made changes to the models on the `./src/api/models.py`)
-5. Run the migrations: `$ pipenv run upgrade`
-6. Run the application: `$ pipenv run start`
+- 📚 Modular architecture ready to scale new functionalities.
+- 🧰 `.env` configuration to separate credentials and sensitive variables.
+- 🛠️ Full integration with SQLAlchemy for easy model and migration handling.
+- 🌍 Ready for deployment on **Render** or **Heroku** in just minutes.
+- 🧪 Scripts to quickly generate test data.
 
-> Note: Codespaces users can connect to psql by typing: `psql -h localhost -U gitpod example`
+---
 
-### Undo a migration
+## 🛠️ Backend Installation
 
-You are also able to undo a migration by running
+> Make sure you have **Python 3.10**, **Pipenv**, and a database engine installed (PostgreSQL is recommended).
 
-```sh
-$ pipenv run downgrade
+1. Install Python dependencies:
+
+   ```bash
+   pipenv install
+
+   ```
+
+2. Create the `.env` file from the example:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+3. Set the `DATABASE_URL` variable with your credentials:
+
+| Engine   | DATABASE_URL                                    |
+| -------- | ----------------------------------------------- |
+| SQLite   | sqlite:////test.db                              |
+| MySQL    | mysql://user:password@localhost:3306/example    |
+| Postgres | postgres://user:password@localhost:5432/example |
+
+4. Migrate the database:
+
+   ```bash
+   pipenv run migrate
+   pipenv run upgrade
+   ```
+
+5. Start the backend server:
+   ```bash
+   pipenv run start
+   ```
+
+---
+
+## 🔄 Undo a Migration
+
+If you need to revert a migration:
+
+```bash
+pipenv run downgrade
 ```
 
-### Backend Populate Table Users
+---
 
-To insert test users in the database execute the following command:
+## 👤 Populate the Database with Test Useres
 
-```sh
-$ flask insert-test-users 5
+you can insert sample users with:
+
+```bash
+flask insert-test-data
 ```
 
-And you will see the following message:
+This will automatically generate several records in your database for development purposes.
 
-```
-  Creating test users
-  test_user1@test.com created.
-  test_user2@test.com created.
-  test_user3@test.com created.
-  test_user4@test.com created.
-  test_user5@test.com created.
-  Users created successfully!
-```
+---
 
-### **Important note for the database and the data inside it**
+## 💻 Frontend installation
 
-Every Github codespace environment will have **its own database**, so if you're working with more people eveyone will have a different database and different records inside it. This data **will be lost**, so don't spend too much time manually creating records for testing, instead, you can automate adding records to your database by editing ```commands.py``` file inside ```/src/api``` folder. Edit line 32 function ```insert_test_data``` to insert the data according to your model (use the function ```insert_test_users``` above as an example). Then, all you need to do is run ```pipenv run insert-test-data```.
+> Make sure **Node.js versión 20** is installed and then backend is running properly.
 
-### Front-End Manual Installation:
+1. Install Node dependences:
 
--   Make sure you are using node version 20 and that you have already successfully installed and runned the backend.
+   ```bash
+   npm install
+   ```
 
-1. Install the packages: `$ npm install`
-2. Start coding! start the webpack dev server `$ npm run start`
+2. Start the React development server:
+   ```bash
+   npm run start
+   ```
 
-## Publish your website!
+---
 
-This boilerplate it's 100% read to deploy with Render.com and Heroku in a matter of minutes. Please read the [official documentation about it](https://4geeks.com/docs/start/deploy-to-render-com).
+## 🌍 Deployment
 
-### Contributors
+Experience 365 is ready to be doployed quickly on **Render** or **Heroku**.  
+Check Render's documentation for detailed deployment steps.
 
-This template was built as part of the 4Geeks Academy [Coding Bootcamp](https://4geeksacademy.com/us/coding-bootcamp) by [Alejandro Sanchez](https://twitter.com/alesanchezr) and many other contributors. Find out more about our [Full Stack Developer Course](https://4geeksacademy.com/us/coding-bootcamps/part-time-full-stack-developer), and [Data Science Bootcamp](https://4geeksacademy.com/us/coding-bootcamps/datascience-machine-learning).
+---
 
-You can find other templates and resources like this at the [school github page](https://github.com/4geeksacademy/).
+## 👥 Credits
+
+Project developed as part of the final project for the Full Stack Developer Bootcamp at [**4Geeks Academy**](https://www.4geeksacademy.com).
+
+#### Experience365 Team:
+
+- **David Querol** — Fullstack Developer
+- **Melani Medigovich** - Fullstack Developer
+- **Sergio García** - Fullstack Developer
+
+Inspired by the original template from [**Alejandro Sánchez**](https://x.com/alesanchezr)
+and contributors from [**4Geeks Academy**](https://www.4geeksacademy.com).
